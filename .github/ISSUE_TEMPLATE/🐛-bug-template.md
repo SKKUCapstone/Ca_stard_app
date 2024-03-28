@@ -1,7 +1,7 @@
 ---
-name: Bug Template
+name: "\U0001F41B Bug Template"
 about: 버그 제보 템플릿
-title: "[BUG]"
+title: "\U0001F41B"
 labels: bug
 assignees: ''
 
