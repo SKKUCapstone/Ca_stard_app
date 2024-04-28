@@ -11,8 +11,8 @@ val dummyCafeData:ArrayList<Cafe> = arrayListOf(
         10.052442,
         "http://hanaeunhang.com",
         arrayListOf(
-            Review(123123, 234234, 2,5,4,3,2,2,5,2,2.4),
-            Review(321321, 242423, 2,5,4,3,2,2,5,2,2.4)
+            Review(123123, 234234, 2,1,1,4,5,4,5,2,2.4),
+            Review(321321, 242423, 2,1,1,4,5,4,5,2,2.4)
         )
         ),
     Cafe(12323567,
@@ -25,8 +25,8 @@ val dummyCafeData:ArrayList<Cafe> = arrayListOf(
         12.524442,
         "http://starbucks.com",
         arrayListOf(
-            Review(123123, 234234, 2,5,4,3,2,2,5,2,2.4),
-            Review(321321, 242423, 2,5,4,3,2,2,5,2,2.4)
+            Review(123123, 234234, 2,1,1,4,4,1,5,2,2.4),
+            Review(321321, 242423, 2,1,1,4,5,2,5,2,2.4)
         )
     ),
 )

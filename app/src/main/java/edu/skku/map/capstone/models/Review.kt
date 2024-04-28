@@ -5,7 +5,7 @@ data class Review(
     val userID:Long,
     val powerSocket:Int=0,
     val capacity:Int=0,
-    val noise:Int=0,
+    val quiet:Int=0,
     val wifi:Int=0,
     val table:Int=0,
     val toilet:Int=0,

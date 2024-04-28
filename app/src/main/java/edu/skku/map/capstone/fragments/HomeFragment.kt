@@ -200,9 +200,11 @@ class HomeFragment() : Fragment() {
         //TODO: replace to fetchData
         cafeList.addAll(dummyCafeData)
 
-        cafeListAdapter = CafePreviewListAdapter(requireActivity(), cafeList)
+        cafeListAdapter = CafePreviewListAdapter(requireActivity(),cafeList)
         binding.cafeListRV.adapter = cafeListAdapter
         binding.cafeListRV.layoutManager = LinearLayoutManager(requireActivity())
+
+
     }
     @SuppressLint("NotifyDataSetChanged")
     private fun refreshCafeListList(cafeList: ArrayList<Cafe>) {
