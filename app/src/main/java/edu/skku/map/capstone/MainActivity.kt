@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun setNavActions() {
-
         HomeFragment = HomeFragment()
         FavoriteFragment = FavoriteFragment()
         MyPageFragment = MyPageFragment()

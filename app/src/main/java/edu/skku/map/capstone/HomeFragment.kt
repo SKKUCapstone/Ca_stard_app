@@ -12,7 +12,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -34,6 +37,7 @@ class HomeFragment() : Fragment() {
     private lateinit var locationListener: LocationListener
     private lateinit var labelManager:LabelManager
     private lateinit var trackingManager:TrackingManager
+    lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     private var myPosition:Label? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +47,13 @@ class HomeFragment() : Fragment() {
         setLocationManager()
         setListener()
         setLocationListener()
+        startKakaoMap()
+        persistentBottomSheetEvent()
+        return binding.root
+    }
 
-
+    //kakaomap functions
+    private fun startKakaoMap(){
         binding.kakaoMV.start(object : MapLifeCycleCallback() {
             override fun onMapDestroy() {
                 // 지도 API 가 정상적으로 종료될 때 호출됨
@@ -60,11 +69,18 @@ class HomeFragment() : Fragment() {
                 trackingManager = kakaoMap.trackingManager!!
             }
         })
+    }
+    private fun createLabel(lat: Double, lng: Double, text: String? = null): Label {
+        val pos:LatLng = LatLng.from(lat, lng)
+        val labelStyle: LabelStyle = LabelStyle.from(R.drawable.mypin)
+        val labelStyles: LabelStyles = labelManager.addLabelStyles(LabelStyles.from(labelStyle))!!
+        val labelOptions:LabelOptions = if (text == null) LabelOptions.from(pos).setStyles(labelStyles) else
+            LabelOptions.from(pos).setStyles(labelStyles).setTexts(text)
 
-        return binding.root
+        return labelManager.layer!!.addLabel(labelOptions)
     }
 
-
+    //GPS functions
     private fun setLocationManager(){
         Log.d("gps", "initializeLocationObj")
         if(::locationManager.isInitialized.not()) {
@@ -135,17 +151,43 @@ class HomeFragment() : Fragment() {
         }
     }
 
+    //bottomsheet functions
+    private fun persistentBottomSheetEvent() {
 
-    private fun createLabel(lat: Double, lng: Double, text: String? = null): Label {
-        val pos:LatLng = LatLng.from(lat, lng)
-        val labelStyle: LabelStyle = LabelStyle.from(R.drawable.mymarker)
-        val labelStyles: LabelStyles = labelManager.addLabelStyles(LabelStyles.from(labelStyle))!!
-        val labelOptions:LabelOptions = if (text == null) LabelOptions.from(pos).setStyles(labelStyles) else
-            LabelOptions.from(pos).setStyles(labelStyles).setTexts(text)
+        behavior = BottomSheetBehavior.from(binding.bottomSheet)
+        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // 슬라이드 되는 도중 계속 호출
+                // called continuously while dragging
+                Log.d("@@@", "onStateChanged: 드래그 중")
+            }
 
-        return labelManager.layer!!.addLabel(labelOptions)
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        Log.d("@@@", "onStateChanged: 접음")
+                    }
+
+                    BottomSheetBehavior.STATE_DRAGGING -> {
+                        Log.d("@@@", "onStateChanged: 드래그")
+                    }
+
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        Log.d("@@@", "onStateChanged: 펼침")
+                    }
+
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        Log.d("@@@", "onStateChanged: 숨기기")
+                    }
+
+                    BottomSheetBehavior.STATE_SETTLING -> {
+                        Log.d("@@@", "onStateChanged: 고정됨")
+                    }
+                }
+            }
+
+        })
     }
-
 
 
 }
