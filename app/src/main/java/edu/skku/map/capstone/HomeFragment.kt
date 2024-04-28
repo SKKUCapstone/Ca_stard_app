@@ -24,6 +24,7 @@ import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import com.kakao.vectormap.label.TrackingManager
+import com.kakao.vectormap.shape.MapPoints
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
 
 class HomeFragment() : Fragment() {
@@ -83,13 +84,15 @@ class HomeFragment() : Fragment() {
                         Log.d("gps", "lat: $lat, lng: $lng")
                     }
                     if(myPosition == null){
-                        myPosition = createLabel(lat, lng)
-                        trackingManager.startTracking(createLabel(lat,lng))
+                        myPosition = createLabel(lat, lng, "내위치")
+                        val point = MapPoints.fromLatLng(LatLng.from(lat,lng))
+
+
+//                        trackingManager.startTracking(myPosition)
                     }
                     else{
                         myPosition!!.moveTo(LatLng.from(lat,lng))
                     }
-                    Log.d("gps", "label: $myPosition")
                 }
 
                 override fun onProviderEnabled(provider: String) {
@@ -132,12 +135,15 @@ class HomeFragment() : Fragment() {
         }
     }
 
-    private fun createLabel(lat: Double, lon: Double): Label {
-        val styles: LabelStyles =
-            labelManager.addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.mymarker)))!!
-        val options: LabelOptions = LabelOptions.from(LatLng.from(lat, lon)).setStyles(styles)
-        val layer: LabelLayer = labelManager.layer!!
-        return layer.addLabel(options)
+
+    private fun createLabel(lat: Double, lng: Double, text: String? = null): Label {
+        val pos:LatLng = LatLng.from(lat, lng)
+        val labelStyle: LabelStyle = LabelStyle.from(R.drawable.mymarker)
+        val labelStyles: LabelStyles = labelManager.addLabelStyles(LabelStyles.from(labelStyle))!!
+        val labelOptions:LabelOptions = if (text == null) LabelOptions.from(pos).setStyles(labelStyles) else
+            LabelOptions.from(pos).setStyles(labelStyles).setTexts(text)
+
+        return labelManager.layer!!.addLabel(labelOptions)
     }
 
 
