@@ -3,6 +3,7 @@ import com.android.build.gradle.api.ViewBindingOptions
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {

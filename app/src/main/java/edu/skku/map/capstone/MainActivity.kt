@@ -1,7 +1,6 @@
 package edu.skku.map.capstone
 
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -11,6 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kakao.vectormap.KakaoMapSdk
 import edu.skku.map.capstone.databinding.ActivityMainBinding
+import edu.skku.map.capstone.fragments.FavoriteFragment
+import edu.skku.map.capstone.fragments.HomeFragment
+import edu.skku.map.capstone.fragments.MyCafeFragment
+import edu.skku.map.capstone.fragments.MyPageFragment
+import edu.skku.map.capstone.viewmodels.MainViewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,11 +22,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
 
 
-    val viewModel = MainViewModel()
-    private lateinit var FavoriteFragment: FavoriteFragment
-    private lateinit var HomeFragment: HomeFragment
-    private lateinit var MyCafeFragment: MyCafeFragment
-    private lateinit var MyPageFragment: MyPageFragment
+    private val viewModel = MainViewModel()
+    private lateinit var homeFragment: HomeFragment
+    private lateinit var favoriteFragment: FavoriteFragment
+    private lateinit var myCafeFragment: MyCafeFragment
+    private lateinit var myPageFragment: MyPageFragment
 
 
     private val permissions = arrayOf(
@@ -45,33 +49,33 @@ class MainActivity : AppCompatActivity() {
         setUI()
     }
     private fun setUI(){
-        HomeFragment = HomeFragment()
-        supportFragmentManager.beginTransaction().add(binding.frameLayout.id, HomeFragment).commit()
+        homeFragment = HomeFragment()
+        supportFragmentManager.beginTransaction().add(binding.frameLayout.id, homeFragment).commit()
 
     }
     private fun setNavActions() {
-        HomeFragment = HomeFragment()
-        FavoriteFragment = FavoriteFragment()
-        MyPageFragment = MyPageFragment()
-        MyCafeFragment = MyCafeFragment()
+        homeFragment = HomeFragment()
+        favoriteFragment = FavoriteFragment()
+        myPageFragment = MyPageFragment()
+        myCafeFragment = MyCafeFragment()
 
         binding.homeBtn.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, HomeFragment).commit()
+            supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, homeFragment).commit()
         }
         binding.favBtn.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, FavoriteFragment).commit()
+            supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, favoriteFragment).commit()
         }
         binding.myCafeBtn.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, MyCafeFragment).commit()
+            supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, myCafeFragment).commit()
         }
         binding.myPageBtn.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, MyPageFragment).commit()
+            supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, myPageFragment).commit()
         }
     }
     private fun setActivityResultLauncher(){
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
             if (it.all { permission -> permission.value }) {
-
+                return@registerForActivityResult
             } else {
                 Toast.makeText(this, "권한 거부", Toast.LENGTH_SHORT).show()
             }

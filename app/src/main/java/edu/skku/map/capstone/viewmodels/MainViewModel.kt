@@ -1,4 +1,4 @@
-package edu.skku.map.capstone
+package edu.skku.map.capstone.viewmodels
 
 class MainViewModel {
     // Data
