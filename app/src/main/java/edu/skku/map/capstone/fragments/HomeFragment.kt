@@ -204,6 +204,11 @@ class HomeFragment() : Fragment() {
         binding.cafeListRV.adapter = cafeListAdapter
         binding.cafeListRV.layoutManager = LinearLayoutManager(requireActivity())
 
+//        val sheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
+//        sheetBehavior.isGestureInsetBottomIgnored = true
+//        sheetBehavior.expandedOffset = 40
+//        sheetBehavior.halfExpandedRatio = 0.5F
+//        sheetBehavior.isFitToContents =  false
 
     }
     @SuppressLint("NotifyDataSetChanged")
