@@ -9,52 +9,51 @@
     tools:context=".MainActivity"
     >
 
-    <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.HomeFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.kakao.vectormap.MapView
+            android:id="@+id/kakaoMV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.kakao.vectormap.MapView
-                android:id="@+id/kakaoMV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="16dp"
+            android:paddingHorizontal="16dp"
+            android:orientation="horizontal"
+            android:gravity="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <EditText
                 android:id="@+id/searchET"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_margin="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/card"
                 android:ems="10"
-                android:inputType="text"
                 android:hint="어떤 카페를 찾으시나요?"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/gpsBtn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/card"/>
+                android:inputType="text" />
+
             <ImageButton
                 android:id="@+id/gpsBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginHorizontal="12dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="@drawable/gps_button"
-                android:contentDescription="GPS"
-                android:layout_margin="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:contentDescription="GPS" />
+        </LinearLayout>
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomSheet"
@@ -114,6 +113,7 @@
             android:layout_marginTop="12dp"
             android:background="#FBFAF9"
             android:paddingHorizontal="16dp"
+            android:paddingBottom="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
