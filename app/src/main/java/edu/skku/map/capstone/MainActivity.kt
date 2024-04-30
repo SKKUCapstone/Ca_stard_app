@@ -1,5 +1,6 @@
 package edu.skku.map.capstone
 
+//import edu.skku.map.capstone.databinding.ActivityMainBinding
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kakao.vectormap.KakaoMapSdk
-//import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.fragments.FavoriteFragment
 import edu.skku.map.capstone.fragments.HomeFragment
@@ -39,15 +39,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+
         KakaoMapSdk.init(this, "09e7ce580fee2dc13ec5d24c66cd8238")
         viewModel.fetchData()
         setActivityResultLauncher()
         resolvePermission(permissions)
-//        setNavActions()
+        setNavActions()
         setUI()
     }
     private fun setUI(){
-        homeFragment = HomeFragment()
+//        homeFragment = HomeFragment()
+        myPageFragment = MyPageFragment()
         supportFragmentManager.beginTransaction().add(binding.frameLayout.id, myPageFragment).commit()
     }
     private fun setNavActions() {

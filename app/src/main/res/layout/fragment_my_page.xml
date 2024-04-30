@@ -12,7 +12,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="This is MYPAGE"
         android:background="#FBFAF9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -20,7 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             android:background="@drawable/header_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,10 +42,10 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             app:cardCornerRadius="80dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
@@ -56,30 +55,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                tools:src="@tools:sample/avatars" />
+                android:src="@drawable/defaultcafepin"/>
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="UserName"
             android:textColor="#2C483D"
-            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <TextView
             android:id="@+id/userEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:textSize="16sp"
-            android:textColor="#9D917D"
             android:text="UserEmail@email.com"
+            android:textColor="#9D917D"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userName" />
@@ -94,20 +92,21 @@
             app:layout_constraintTop_toBottomOf="@+id/userEmail"
             app:layout_constraintVertical_bias="0.06999999">
 
+
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                >
+                android:layout_height="80dp">
 
                 <TextView
                     android:id="@+id/card_text1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="#2C483D"
-                    android:paddingLeft="20dp"
                     android:background="@drawable/mypagecard"
                     android:gravity="center_vertical"
-                    android:text="최근 본 카페" />
+                    android:paddingLeft="20dp"
+                    android:text="최근 본 카페"
+                    android:textColor="#2C483D" />
 
                 <ImageView
                     android:id="@+id/card_arrow1"
@@ -117,20 +116,20 @@
                     android:layout_marginRight="20dp"
                     android:src="@drawable/arrow" />
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                >
+                android:layout_height="80dp">
 
                 <TextView
                     android:id="@+id/card_text2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="#2C483D"
-                    android:paddingLeft="20dp"
                     android:background="@drawable/mypagecard"
                     android:gravity="center_vertical"
-                    android:text="개인정보 처리방침" />
+                    android:paddingLeft="20dp"
+                    android:text="개인정보 처리방침"
+                    android:textColor="#2C483D" />
 
                 <ImageView
                     android:id="@+id/card_arrow2"
@@ -142,18 +141,58 @@
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                >
+                android:layout_height="80dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/mypagecard"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="서비스 이용약관"
+                    android:textColor="#2C483D" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/arrow" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/mypagecard"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="위치기반서비스 이용약관"
+                    android:textColor="#2C483D" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/arrow" />
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
 
                 <TextView
                     android:id="@+id/card_text3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="#2C483D"
-                    android:paddingLeft="20dp"
                     android:background="@drawable/mypagecard"
                     android:gravity="center_vertical"
-                    android:text="회원탈퇴" />
+                    android:paddingLeft="20dp"
+                    android:text="회원탈퇴"
+                    android:textColor="#2C483D" />
 
                 <ImageView
                     android:id="@+id/card_arrow3"

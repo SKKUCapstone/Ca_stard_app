@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2C483D"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="31dp">
+
+        <View
+            android:layout_width="1.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/splash_text_remain1"
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="156dp"
+            android:gravity="center"
+            android:text="카"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/splash_text_fadeout1"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.345" />
+
+        <TextView
+            android:id="@+id/splash_text_fadeout1"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="28dp"
+            android:gravity="center"
+            android:text="공의"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.345" />
+
+        <TextView
+            android:id="@+id/splash_text_remain2"
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="스"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.407"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/splash_text_remain1"
+            app:layout_constraintVertical_bias="0.124" />
+
+        <TextView
+            android:id="@+id/splash_text_fadeout2"
+
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="탠"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/splash_text_remain2"
+            app:layout_constraintTop_toBottomOf="@+id/splash_text_fadeout1"
+            app:layout_constraintVertical_bias="0.124" />
+
+        <TextView
+            android:id="@+id/splash_text_fadeout3"
+
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="88dp"
+            android:gravity="center"
+            android:text="다"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/splash_text_fadeout1"
+            app:layout_constraintVertical_bias="0.124" />
+
+        <TextView
+            android:id="@+id/splash_text_fadein1"
+
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="88dp"
+            android:gravity="center"
+            android:text="타"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/splash_text_fadeout1"
+            app:layout_constraintVertical_bias="0.124" />
+
+        <TextView
+            android:id="@+id/splash_text_remain3"
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="드"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/splash_text_fadeout3"
+            app:layout_constraintTop_toBottomOf="@+id/splash_text_fadeout1"
+            app:layout_constraintVertical_bias="0.124" />
+
+
+        <EditText
+            android:id="@+id/Logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Castard"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
