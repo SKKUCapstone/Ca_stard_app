@@ -1,9 +1,6 @@
-import com.android.build.gradle.api.ViewBindingOptions
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
 }
 
 android {
@@ -39,11 +36,12 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
+//    dataBinding {
+//        enable = true
+//    }
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
@@ -54,4 +52,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.kakao.maps.open:android:2.9.5")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation("androidx.cardview:cardview:1.0.0")
 }

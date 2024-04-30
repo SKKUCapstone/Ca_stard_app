@@ -1,11 +1,11 @@
 package edu.skku.map.capstone.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import edu.skku.map.capstone.databinding.FragmentHomeBinding
+import androidx.fragment.app.Fragment
 import edu.skku.map.capstone.databinding.FragmentMyPageBinding
 
 class MyPageFragment : Fragment() {
@@ -17,7 +17,7 @@ class MyPageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyPageBinding.inflate(inflater, container, false)
-
+        binding.cardView.setOnClickListener{Log.d("@@@","아무거나")}
         return binding.root
     }
 

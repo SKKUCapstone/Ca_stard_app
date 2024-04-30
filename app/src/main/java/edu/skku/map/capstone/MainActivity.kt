@@ -9,13 +9,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kakao.vectormap.KakaoMapSdk
+//import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.fragments.FavoriteFragment
 import edu.skku.map.capstone.fragments.HomeFragment
 import edu.skku.map.capstone.fragments.MyCafeFragment
 import edu.skku.map.capstone.fragments.MyPageFragment
 import edu.skku.map.capstone.viewmodels.MainViewModel
-
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -39,18 +39,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         KakaoMapSdk.init(this, "09e7ce580fee2dc13ec5d24c66cd8238")
         viewModel.fetchData()
         setActivityResultLauncher()
         resolvePermission(permissions)
-
-        setNavActions()
+//        setNavActions()
         setUI()
     }
     private fun setUI(){
         homeFragment = HomeFragment()
-        supportFragmentManager.beginTransaction().add(binding.frameLayout.id, homeFragment).commit()
+        supportFragmentManager.beginTransaction().add(binding.frameLayout.id, myPageFragment).commit()
 
     }
     private fun setNavActions() {
@@ -58,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         favoriteFragment = FavoriteFragment()
         myPageFragment = MyPageFragment()
         myCafeFragment = MyCafeFragment()
+
 
         binding.homeBtn.setOnClickListener {
             supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, homeFragment).commit()
