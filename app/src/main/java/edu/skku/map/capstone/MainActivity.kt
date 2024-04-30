@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
     private fun setUI(){
         homeFragment = HomeFragment()
         supportFragmentManager.beginTransaction().add(binding.frameLayout.id, myPageFragment).commit()
-
     }
     private fun setNavActions() {
         homeFragment = HomeFragment()
