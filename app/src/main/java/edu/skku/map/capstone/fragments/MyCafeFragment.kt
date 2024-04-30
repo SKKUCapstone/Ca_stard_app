@@ -28,11 +28,11 @@ class MyCafeFragment : Fragment() {
         return binding.root
     }
     private fun initPieChart(){
-
+        binding.pieChart.setUsePercentValues(true)
         val reviewRatio = listOf(
-            PieEntry(25f),
-            PieEntry(40f),
-            PieEntry(35f),
+            PieEntry(25f,"깨끗해요"),
+            PieEntry(40f,"조용해요"),
+            PieEntry(35f,"넓어요"),
             )
         val pieColors = listOf(
             R.color.yellow,
@@ -56,10 +56,9 @@ class MyCafeFragment : Fragment() {
         // animateY(1200, Easing.EaseInOutCubic) : 애니메이션 시간, 효과 설정
         binding.pieChart.apply {
             data = PieData(dataSet)
-
             description.isEnabled = false
-            legend.isEnabled = false
-            isRotationEnabled = true
+            legend.isEnabled = true
+            isRotationEnabled = false
             holeRadius = 60f
             setTouchEnabled(false)
             animateY(1200, Easing.EaseInOutCubic)

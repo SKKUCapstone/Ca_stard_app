@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.gson.JsonParser
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -144,14 +143,12 @@ class HomeFragment() : Fragment() {
             }
         })
     }
-    private fun createLabel(lat: Double, lng: Double, text: String? = null): Label {
-        Log.d("kakaolabel","create label")
+    private fun createMyLabel(lat: Double, lng: Double): Label {
+//        Log.d("kakaolabel","create label")
         val pos:LatLng = LatLng.from(lat, lng)
         val labelStyle: LabelStyle = LabelStyle.from(edu.skku.map.capstone.R.drawable.mypin)
         val labelStyles: LabelStyles = labelManager.addLabelStyles(LabelStyles.from(labelStyle))!!
-        val labelOptions:LabelOptions = if (text == null) LabelOptions.from(pos).setStyles(labelStyles) else
-            LabelOptions.from(pos).setStyles(labelStyles).setTexts(text)
-
+        val labelOptions:LabelOptions = LabelOptions.from(pos).setStyles(labelStyles)
         return labelManager.layer!!.addLabel(labelOptions)
     }
 
@@ -160,8 +157,8 @@ class HomeFragment() : Fragment() {
             locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
             locationListener = object : LocationListener {
                 override fun onLocationChanged(location: Location) {
-//                    val lat = location.latitude
-//                    val lng = location.longitude
+//                    currentLat = location.latitude
+//                    currentLng = location.longitude
 
                     currentLat = DEFAULT_LAT
                     currentLng = DEFAULT_LNG
@@ -169,7 +166,7 @@ class HomeFragment() : Fragment() {
                     Log.d("gps", "lat: $currentLat, lng: $currentLng")
 
                     if (currentLabel == null) {
-                        currentLabel = createLabel(currentLat!!,currentLng!!, "내위치")
+                        currentLabel = createMyLabel(currentLat!!,currentLng!!)
 
                     } else {
                         currentLabel!!.moveTo(LatLng.from(currentLat!!,currentLng!!))
@@ -260,7 +257,6 @@ class HomeFragment() : Fragment() {
 
                     //var obj = JsonParser.parseString(resStr)
 //                    Log.d("apitest", documents.toString())
-
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
