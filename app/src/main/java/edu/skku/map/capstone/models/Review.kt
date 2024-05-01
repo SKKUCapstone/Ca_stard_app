@@ -7,7 +7,7 @@ data class Review(
     val capacity:Int=0,
     val quiet:Int=0,
     val wifi:Int=0,
-    val table:Int=0,
+    val tables:Int=0,
     val toilet:Int=0,
     val bright:Int=0,
     val clean:Int=0,

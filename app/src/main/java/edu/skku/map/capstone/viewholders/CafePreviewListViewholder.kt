@@ -51,7 +51,7 @@ class CafePreviewListViewholder(val context: Context, var binding:ItemCafePrevie
         for(review in reviews){ sum += review.wifi }
         if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("wifi")
         sum = 0
-        for(review in reviews){ sum += review.table }
+        for(review in reviews){ sum += review.tables }
         if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("table")
         sum = 0
         for(review in reviews){ sum += review.toilet }

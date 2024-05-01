@@ -33,7 +33,11 @@ import edu.skku.map.capstone.RetrofitService
 import edu.skku.map.capstone.adapters.CafePreviewListAdapter
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.models.Cafe
-import edu.skku.map.capstone.models.dummyCafeData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -46,17 +50,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 class HomeFragment() : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+//    private var kakaoMap: KakaoMap? = null
+    lateinit var kakaoMap: KakaoMap
+    private lateinit var camera: CameraPosition
     private lateinit var locationManager: LocationManager
     private lateinit var locationListener: LocationListener
     private lateinit var labelManager: LabelManager
-    private lateinit var camera: CameraPosition
     private val cafeList: ArrayList<Cafe> = arrayListOf()
     private lateinit var cafeListAdapter: CafePreviewListAdapter
     private lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     private var currentLat: Double? = null
     private var currentLng: Double? = null
     private var currentLabel:Label? = null
-    private lateinit var kakaoMap: KakaoMap
+
 
     val DEFAULT_LAT = 37.402005
     val DEFAULT_LNG = 127.108621
@@ -66,7 +72,7 @@ class HomeFragment() : Fragment() {
     val SAMPLE_CAFE_LNG2 = 127.101424
     val SAMPLE_CAFE_LAT3 = 37.404124
     val SAMPLE_CAFE_LNG3 = 127.103424
-    val DEFAULT_RADIUS = 300
+    val DEFAULT_RADIUS = 500
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,58 +85,46 @@ class HomeFragment() : Fragment() {
         initKakaoMap()
         listenLocation()
         fetchCurrentLocation()
-        fetchCafes()
-
+//        fetchCafes(null,null) //temporarily moved to initKakaoMap callback
+//        updateCafeLabels()
         return binding.root
     }
 
     private fun initUI() {
-        //TODO: replace to fetchData
-        cafeList.addAll(dummyCafeData)
-
         cafeListAdapter = CafePreviewListAdapter(requireActivity(),cafeList)
         binding.cafeListRV.adapter = cafeListAdapter
         binding.cafeListRV.layoutManager = LinearLayoutManager(requireActivity())
     }
-
     private fun listenBottomSheetEvent() {
         behavior = BottomSheetBehavior.from(binding.bottomSheet)
         behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-//                        Log.d("@@@", "onStateChanged: 접음")
-                    }
-
-                    BottomSheetBehavior.STATE_DRAGGING -> {
-//                        Log.d("@@@", "onStateChanged: 드래그")
-                    }
-
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-//                        Log.d("@@@", "onStateChanged: 펼침")
-                    }
-
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-//                        Log.d("@@@", "onStateChanged: 숨기기")
-                    }
-
-                    BottomSheetBehavior.STATE_SETTLING -> {
-//                        Log.d("@@@", "onStateChanged: 고정됨")
-                    }
+                    BottomSheetBehavior.STATE_COLLAPSED -> {}
+                    BottomSheetBehavior.STATE_DRAGGING -> {}
+                    BottomSheetBehavior.STATE_EXPANDED -> {}
+                    BottomSheetBehavior.STATE_HIDDEN -> {}
+                    BottomSheetBehavior.STATE_SETTLING -> {}
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {}
                 }
             }
         })
     }
-
     private fun handleBtnEvent() {
         binding.gpsBtn.setOnClickListener {
             if(currentLat!=null && currentLng!=null) moveCamera(currentLat!!,currentLng!!)
         }
-    }
+        binding.relocateBtn.setOnClickListener {
+            val newPos = kakaoMap?.cameraPosition?.position
+            if(newPos != null) {
+                fetchCafes(newPos.latitude, newPos.longitude)
+                updateCafeLabels()
+            }
 
-    //kakaomap functions
-    private fun initKakaoMap(){
+        }
+    }
+    private fun initKakaoMap() {
         binding.kakaoMV.start(object : MapLifeCycleCallback() {
             override fun onMapDestroy() {}
             override fun onMapError(error: Exception) {}
@@ -144,14 +138,12 @@ class HomeFragment() : Fragment() {
         })
     }
     private fun createMyLabel(lat: Double, lng: Double): Label {
-//        Log.d("kakaolabel","create label")
         val pos:LatLng = LatLng.from(lat, lng)
         val labelStyle: LabelStyle = LabelStyle.from(edu.skku.map.capstone.R.drawable.mypin)
         val labelStyles: LabelStyles = labelManager.addLabelStyles(LabelStyles.from(labelStyle))!!
         val labelOptions:LabelOptions = LabelOptions.from(pos).setStyles(labelStyles)
         return labelManager.layer!!.addLabel(labelOptions)
     }
-
     private fun listenLocation() {
         if(::locationManager.isInitialized.not()) {
             locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
@@ -159,7 +151,6 @@ class HomeFragment() : Fragment() {
                 override fun onLocationChanged(location: Location) {
 //                    currentLat = location.latitude
 //                    currentLng = location.longitude
-
                     currentLat = DEFAULT_LAT
                     currentLng = DEFAULT_LNG
 
@@ -167,16 +158,11 @@ class HomeFragment() : Fragment() {
 
                     if (currentLabel == null) {
                         currentLabel = createMyLabel(currentLat!!,currentLng!!)
-
                     } else {
                         currentLabel!!.moveTo(LatLng.from(currentLat!!,currentLng!!))
                     }
                     moveCamera(currentLat!! ,currentLng!!)
-//                    createCafeLabel(SAMPLE_CAFE_LAT1,SAMPLE_CAFE_LNG1)
-//                    createCafeLabel(SAMPLE_CAFE_LAT2,SAMPLE_CAFE_LNG2)
-//                    createCafeLabel(SAMPLE_CAFE_LAT3,SAMPLE_CAFE_LNG3)
                 }
-
                 override fun onProviderEnabled(provider: String) {}
                 override fun onProviderDisabled(provider: String) {}
             }
@@ -203,38 +189,30 @@ class HomeFragment() : Fragment() {
             Log.d("gps","permission needed")
         }
     }
-
     private fun moveCamera(lat: Double, lng: Double){
         val cameraUpdate = CameraUpdateFactory.newCenterPosition(LatLng.from(lat, lng))
-        kakaoMap.moveCamera(cameraUpdate, CameraAnimation.from(100, true, true))
+        kakaoMap?.moveCamera(cameraUpdate, CameraAnimation.from(100, true, true))
     }
     @SuppressLint("NotifyDataSetChanged")
-    private fun refreshCafeListList(newCafeList: ArrayList<Cafe>) {
+    private fun refreshCafeList(newCafeList: ArrayList<Cafe>) {
         cafeList.clear()
         cafeList.addAll(newCafeList)
         cafeListAdapter.notifyDataSetChanged()
     }
-
-    private fun createCafeLabel(lat:Double, lng:Double) {
-        val styles: LabelStyles = LabelStyles.from(LabelStyle.from(edu.skku.map.capstone.R.drawable.defaultcafepin))
-        val options = LabelOptions.from(LatLng.from(lat, lng)).setStyles(styles)
-        val layer = kakaoMap.labelManager!!.lodLayer
-        val label = layer!!.addLodLabel(options)
-    }
-
-    private fun fetchCafes() {
+    private fun fetchCafes(lat:Double?, lng: Double?) {
         val retrofit = Retrofit.Builder()
                         .baseUrl("https://dapi.kakao.com/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
         val service = retrofit.create(RetrofitService::class.java)
 
+        Log.d("apitest","start fetching cafes...")
         service
             .getCafes(
                 "KakaoAK f1c681d34107bd5d150c0bc5bd616975",
                 "CE7",
-                DEFAULT_LNG.toString(),
-                DEFAULT_LAT.toString(),
+                lat?.toString()?:DEFAULT_LNG.toString(),
+                lng?.toString()?:DEFAULT_LAT.toString(),
                 DEFAULT_RADIUS
             )
             .enqueue(object : Callback<ResponseBody> {
@@ -253,17 +231,24 @@ class HomeFragment() : Fragment() {
                         cafeList.add(cafe)
                     }
                     Log.d("apitest", cafeList.toString())
-                    refreshCafeListList(cafeList)
+                    refreshCafeList(cafeList)
 
-                    //var obj = JsonParser.parseString(resStr)
-//                    Log.d("apitest", documents.toString())
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("apitest", "onResponse 실패")
+                    Log.d("apitest", "failed to fetch cafes: ${t.localizedMessage}")
+
                 }
             })
     }
+    private fun updateCafeLabels() {
+        val layer = kakaoMap?.labelManager!!.lodLayer
+        layer?.removeAll()
+        val style = LabelStyles.from(LabelStyle.from(edu.skku.map.capstone.R.drawable.defaultcafepin))
+        val options = cafeList.map {it -> LabelOptions.from(LatLng.from(it.latitude!!, it.longitude!!)).setStyles(style) } as List<LabelOptions>
+        layer!!.addLodLabels(options)
+    }
+
 }
 
 

@@ -15,5 +15,4 @@ interface RetrofitService {
         @Query("y") y: String,
         @Query("radius") radius: Int
     ): Call<ResponseBody>
-
 }
