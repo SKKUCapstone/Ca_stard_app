@@ -5,5 +5,4 @@ data class User(
     var userName: String,
     val favorite: ArrayList<Favorite>,
     val recentView:ArrayList<Long>
-
 )
