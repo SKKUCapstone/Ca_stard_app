@@ -1,7 +1,6 @@
 package edu.skku.map.capstone.fragments
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.Location
@@ -12,11 +11,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.helper.widget.Layer
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
@@ -51,13 +48,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 class HomeFragment() : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel : HomeViewModel = HomeViewModel()
+    val viewModel : HomeViewModel = HomeViewModel()
     lateinit var kakaoMap: KakaoMap
     private lateinit var camera: CameraPosition
     private lateinit var locationManager: LocationManager
     private lateinit var locationListener: LocationListener
     private lateinit var labelManager: LabelManager
     private lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var lodLabels: Array<LodLabel>
 
     private var currentLat: Double? = null
     private var currentLng: Double? = null
@@ -88,14 +86,11 @@ class HomeFragment() : Fragment() {
         listenLocation()
         fetchCurrentLocation()
         viewModel.fetchCafes(null,null)
-
         return binding.root
     }
 
     private fun initViewModel() {
         viewModel.cafeListFragment = CafeListFragment()
-        viewModel.cafeDetailFragment = CafeDetailFragment()
-        viewModel.cafeListAdapter = CafePreviewListAdapter(requireActivity(),viewModel.cafeList)
     }
 
     private fun initUI() {
@@ -224,19 +219,19 @@ class HomeFragment() : Fragment() {
         val layer = kakaoMap.labelManager!!.lodLayer
         layer?.removeAll()
         val style:LabelStyles = LabelStyles.from(LabelStyle.from(edu.skku.map.capstone.R.drawable.defaultcafepin))
-        val options:List<LabelOptions> = viewModel.cafeList.map { LabelOptions.from(LatLng.from(it.latitude!!, it.longitude!!)).setStyles(style) }
-        val lodLabels = layer!!.addLodLabels(options)
-        Log.d("cafe",lodLabels.toString())
+        val options:List<LabelOptions> = viewModel.liveCafeList.value!!.map { LabelOptions.from(LatLng.from(it.latitude!!, it.longitude!!)).setStyles(style) }
+        lodLabels = layer!!.addLodLabels(options)
     }
     private fun setLabelClickListener(){
         kakaoMap.setOnLabelClickListener(
             fun (kakaoMap: KakaoMap, layer:LabelLayer, label:Label){
-                Log.d("cafe", "${label} label clicked")
+                Log.d("cafe", "$label label clicked")
             }
         )
         kakaoMap.setOnLodLabelClickListener(
             fun (kakaoMap: KakaoMap, layer: LodLabelLayer, label: LodLabel){
-                Log.d("cafe", "${label} label clicked")
+                Log.d("cafe", "$label label clicked")
+                viewModel.cafeDetailFragment = CafeDetailFragment(getCafeByLabelId(label.labelId))
                 onCafeDetailOpen()
             }
         )
@@ -259,7 +254,12 @@ class HomeFragment() : Fragment() {
             remove(viewModel.cafeDetailFragment).commit()
         }
     }
-
+    private fun getCafeByLabelId(labelId: String):Cafe {
+        val targetLodLabel = lodLabels.find {
+            it.labelId == labelId
+        }
+        return viewModel.liveCafeList.value?.get(lodLabels.indexOf(targetLodLabel))!!
+    }
 
 }
 

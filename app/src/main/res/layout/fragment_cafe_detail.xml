@@ -64,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/detail_cafeName2TV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="스타벅스 정자점"
@@ -71,6 +72,7 @@
                     android:textSize="22sp"
                     android:layout_weight="1" />
                 <TextView
+                    android:id="@+id/detail_distanceTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -104,11 +106,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:paddingHorizontal="24dp"
+                    android:paddingHorizontal="30dp"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="46dp"
-                        android:layout_height="46dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/icon_map" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -120,11 +122,11 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="24dp"
+                    android:paddingHorizontal="30dp"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="46dp"
-                        android:layout_height="46dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/icon_share" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -136,11 +138,11 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="24dp"
+                    android:paddingHorizontal="30dp"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="46dp"
-                        android:layout_height="46dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/icon_like" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -212,6 +214,7 @@
                     android:layout_marginHorizontal="12dp"
                     >
                     <TextView
+                        android:id="@+id/detail_isopenTV"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
                         android:gravity="center_vertical"
@@ -219,6 +222,7 @@
                         android:textColor="@color/green"
                         android:text="영업중"/>
                     <TextView
+                        android:id="@+id/detail_addressTV"
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
                         android:gravity="center_vertical"
@@ -238,6 +242,7 @@
                     android:padding="6dp"
                     android:src="@drawable/icon_phone" />
                 <TextView
+                    android:id="@+id/detail_phoneTV"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
