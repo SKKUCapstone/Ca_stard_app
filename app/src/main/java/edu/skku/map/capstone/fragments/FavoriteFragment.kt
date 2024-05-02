@@ -16,8 +16,6 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
-        binding.button.setOnClickListener {binding.textView2.text = "김지호 천재"  }
         return binding.root
     }
 

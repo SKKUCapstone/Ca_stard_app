@@ -47,12 +47,12 @@ class MainActivity : AppCompatActivity() {
         viewModel.fetchData()
         setActivityResultLauncher()
         resolvePermission(permissions)
-//        setNavActions()
+        setNavActions()
         setUI()
     }
     private fun setUI(){
         homeFragment = HomeFragment()
-        supportFragmentManager.beginTransaction().add(binding.frameLayout.id, myPageFragment).commit()
+        supportFragmentManager.beginTransaction().add(binding.frameLayout.id, homeFragment).commit()
     }
     private fun setNavActions() {
         homeFragment = HomeFragment()
