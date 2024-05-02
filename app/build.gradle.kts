@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.software.amazon.ion.impl.PrivateIonConstants.True
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
