@@ -18,8 +18,8 @@ import edu.skku.map.capstone.viewmodels.HomeViewModel
 class CafeListFragment() : Fragment() {
     private var _binding: FragmentCafeListBinding? = null
     private val binding get() = _binding!!
-    lateinit var viewModel : HomeViewModel
-    lateinit var cafeListAdapter: CafePreviewListAdapter
+    private lateinit var viewModel : HomeViewModel
+    private lateinit var cafeListAdapter: CafePreviewListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +28,7 @@ class CafeListFragment() : Fragment() {
         _binding = FragmentCafeListBinding.inflate(inflater, container, false)
         initViewModel()
         initUI()
+        observeCafeList()
         return binding.root
     }
 
@@ -44,6 +45,9 @@ class CafeListFragment() : Fragment() {
 
         Log.d("cafe", "default cafe list:" + viewModel.liveCafeList.value.toString())
         binding.cafeListRV.adapter = cafeListAdapter
+
+    }
+    private fun observeCafeList() {
         viewModel.liveCafeList.observe(viewLifecycleOwner) { cafeList ->
             cafeList?.let {
                 cafeListAdapter = CafePreviewListAdapter(requireActivity(), it)

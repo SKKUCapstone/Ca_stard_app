@@ -12,12 +12,12 @@ class CafePreviewListViewholder(val context: Context, var binding:ItemCafePrevie
     //데이터를 View에 직접 연결해서 구성해주는 컴포넌트
 
     fun bind(cafe: Cafe){
-        val reviewChipListAdapter:ReviewChipListAdapter = ReviewChipListAdapter(context, filterTopReviews(cafe.reviews))
-
+        val reviewChipListAdapter = ReviewChipListAdapter(context, filterTopReviews(cafe.reviews))
         binding.cafeNameTV.text = cafe.cafeName
         binding.distanceTV.text = "${cafe.distance?.toInt()}KM"
         binding.ratingTV.text = getAverage(cafe.reviews).toString()
         binding.reviewChipRV.adapter = reviewChipListAdapter
+        setClickListener()
     }
 
     private fun getAverage(reviews: ArrayList<Review>): Double {
@@ -58,5 +58,11 @@ class CafePreviewListViewholder(val context: Context, var binding:ItemCafePrevie
         if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("toilet")
 
         return filteredList
+    }
+
+    private fun setClickListener() {
+        binding.previewBodyCL.setOnClickListener{
+
+        }
     }
 }

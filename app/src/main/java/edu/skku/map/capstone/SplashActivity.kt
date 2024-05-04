@@ -14,7 +14,7 @@ import edu.skku.map.capstone.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
-    private val SPLASH_TIME_OUT:Long = 6000;
+    private val SPLASH_TIME_OUT:Long = 3800;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
