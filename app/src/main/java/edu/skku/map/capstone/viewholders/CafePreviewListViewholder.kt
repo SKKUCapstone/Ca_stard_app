@@ -17,6 +17,7 @@ class CafePreviewListViewholder(val context: Context, var binding:ItemCafePrevie
         binding.distanceTV.text = "${cafe.distance?.toInt()}KM"
         binding.ratingTV.text = getAverage(cafe.reviews).toString()
         binding.reviewChipRV.adapter = reviewChipListAdapter
+
         setClickListener()
     }
 

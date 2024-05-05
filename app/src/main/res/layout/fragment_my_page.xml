@@ -16,9 +16,7 @@
         android:background="#FBFAF9"
         android:text="This is MYPAGE"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="-16dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -91,24 +89,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userEmail"
-            app:layout_constraintVertical_bias="0.06999999">
+            >
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/recent_cafes"
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="63dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/mypagecard"
                     android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
+                    android:paddingHorizontal="20dp"
                     android:text="최근 본 카페"
                     android:textColor="#2C483D" />
 
@@ -116,21 +113,21 @@
                     android:layout_width="15dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginHorizontal="20dp"
                     android:src="@drawable/arrow" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/pinfo_agreement"
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="63dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/mypagecard"
                     android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
+                    android:paddingHorizontal="20dp"
                     android:text="개인정보 처리방침"
                     android:textColor="#2C483D" />
 
@@ -138,19 +135,19 @@
                     android:layout_width="15dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginHorizontal="20dp"
                     android:src="@drawable/arrow" />
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/service_agreement"
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="63dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/mypagecard"
                     android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
+                    android:paddingHorizontal="20dp"
                     android:text="서비스 이용약관"
                     android:textColor="#2C483D" />
 
@@ -158,20 +155,20 @@
                     android:layout_width="15dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginHorizontal="20dp"
                     android:src="@drawable/arrow" />
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/place_agreement"
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="63dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/mypagecard"
                     android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
+                    android:paddingHorizontal="20dp"
                     android:text="위치기반서비스 이용약관"
                     android:textColor="#2C483D" />
 
@@ -180,20 +177,20 @@
                     android:layout_width="15dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginHorizontal="20dp"
                     android:src="@drawable/arrow" />
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/unregister"
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="63dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/mypagecard"
                     android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
+                    android:paddingHorizontal="20dp"
                     android:text="회원탈퇴"
                     android:textColor="#2C483D" />
 
@@ -201,7 +198,7 @@
                     android:layout_width="15dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginHorizontal="20dp"
                     android:src="@drawable/arrow" />
 
             </androidx.cardview.widget.CardView>
