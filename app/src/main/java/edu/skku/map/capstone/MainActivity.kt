@@ -54,37 +54,51 @@ class MainActivity : AppCompatActivity() {
         homeFragment = HomeFragment()
         supportFragmentManager.beginTransaction().add(binding.frameLayout.id, homeFragment).commit()
     }
+
+    private fun removeUpperFragment() {
+        if(upperFragment != null) {
+            supportFragmentManager.beginTransaction().apply {
+                remove(upperFragment as Fragment).commit()
+            }
+        }
+        upperFragment = null
+    }
     private fun setNavActions() {
         homeFragment = HomeFragment()
         favoriteFragment = FavoriteFragment()
         myCafeFragment = MyCafeFragment()
         myPageFragment = MyPageFragment()
 
-
         binding.homeBtn.setOnClickListener {
-            if(upperFragment == null) return@setOnClickListener
-            supportFragmentManager.beginTransaction().remove(upperFragment!!).addToBackStack(null).commit()
-            upperFragment = null
+            removeUpperFragment()
         }
 
         binding.favBtn.setOnClickListener {
-            if (upperFragment == favoriteFragment) return@setOnClickListener
-            upperFragment?.let { it1 -> supportFragmentManager.beginTransaction().remove(it1).add(binding.frameLayout.id, favoriteFragment).addToBackStack(null).commit() }
+            removeUpperFragment()
+            if ( upperFragment == favoriteFragment ) return@setOnClickListener
+            supportFragmentManager.beginTransaction().apply {
+                add(binding.frameLayout.id, favoriteFragment).commit()
+            }
             upperFragment = favoriteFragment
         }
 
         binding.myCafeBtn.setOnClickListener {
-            if (upperFragment == myCafeFragment) return@setOnClickListener
-            upperFragment?.let { it1 -> supportFragmentManager.beginTransaction().remove(it1).add(binding.frameLayout.id, myCafeFragment).addToBackStack(null).commit() }
+            removeUpperFragment()
+            if ( upperFragment == myCafeFragment ) return@setOnClickListener
+            supportFragmentManager.beginTransaction().apply {
+                add(binding.frameLayout.id, myCafeFragment).commit()
+            }
             upperFragment = myCafeFragment
         }
 
         binding.myPageBtn.setOnClickListener {
-            if (upperFragment == myPageFragment) return@setOnClickListener
-            upperFragment?.let { it1 -> supportFragmentManager.beginTransaction().remove(it1).add(binding.frameLayout.id, myPageFragment).addToBackStack(null).commit() }
+            removeUpperFragment()
+            if ( upperFragment == myPageFragment ) return@setOnClickListener
+            supportFragmentManager.beginTransaction().apply {
+                add(binding.frameLayout.id, myPageFragment).commit()
+            }
             upperFragment = myPageFragment
         }
-
     }
         private fun setActivityResultLauncher() {
             activityResultLauncher =

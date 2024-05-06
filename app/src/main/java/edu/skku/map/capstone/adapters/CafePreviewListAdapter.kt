@@ -17,13 +17,6 @@ class CafePreviewListAdapter(val context: Context, private val cafeList: List<Ca
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CafePreviewListViewholder {
         val binding = ItemCafePreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
 
-//        FlexboxLayoutManager(context).apply {
-//            flexWrap = FlexWrap.WRAP
-//            flexDirection = FlexDirection.ROW
-//            justifyContent = JustifyContent.CENTER
-//        }.let{
-//            binding.reviewChipRV.layoutManager = it
-//        }
         val flexboxLayoutManager = FlexboxLayoutManager(context)
         flexboxLayoutManager.flexDirection = FlexDirection.ROW
         flexboxLayoutManager.flexWrap = FlexWrap.WRAP
