@@ -52,7 +52,6 @@ class SplashActivity : AppCompatActivity() {
                     }
                     moveAllTexts()
                 }
-
                 override fun onAnimationRepeat(animation: Animation?) {}
             })
         }

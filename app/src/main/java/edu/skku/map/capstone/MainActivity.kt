@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.kakao.vectormap.KakaoMapSdk
 //import edu.skku.map.capstone.databinding.ActivityMainBinding
@@ -24,8 +25,6 @@ import edu.skku.map.capstone.viewmodels.MainViewModel
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
-
-
     private val viewModel = MainViewModel()
     private var upperFragment: Fragment? = null
     private lateinit var homeFragment: HomeFragment
@@ -49,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         resolvePermission(permissions)
         setNavActions()
         setUI()
+        materialBasicDialog()
+
     }
     private fun setUI(){
         homeFragment = HomeFragment()
@@ -120,5 +121,12 @@ class MainActivity : AppCompatActivity() {
                 activityResultLauncher.launch(permissions)
             }
         }
+        private fun materialBasicDialog() {
+            MaterialAlertDialogBuilder(this)
+            .setMessage("Hello, I am a basic dialog")
+            .show()
+        }
+
+
 
 }

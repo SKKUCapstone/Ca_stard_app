@@ -17,7 +17,6 @@ import edu.skku.map.capstone.viewmodels.HomeViewModel
 class CafeDetailFragment(_cafe: Cafe) : Fragment() {
     private var _binding: FragmentCafeDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel : HomeViewModel = HomeViewModel()
     private val cafe = _cafe
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

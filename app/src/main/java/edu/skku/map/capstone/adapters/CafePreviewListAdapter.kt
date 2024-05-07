@@ -1,8 +1,10 @@
 package edu.skku.map.capstone.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -12,7 +14,14 @@ import edu.skku.map.capstone.databinding.ItemCafePreviewBinding
 import edu.skku.map.capstone.models.Cafe
 import edu.skku.map.capstone.viewholders.CafePreviewListViewholder
 
-class CafePreviewListAdapter(val context: Context, private val cafeList: List<Cafe>):RecyclerView.Adapter<CafePreviewListViewholder>() {
+class CafePreviewListAdapter(val context: Context, val onCafeClick: MutableLiveData<Cafe>): RecyclerView.Adapter<CafePreviewListViewholder>() {
+    private var cafeList: List<Cafe> = listOf()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateCafeList(newList: List<Cafe>) {
+        cafeList = newList
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CafePreviewListViewholder {
         val binding = ItemCafePreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -33,7 +42,8 @@ class CafePreviewListAdapter(val context: Context, private val cafeList: List<Ca
     override fun onBindViewHolder(holder: CafePreviewListViewholder, position: Int) {
         val cafe = cafeList[position]
         holder.bind(cafe)
+        holder.binding.previewBodyCL.setOnClickListener {
+            onCafeClick.postValue(cafe)
+        }
     }
-
-
 }

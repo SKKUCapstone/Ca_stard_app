@@ -159,20 +159,23 @@ class HomeFragment() : Fragment() {
             fun (kakaoMap: KakaoMap, layer: LodLabelLayer, label: LodLabel){
                 Log.d("cafe", "$label label clicked")
                 label.changeStyles(LabelStyles.from(LabelStyle.from(R.drawable.defaultcafepin_clicked)),true)
-                viewModel.cafeDetailFragment = CafeDetailFragment(getCafeByLabelId(label.labelId))
-                onCafeDetailOpen()
+                onCafeDetailOpen(getCafeByLabelId(label.labelId))
             }
         )
     }
 
-    private fun onCafeDetailOpen(){
+    fun onCafeDetailOpen(cafe:Cafe){
         onCafeDetailClosed() //remove possibly existing detailFragment
+        viewModel.cafeDetailFragment = CafeDetailFragment(cafe)
+
         childFragmentManager.beginTransaction().apply {
-            setCustomAnimations(R.animator.to_right, R.animator.to_left)
             add(binding.childFL.id, viewModel.cafeDetailFragment as Fragment).commit()
         }
         viewModel.prevCafeDetailFragment = viewModel.cafeDetailFragment
-        BottomSheetBehavior.from(binding.bottomSheet).state = BottomSheetBehavior.STATE_HALF_EXPANDED
+        if(BottomSheetBehavior.from(binding.bottomSheet).state == BottomSheetBehavior.STATE_COLLAPSED) {
+            BottomSheetBehavior.from(binding.bottomSheet).state =
+                BottomSheetBehavior.STATE_HALF_EXPANDED
+        }
 
     }
     fun onCafeDetailClosed() {
@@ -186,6 +189,7 @@ class HomeFragment() : Fragment() {
         viewModel.prevCafeDetailFragment = null
 
     }
+
     private fun getCafeByLabelId(labelId: String):Cafe {
         val targetLodLabel = lodLabels.find {
             it.labelId == labelId
