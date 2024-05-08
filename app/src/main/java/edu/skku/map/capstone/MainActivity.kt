@@ -21,7 +21,6 @@ import edu.skku.map.capstone.fragments.FavoriteFragment
 import edu.skku.map.capstone.fragments.HomeFragment
 import edu.skku.map.capstone.fragments.MyCafeFragment
 import edu.skku.map.capstone.fragments.MyPageFragment
-import edu.skku.map.capstone.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -146,16 +145,19 @@ class MainActivity : AppCompatActivity() {
                 if(it == 1) {
                     createReviewInstance()
                     Log.d("dialog","phase : 1")
+//                    dialogCategory!!.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
                     dialogCategory!!.show()
                 }
                 if(it == 2) {
                     Log.d("dialog","phase : 2")
+//                    dialogRating!!.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
                     dialogRating!!.show()
                     dialogCategory!!.dismiss()
                 }
                 if(it == 3) {
                     Log.d("dialog","phase : 3")
-                    dialogRating!!.show()
+//                    dialogComment!!.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    dialogComment!!.show()
                     dialogComment!!.dismiss()
                 }
             }

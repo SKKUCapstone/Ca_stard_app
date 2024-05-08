@@ -40,7 +40,7 @@ class HomeViewModel() {
     lateinit var activity: Activity
     private val DEFAULT_LAT = 37.402005
     private val DEFAULT_LNG = 127.108621
-    private val DEFAULT_RADIUS = 500
+    private val DEFAULT_RADIUS = 20000
 
     init {
         _liveCafeList.value = listOf()
@@ -80,6 +80,7 @@ class HomeViewModel() {
                         val cafe = Cafe(cafeJsonObject)
                         newCafeList.add(cafe)
                     }
+                    Log.d("cafe","fetched cafe:"+newCafeList.toString())
                     _liveCafeList.value = newCafeList
                 }
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

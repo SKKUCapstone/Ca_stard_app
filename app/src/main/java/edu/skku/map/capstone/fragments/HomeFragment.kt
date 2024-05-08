@@ -20,6 +20,7 @@ import com.kakao.vectormap.label.LabelManager
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
+import com.kakao.vectormap.label.LabelTextStyle
 import com.kakao.vectormap.label.LodLabel
 import com.kakao.vectormap.label.LodLabelLayer
 import edu.skku.map.capstone.MainActivity
@@ -27,7 +28,6 @@ import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.models.Cafe
 import edu.skku.map.capstone.viewmodels.HomeViewModel
-import edu.skku.map.capstone.viewmodels.MainViewModel
 
 
 class HomeFragment() : Fragment() {
@@ -94,7 +94,7 @@ class HomeFragment() : Fragment() {
             val newPos = kakaoMap.cameraPosition?.position
             if(newPos != null) {
                 viewModel.fetchCafes(newPos.latitude, newPos.longitude)
-                updateCafeLabels()
+//                updateCafeLabels()
             }
         }
     }
@@ -146,8 +146,15 @@ class HomeFragment() : Fragment() {
         }
         val layer = kakaoMap.labelManager!!.lodLayer
         layer?.removeAll()
-        val style:LabelStyles = LabelStyles.from(LabelStyle.from(R.drawable.defaultcafepin))
-        val options:List<LabelOptions> = viewModel.liveCafeList.value!!.map { LabelOptions.from(LatLng.from(it.latitude!!, it.longitude!!)).setStyles(style) }
+        val style:LabelStyles = LabelStyles.from(
+            LabelStyle.from(R.drawable.defaultcafepin).setZoomLevel(0),
+            LabelStyle.from(R.drawable.defaultcafepin).setTextStyles(25,R.color.black).setZoomLevel(17)
+        )
+        val options:List<LabelOptions> = viewModel.liveCafeList.value!!
+            .map { LabelOptions
+                .from(LatLng.from(it.latitude!!, it.longitude!!))
+                .setStyles(style)
+                .setTexts(it.cafeName) }
         Log.d("label","options: "+options.toString())
         lodLabels = layer!!.addLodLabels(options)
     }
