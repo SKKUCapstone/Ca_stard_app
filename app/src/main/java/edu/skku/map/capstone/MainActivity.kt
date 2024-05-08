@@ -9,13 +9,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.navigation.NavigationView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.KakaoMapSdk
 //import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.databinding.ActivityMainBinding
+import edu.skku.map.capstone.dialogs.ReviewDialogCategory
+import edu.skku.map.capstone.dialogs.ReviewDialogComment
+import edu.skku.map.capstone.dialogs.ReviewDialogRating
 import edu.skku.map.capstone.fragments.FavoriteFragment
 import edu.skku.map.capstone.fragments.HomeFragment
 import edu.skku.map.capstone.fragments.MyCafeFragment
@@ -25,12 +26,16 @@ import edu.skku.map.capstone.viewmodels.MainViewModel
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
-    private val viewModel = MainViewModel()
+    val reviewPhase = MutableLiveData(0)
     private var upperFragment: Fragment? = null
     private lateinit var homeFragment: HomeFragment
     private lateinit var favoriteFragment: FavoriteFragment
     private lateinit var myCafeFragment: MyCafeFragment
     private lateinit var myPageFragment: MyPageFragment
+
+    private var dialogCategory:ReviewDialogCategory? = null
+    private var dialogRating:ReviewDialogRating? = null
+    private var dialogComment:ReviewDialogComment? = null
 
 
     private val permissions = arrayOf(
@@ -43,12 +48,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         KakaoMapSdk.init(this, "09e7ce580fee2dc13ec5d24c66cd8238")
-        viewModel.fetchData()
         setActivityResultLauncher()
         resolvePermission(permissions)
         setNavActions()
         setUI()
-        materialBasicDialog()
+        observeReviewPhase()
 
     }
     private fun setUI(){
@@ -121,10 +125,40 @@ class MainActivity : AppCompatActivity() {
                 activityResultLauncher.launch(permissions)
             }
         }
-        private fun materialBasicDialog() {
-            MaterialAlertDialogBuilder(this)
-            .setMessage("Hello, I am a basic dialog")
-            .show()
+        private fun createReviewInstance() {
+            dialogCategory = ReviewDialogCategory(this, this, reviewPhase)
+            dialogRating = ReviewDialogRating(this,this, reviewPhase)
+            dialogComment = ReviewDialogComment(this,this, reviewPhase)
+        }
+
+        private fun observeReviewPhase() {
+            reviewPhase.observe(this as LifecycleOwner) {
+                Log.d("dialog","phase is $it")
+                if(it == 0) {
+                    Log.d("dialog","phase : 0")
+                    dialogCategory?.dismiss()
+                    dialogRating?.dismiss()
+                    dialogComment?.dismiss()
+                    dialogRating = null
+                    dialogComment = null
+                    dialogCategory = null
+                }
+                if(it == 1) {
+                    createReviewInstance()
+                    Log.d("dialog","phase : 1")
+                    dialogCategory!!.show()
+                }
+                if(it == 2) {
+                    Log.d("dialog","phase : 2")
+                    dialogRating!!.show()
+                    dialogCategory!!.dismiss()
+                }
+                if(it == 3) {
+                    Log.d("dialog","phase : 3")
+                    dialogRating!!.show()
+                    dialogComment!!.dismiss()
+                }
+            }
         }
 
 

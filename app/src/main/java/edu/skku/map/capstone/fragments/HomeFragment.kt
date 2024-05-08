@@ -22,16 +22,18 @@ import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import com.kakao.vectormap.label.LodLabel
 import com.kakao.vectormap.label.LodLabelLayer
+import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.models.Cafe
 import edu.skku.map.capstone.viewmodels.HomeViewModel
+import edu.skku.map.capstone.viewmodels.MainViewModel
 
 
 class HomeFragment() : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    val viewModel : HomeViewModel = HomeViewModel()
+    val viewModel = HomeViewModel()
     lateinit var kakaoMap: KakaoMap
     private lateinit var camera: CameraPosition
     var currentLabel: Label? = null
@@ -166,7 +168,7 @@ class HomeFragment() : Fragment() {
 
     fun onCafeDetailOpen(cafe:Cafe){
         onCafeDetailClosed() //remove possibly existing detailFragment
-        viewModel.cafeDetailFragment = CafeDetailFragment(cafe)
+        viewModel.cafeDetailFragment = CafeDetailFragment(cafe, (requireActivity() as MainActivity).reviewPhase)
 
         childFragmentManager.beginTransaction().apply {
             add(binding.childFL.id, viewModel.cafeDetailFragment as Fragment).commit()

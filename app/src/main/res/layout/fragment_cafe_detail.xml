@@ -102,54 +102,63 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/detailMapBtn"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-
-                    android:paddingHorizontal="30dp"
                     android:orientation="vertical">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_gravity="center"
                         android:src="@drawable/icon_map" />
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="지도"
+                        android:textSize="14sp"
+                        android:paddingTop="4dp"
                         android:textColor="#9d917d"
-                        android:layout_gravity="center"/>
+                        android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/detailReviewBtn"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="30dp"
                     android:orientation="vertical">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_gravity="center"
                         android:src="@drawable/icon_share" />
+
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="공유"
+                        android:gravity="center"
+                        android:text="리뷰쓰기"
+                        android:paddingTop="4dp"
                         android:textColor="#9d917d"
-                        android:layout_gravity="center"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/detailLikeBtn"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="30dp"
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_gravity="center"
                         android:src="@drawable/icon_like" />
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="즐겨찾기"
+                        android:paddingTop="4dp"
+                        android:textSize="14sp"
                         android:textColor="#9d917d"
-                        android:layout_gravity="center"/>
+                        android:gravity="center"/>
                 </LinearLayout>
 
             </LinearLayout>

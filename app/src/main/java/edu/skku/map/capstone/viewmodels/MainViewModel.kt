@@ -1,19 +1,12 @@
 package edu.skku.map.capstone.viewmodels
 
+import androidx.lifecycle.MutableLiveData
+
 class MainViewModel {
-    // Data
-    val c = Cafe()
 
-    // Delegate / MutableLiveData
-
-    fun fetchData() {
-        // API code
-    }
-}
-
-class Cafe {
 
 }
+
 
 //MVC(Model, View Controller) 평소 하던거
 //MVP

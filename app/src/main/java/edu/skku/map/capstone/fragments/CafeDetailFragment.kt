@@ -8,16 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.databinding.FragmentCafeListBinding
 import edu.skku.map.capstone.models.Cafe
 import edu.skku.map.capstone.viewmodels.HomeViewModel
 
-class CafeDetailFragment(_cafe: Cafe) : Fragment() {
+class CafeDetailFragment(private val cafe: Cafe, private val phase: MutableLiveData<Int>) : Fragment() {
     private var _binding: FragmentCafeDetailBinding? = null
     private val binding get() = _binding!!
-    private val cafe = _cafe
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -99,6 +99,10 @@ class CafeDetailFragment(_cafe: Cafe) : Fragment() {
         binding.backBtn.setOnClickListener {
             val parentFragment: HomeFragment = parentFragment as HomeFragment
             parentFragment.onCafeDetailClosed()
+        }
+        binding.detailReviewBtn.setOnClickListener {
+            Log.d("dialog", "reviewBtn clicked")
+            phase.postValue(1)
         }
     }
 

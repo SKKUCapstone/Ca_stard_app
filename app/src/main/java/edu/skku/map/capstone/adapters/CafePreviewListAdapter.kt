@@ -14,7 +14,7 @@ import edu.skku.map.capstone.databinding.ItemCafePreviewBinding
 import edu.skku.map.capstone.models.Cafe
 import edu.skku.map.capstone.viewholders.CafePreviewListViewholder
 
-class CafePreviewListAdapter(val context: Context, val onCafeClick: MutableLiveData<Cafe>): RecyclerView.Adapter<CafePreviewListViewholder>() {
+class CafePreviewListAdapter(val context: Context, private val onCafeClick: MutableLiveData<Cafe>): RecyclerView.Adapter<CafePreviewListViewholder>() {
     private var cafeList: List<Cafe> = listOf()
 
     @SuppressLint("NotifyDataSetChanged")
