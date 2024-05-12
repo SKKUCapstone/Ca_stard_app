@@ -1,43 +1,81 @@
 package edu.skku.map.capstone.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat.animate
+import androidx.lifecycle.MutableLiveData
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import edu.skku.map.capstone.R
+import edu.skku.map.capstone.adapters.CafePreviewListAdapter
+import edu.skku.map.capstone.adapters.MyCafeLikeListAdapter
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.databinding.FragmentMyCafeBinding
+import edu.skku.map.capstone.models.Cafe
+import edu.skku.map.capstone.viewmodels.HomeViewModel
+import edu.skku.map.capstone.viewmodels.MyCafeViewModel
 
 
 class MyCafeFragment : Fragment() {
     private var _binding: FragmentMyCafeBinding? = null
     private val binding get() = _binding!!
+    val viewModel = MyCafeViewModel()
+
+    // #2. 이런곳은 어떤가요?
+    private lateinit var cafeListAdapter: CafePreviewListAdapter
+    private val onCafeClick = MutableLiveData<Cafe>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyCafeBinding.inflate(inflater, container, false)
-        initPieChart()
+        viewModel.fetchCafes(null,null)
+        initUI()
+        observeDataList()
+
 
         return binding.root
+    }
+
+    private fun initUI() {
+        cafeListAdapter = CafePreviewListAdapter(requireContext(), onCafeClick)
+        binding.myCafeRecommendListRV.adapter = cafeListAdapter
+        binding.myCafeVisitedListRV.adapter = cafeListAdapter
+        initPieChart()
+    }
+
+    private fun observeDataList() {
+        viewModel.recommendCafeList.observe(viewLifecycleOwner) { recommendCafeList ->
+            cafeListAdapter.updateCafeList(recommendCafeList)
+        }
+        viewModel.visitedCafeList.observe(viewLifecycleOwner) { visitedCafeList ->
+            cafeListAdapter.updateCafeList(visitedCafeList)
+        }
     }
     private fun initPieChart(){
         binding.pieChart.setUsePercentValues(true)
         val reviewRatio = listOf(
-            PieEntry(25f,"깨끗해요"),
-            PieEntry(40f,"조용해요"),
-            PieEntry(35f,"넓어요"),
+            PieEntry(30f,"넓이"),
+            PieEntry(40f,"밝기"),
+            PieEntry(30f,"위생"),
+//            PieEntry(12.5f,"와이파이"),
+//            PieEntry(12.5f,"소음"),
+//            PieEntry(12.5f,"책상"),
+//            PieEntry(12.5f,"화장실"),
+//            PieEntry(12.5f,"넓이"),
             )
         val pieColors = listOf(
-            R.color.yellow,
-            R.color.green,
-            R.color.orange
+            resources.getColor(R.color.yellow, null),
+            resources.getColor(R.color.orange, null),
+            resources.getColor(R.color.green, null)
         )
         val dataSet = PieDataSet(reviewRatio, "preferences")
 
@@ -57,7 +95,7 @@ class MyCafeFragment : Fragment() {
         binding.pieChart.apply {
             data = PieData(dataSet)
             description.isEnabled = false
-            legend.isEnabled = true
+            legend.isEnabled = false
             isRotationEnabled = false
             holeRadius = 60f
             setTouchEnabled(false)
