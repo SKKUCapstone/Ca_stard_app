@@ -96,28 +96,6 @@
             >
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/recent_cafes"
-                android:layout_width="match_parent"
-                android:layout_height="63dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/mypagecard"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="20dp"
-                    android:text="최근 본 카페"
-                    android:textColor="#2C483D" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:layout_marginHorizontal="20dp"
-                    android:src="@drawable/arrow" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
                 android:id="@+id/personal_info_agreement"
                 android:layout_width="match_parent"
                 android:layout_height="63dp">
