@@ -12,9 +12,8 @@ import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.DialogReviewCommentBinding
 
-class ReviewDialogComment(activity: MainActivity, context: Context, private val phase: MutableLiveData<Int>):Dialog(context) {
+class ReviewDialogComment(private val activity: MainActivity, context: Context, private val phase: MutableLiveData<Int>):Dialog(context) {
     private lateinit var binding: DialogReviewCommentBinding
-    private val activity = activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DialogReviewCommentBinding.inflate(LayoutInflater.from(context))

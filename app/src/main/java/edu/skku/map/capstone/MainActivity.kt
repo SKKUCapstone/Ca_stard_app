@@ -21,11 +21,11 @@ import edu.skku.map.capstone.fragments.FavoriteFragment
 import edu.skku.map.capstone.fragments.HomeFragment
 import edu.skku.map.capstone.fragments.MyCafeFragment
 import edu.skku.map.capstone.fragments.MyPageFragment
+import edu.skku.map.capstone.viewmodels.ReviewViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
-    val reviewPhase = MutableLiveData(0)
     private var upperFragment: Fragment? = null
     private lateinit var homeFragment: HomeFragment
     private lateinit var favoriteFragment: FavoriteFragment
@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
     private var dialogCategory:ReviewDialogCategory? = null
     private var dialogRating:ReviewDialogRating? = null
     private var dialogComment:ReviewDialogComment? = null
-
+    var reviewViewModel: ReviewViewModel? = null
+    val reviewPhase= MutableLiveData(0)
 
     private val permissions = arrayOf(
         android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -52,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         setNavActions()
         setUI()
         observeReviewPhase()
-
     }
     private fun setUI(){
         homeFragment = HomeFragment()
@@ -124,9 +124,19 @@ class MainActivity : AppCompatActivity() {
                 activityResultLauncher.launch(permissions)
             }
         }
-        private fun createReviewInstance() {
+        private fun initReviewViewModel() {
+            reviewViewModel = ReviewViewModel()
+        }
+
+        private fun initCategoryDialog() {
             dialogCategory = ReviewDialogCategory(this, this, reviewPhase)
+        }
+
+        private fun initRatingDialog() {
             dialogRating = ReviewDialogRating(this,this, reviewPhase)
+        }
+
+        private fun initCommentDialog() {
             dialogComment = ReviewDialogComment(this,this, reviewPhase)
         }
 
@@ -143,22 +153,22 @@ class MainActivity : AppCompatActivity() {
                     dialogCategory = null
                 }
                 if(it == 1) {
-                    createReviewInstance()
+                    initReviewViewModel()
+                    initCategoryDialog()
                     Log.d("dialog","phase : 1")
-//                    dialogCategory!!.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
                     dialogCategory!!.show()
                 }
                 if(it == 2) {
                     Log.d("dialog","phase : 2")
-//                    dialogRating!!.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    initRatingDialog()
                     dialogRating!!.show()
                     dialogCategory!!.dismiss()
                 }
                 if(it == 3) {
                     Log.d("dialog","phase : 3")
-//                    dialogComment!!.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    initCommentDialog()
                     dialogComment!!.show()
-                    dialogComment!!.dismiss()
+                    dialogRating!!.dismiss()
                 }
             }
         }
