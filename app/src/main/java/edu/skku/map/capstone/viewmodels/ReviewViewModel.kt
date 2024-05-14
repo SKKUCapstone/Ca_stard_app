@@ -1,11 +1,17 @@
 package edu.skku.map.capstone.viewmodels
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.ColorStateList
+import android.util.Log
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.slider.Slider
+import edu.skku.map.capstone.R
+import edu.skku.map.capstone.models.Cafe
 
-class ReviewViewModel {
+class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
 
     //category phase
     val categorySelect = MutableLiveData(arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet"))
@@ -21,8 +27,13 @@ class ReviewViewModel {
     var toiletRating = 3
     var textInput = ""
 
+
+    fun onSubmitReview() {
+
+    }
+
     @SuppressLint("ResourceAsColor")
-    fun initSliderListeners(slider: Slider, textView: TextView, textState: Array<String>) {
+    fun initSliderListeners(id: String, slider: Slider, textView: TextView, textState: Array<String>) {
 
         slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {
@@ -37,12 +48,25 @@ class ReviewViewModel {
         slider.addOnChangeListener { slider, value, fromUser ->
             // Responds to when slider's value is changed
             textView.text = textState[value.toInt()]
-//            Log.d("slider", slider.trackActiveTintList.toString())
-//            if(value <= 3.0){
-//                slider.trackActiveTintList = ColorStateList(arrayOf(intArrayOf()), intArrayOf(R.drawable.trackcolor_yellow))
-//            } else {
-//                slider.trackActiveTintList = ColorStateList(arrayOf(intArrayOf()), intArrayOf(R.drawable.trackcolor_green))
-//            }
+            when(id) {
+                "capacity" -> capacityRating = value.toInt()
+                "bright" -> brightRating = value.toInt()
+                "clean" -> cleanRating = value.toInt()
+                "wifi" -> wifiRating = value.toInt()
+                "quiet" -> quietRating = value.toInt()
+                "tables" -> tablesRating = value.toInt()
+                "toilet" -> toiletRating = value.toInt()
+                "powerSocket" -> powerSocketRating = value.toInt()
+            }
+
+            Log.d("slider", slider.trackActiveTintList.toString())
+            if (value <= 1.0) {
+                slider.trackActiveTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.orange))
+            } else if (value <= 3.0) {
+                slider.trackActiveTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.yellow))
+            } else {
+                slider.trackActiveTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green))
+            }
 
         }
 

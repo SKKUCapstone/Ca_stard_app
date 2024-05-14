@@ -9,15 +9,15 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.DialogReviewCategoryBinding
 import edu.skku.map.capstone.viewmodels.ReviewViewModel
 
-class ReviewDialogCategory(private val activity: MainActivity,private val context: Context, private val phase: MutableLiveData<Int>):Dialog(context) {
+class ReviewDialogCategory(private val viewModel: ReviewViewModel,private val context: Context, private val phase: MutableLiveData<Int>):Dialog(context) {
     private lateinit var binding: DialogReviewCategoryBinding
-    private val viewModel = activity.reviewViewModel!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +34,11 @@ class ReviewDialogCategory(private val activity: MainActivity,private val contex
         setCancelable(true)
     }
     private fun setUI() {
-        val height = (activity.resources.displayMetrics.heightPixels * 0.90).toInt()
+        val height = (context.resources.displayMetrics.heightPixels * 0.65).toInt()
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, height)
         window?.setGravity(Gravity.BOTTOM)
+        binding.cafeIdTV.text = viewModel.cafe.cafeName
     }
 
     private fun setClickListener() {
@@ -120,7 +121,7 @@ class ReviewDialogCategory(private val activity: MainActivity,private val contex
             binding.toiletIV
         )
 
-        viewModel.categorySelect.observe(activity) { list->
+        viewModel.categorySelect.observe(context as LifecycleOwner) { list->
             categoryList.indices.forEach { idx ->
                 if (list.contains(categoryList[idx])) {
                     layoutList[idx].background = ContextCompat.getDrawable(context, R.drawable.categorychip)

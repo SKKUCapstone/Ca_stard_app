@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.KakaoMapSdk
-//import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.dialogs.ReviewDialogCategory
 import edu.skku.map.capstone.dialogs.ReviewDialogComment
@@ -21,6 +20,7 @@ import edu.skku.map.capstone.fragments.FavoriteFragment
 import edu.skku.map.capstone.fragments.HomeFragment
 import edu.skku.map.capstone.fragments.MyCafeFragment
 import edu.skku.map.capstone.fragments.MyPageFragment
+import edu.skku.map.capstone.models.Cafe
 import edu.skku.map.capstone.viewmodels.ReviewViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity() {
     private var dialogRating:ReviewDialogRating? = null
     private var dialogComment:ReviewDialogComment? = null
     var reviewViewModel: ReviewViewModel? = null
-    val reviewPhase= MutableLiveData(0)
+    var reviewingCafe = MutableLiveData<Cafe>(null)
+    val reviewPhase = MutableLiveData(0)
+
 
     private val permissions = arrayOf(
         android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         observeReviewPhase()
     }
     private fun setUI(){
+        supportActionBar?.hide()
         homeFragment = HomeFragment()
         supportFragmentManager.beginTransaction().add(binding.frameLayout.id, homeFragment).commit()
     }
@@ -124,20 +127,20 @@ class MainActivity : AppCompatActivity() {
                 activityResultLauncher.launch(permissions)
             }
         }
-        private fun initReviewViewModel() {
-            reviewViewModel = ReviewViewModel()
+        fun initReviewViewModel() {
+            reviewViewModel = ReviewViewModel(this, reviewingCafe.value!!)
         }
 
         private fun initCategoryDialog() {
-            dialogCategory = ReviewDialogCategory(this, this, reviewPhase)
+            dialogCategory = ReviewDialogCategory(reviewViewModel!!,this,  reviewPhase)
         }
 
         private fun initRatingDialog() {
-            dialogRating = ReviewDialogRating(this,this, reviewPhase)
+            dialogRating = ReviewDialogRating(reviewViewModel!!,this, reviewPhase)
         }
 
         private fun initCommentDialog() {
-            dialogComment = ReviewDialogComment(this,this, reviewPhase)
+            dialogComment = ReviewDialogComment(reviewViewModel!!,this, reviewPhase)
         }
 
         private fun observeReviewPhase() {
@@ -151,6 +154,7 @@ class MainActivity : AppCompatActivity() {
                     dialogRating = null
                     dialogComment = null
                     dialogCategory = null
+                    reviewingCafe.postValue(null)
                 }
                 if(it == 1) {
                     initReviewViewModel()

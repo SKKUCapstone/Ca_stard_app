@@ -16,3 +16,14 @@ interface RetrofitService {
         @Query("radius") radius: Int
     ): Call<ResponseBody>
 }
+
+//interface RetrofitService {
+//    @GET("cafe/list")
+//    fun getCafes(
+//        @Header("Authorization") restApiKey: String,
+//        @Query("category_group_code") categoryGroupCode: String,
+//        @Query("x") x: String,
+//        @Query("y") y: String,
+//        @Query("radius") radius: Int
+//    ): Call<ResponseBody>
+//}

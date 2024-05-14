@@ -50,6 +50,7 @@ class HomeViewModel() {
     fun fetchCafes(lat:Double?, lng: Double?) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://dapi.kakao.com/")
+//            .baseUrl("https://43.201.119.249:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(RetrofitService::class.java)

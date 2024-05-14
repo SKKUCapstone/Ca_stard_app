@@ -287,11 +287,11 @@
 
     <Button
         android:id="@+id/nextBtn"
-        android:background="@drawable/reviewbutton_next"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:background="@drawable/green_r8"
         android:text="다음으로"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/cancelButton"

@@ -175,7 +175,7 @@ class HomeFragment() : Fragment() {
 
     fun onCafeDetailOpen(cafe:Cafe){
         onCafeDetailClosed() //remove possibly existing detailFragment
-        viewModel.cafeDetailFragment = CafeDetailFragment(cafe, (requireActivity() as MainActivity).reviewPhase)
+        viewModel.cafeDetailFragment = CafeDetailFragment(cafe,(requireActivity() as MainActivity).reviewingCafe, (requireActivity() as MainActivity).reviewPhase)
 
         childFragmentManager.beginTransaction().apply {
             add(binding.childFL.id, viewModel.cafeDetailFragment as Fragment).commit()

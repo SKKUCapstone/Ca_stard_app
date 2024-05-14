@@ -13,11 +13,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.DialogReviewRatingBinding
+import edu.skku.map.capstone.viewmodels.ReviewViewModel
 
-class ReviewDialogRating(activity: MainActivity, context: Context, private val phase: MutableLiveData<Int>):Dialog(context) {
+class ReviewDialogRating(private val viewModel: ReviewViewModel, context: Context, private val phase: MutableLiveData<Int>):Dialog(context) {
     private lateinit var binding: DialogReviewRatingBinding
-    private val activity = activity
-    private val viewModel = activity.reviewViewModel!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DialogReviewRatingBinding.inflate(LayoutInflater.from(context))
@@ -34,10 +33,11 @@ class ReviewDialogRating(activity: MainActivity, context: Context, private val p
     }
 
     private fun setUI() {
-        val height = (activity.resources.displayMetrics.heightPixels * 0.90).toInt()
+        val height = (context.resources.displayMetrics.heightPixels * 0.65).toInt()
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, height)
         window?.setGravity(Gravity.BOTTOM)
+        binding.cafeIdTV.text = viewModel.cafe.cafeName
         if(!viewModel.categorySelect.value!!.contains("capacity")) {
             binding.ratingCapacity.visibility = View.GONE
         }
@@ -75,7 +75,7 @@ class ReviewDialogRating(activity: MainActivity, context: Context, private val p
 
     private fun setSliderListener() {
         viewModel.initSliderListeners(
-            binding.capacitySlider, binding.capacityTV, arrayOf(
+            "capacity",binding.capacitySlider, binding.capacityTV, arrayOf(
                 "",
                 "공간이 협소해요",
                 "살짝 좁아요",
@@ -85,7 +85,7 @@ class ReviewDialogRating(activity: MainActivity, context: Context, private val p
             )
         )
         viewModel.initSliderListeners(
-            binding.brightSlider, binding.brightTV, arrayOf(
+            "bright", binding.brightSlider, binding.brightTV, arrayOf(
                 "",
                 "공간이 협소해요",
                 "살짝 좁아요",
@@ -95,7 +95,7 @@ class ReviewDialogRating(activity: MainActivity, context: Context, private val p
             )
         )
         viewModel.initSliderListeners(
-            binding.cleanSlider, binding.cleanTV, arrayOf(
+            "clean", binding.cleanSlider, binding.cleanTV, arrayOf(
                 "",
                 "공간이 협소해요",
                 "살짝 좁아요",
@@ -105,7 +105,7 @@ class ReviewDialogRating(activity: MainActivity, context: Context, private val p
             )
         )
         viewModel.initSliderListeners(
-            binding.wifiSlider, binding.wifiTV, arrayOf(
+            "wifi", binding.wifiSlider, binding.wifiTV, arrayOf(
                 "",
                 "공간이 협소해요",
                 "살짝 좁아요",
@@ -115,7 +115,7 @@ class ReviewDialogRating(activity: MainActivity, context: Context, private val p
             )
         )
         viewModel.initSliderListeners(
-            binding.quietSlider, binding.quietTV, arrayOf(
+            "quiet", binding.quietSlider, binding.quietTV, arrayOf(
                 "",
                 "공간이 협소해요",
                 "살짝 좁아요",
@@ -125,7 +125,7 @@ class ReviewDialogRating(activity: MainActivity, context: Context, private val p
             )
         )
         viewModel.initSliderListeners(
-            binding.tablesSlider, binding.tablesTV, arrayOf(
+            "tables", binding.tablesSlider, binding.tablesTV, arrayOf(
                 "",
                 "공간이 협소해요",
                 "살짝 좁아요",
@@ -135,7 +135,7 @@ class ReviewDialogRating(activity: MainActivity, context: Context, private val p
             )
         )
         viewModel.initSliderListeners(
-            binding.toiletSlider, binding.toiletTV, arrayOf(
+            "toilet", binding.toiletSlider, binding.toiletTV, arrayOf(
                 "",
                 "공간이 협소해요",
                 "살짝 좁아요",
@@ -145,7 +145,7 @@ class ReviewDialogRating(activity: MainActivity, context: Context, private val p
             )
         )
         viewModel.initSliderListeners(
-            binding.powerSocketSlider, binding.powerSocketTV, arrayOf(
+            "powerSocket", binding.powerSocketSlider, binding.powerSocketTV, arrayOf(
                 "",
                 "공간이 협소해요",
                 "살짝 좁아요",
