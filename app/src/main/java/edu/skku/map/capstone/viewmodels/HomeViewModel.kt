@@ -40,7 +40,7 @@ class HomeViewModel() {
     lateinit var activity: Activity
     private val DEFAULT_LAT = 37.402005
     private val DEFAULT_LNG = 127.108621
-    private val DEFAULT_RADIUS = 500
+    private val DEFAULT_RADIUS = 20000
 
     init {
         _liveCafeList.value = listOf()
@@ -50,6 +50,7 @@ class HomeViewModel() {
     fun fetchCafes(lat:Double?, lng: Double?) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://dapi.kakao.com/")
+//            .baseUrl("https://43.201.119.249:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(RetrofitService::class.java)
@@ -80,6 +81,7 @@ class HomeViewModel() {
                         val cafe = Cafe(cafeJsonObject)
                         newCafeList.add(cafe)
                     }
+                    Log.d("cafe","fetched cafe:"+newCafeList.toString())
                     _liveCafeList.value = newCafeList
                 }
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

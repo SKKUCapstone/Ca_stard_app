@@ -10,7 +10,7 @@ import edu.skku.map.capstone.viewholders.ReviewChipListViewholder
 class ReviewChipListAdapter(val context: Context, private val reviewList: ArrayList<String>):RecyclerView.Adapter<ReviewChipListViewholder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewChipListViewholder {
         val binding = ItemReviewChipBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return ReviewChipListViewholder(context ,binding)
+        return ReviewChipListViewholder(context, binding)
     }
 
     override fun getItemCount(): Int {

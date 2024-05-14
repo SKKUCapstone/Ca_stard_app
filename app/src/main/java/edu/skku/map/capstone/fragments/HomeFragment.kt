@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
@@ -20,28 +21,46 @@ import com.kakao.vectormap.label.LabelManager
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
+import com.kakao.vectormap.label.LabelTransition
 import com.kakao.vectormap.label.LodLabel
 import com.kakao.vectormap.label.LodLabelLayer
+import com.kakao.vectormap.label.Transition
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.models.Cafe
 import edu.skku.map.capstone.viewmodels.HomeViewModel
-import edu.skku.map.capstone.viewmodels.MainViewModel
 
 
-class HomeFragment() : Fragment() {
+class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     val viewModel = HomeViewModel()
     lateinit var kakaoMap: KakaoMap
+    private var currentLabel:Label? = null
     private lateinit var camera: CameraPosition
-    var currentLabel: Label? = null
     private lateinit var labelManager: LabelManager
     private lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var lodLabels: Array<LodLabel>
     val DEFAULT_LAT = 37.402005
     val DEFAULT_LNG = 127.108621
+
+    private val lodLabelStyleIDDefault = LabelStyles.from(
+        LabelStyle.from(R.drawable.defaultcafepin)
+            .setZoomLevel(0)
+            .setIconTransition(LabelTransition.from(Transition.Alpha,Transition.None)),
+        LabelStyle.from(R.drawable.defaultcafepin)
+            .setTextStyles(25,R.color.black).setZoomLevel(17)
+            .setIconTransition(LabelTransition.from(Transition.Alpha,Transition.None))
+    )
+    private val lodLabelStyleIDClicked = LabelStyles.from(
+        LabelStyle.from(R.drawable.defaultcafepin_clicked)
+            .setZoomLevel(0)
+            .setIconTransition(LabelTransition.from(Transition.Alpha,Transition.None)),
+        LabelStyle.from(R.drawable.defaultcafepin_clicked)
+            .setTextStyles(25,R.color.black).setZoomLevel(17)
+            .setIconTransition(LabelTransition.from(Transition.Alpha,Transition.None))
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +75,7 @@ class HomeFragment() : Fragment() {
         initKakaoMap()
         viewModel.fetchCurrentLocation()
         viewModel.fetchCafes(null,null)
+        observeReviewingCafe()
         return binding.root
     }
 
@@ -94,7 +114,7 @@ class HomeFragment() : Fragment() {
             val newPos = kakaoMap.cameraPosition?.position
             if(newPos != null) {
                 viewModel.fetchCafes(newPos.latitude, newPos.longitude)
-                updateCafeLabels()
+//                updateCafeLabels()
             }
         }
     }
@@ -127,15 +147,15 @@ class HomeFragment() : Fragment() {
         val pos:LatLng = LatLng.from(lat, lng)
         val labelStyle: LabelStyle = LabelStyle.from(R.drawable.mypin)
         val labelStyles: LabelStyles = labelManager.addLabelStyles(LabelStyles.from(labelStyle))!!
-        val labelOptions:LabelOptions = LabelOptions.from(pos).setStyles(labelStyles)
+        val labelOptions: LabelOptions = LabelOptions.from(pos).setStyles(labelStyles)
         return labelManager.layer!!.addLabel(labelOptions)
     }
-    private fun createCafeLabel(lat:Double, lng:Double) { //for test
-        val style:LabelStyles = LabelStyles.from(LabelStyle.from(R.drawable.defaultcafepin))
-        val options:LabelOptions = LabelOptions.from(LatLng.from(lat, lng)).setStyles(style)
-        val layer = kakaoMap.labelManager!!.lodLayer
-        val label = layer!!.addLodLabel(options)
-    }
+//    private fun createCafeLabel(lat:Double, lng:Double) { //for test
+//        val style:LabelStyles = LabelStyles.from(LabelStyle.from(R.drawable.defaultcafepin_clicked))
+//        val options:LabelOptions = LabelOptions.from(LatLng.from(lat, lng)).setStyles(style)
+//        val layer = kakaoMap.labelManager!!.lodLayer
+//        val label = layer!!.addLodLabel(options)
+//    }
     private fun updateCafeLabels() {
         if(!::kakaoMap.isInitialized) {
             Log.d("label", "kakaomap not initialized")
@@ -146,9 +166,16 @@ class HomeFragment() : Fragment() {
         }
         val layer = kakaoMap.labelManager!!.lodLayer
         layer?.removeAll()
-        val style:LabelStyles = LabelStyles.from(LabelStyle.from(R.drawable.defaultcafepin))
-        val options:List<LabelOptions> = viewModel.liveCafeList.value!!.map { LabelOptions.from(LatLng.from(it.latitude!!, it.longitude!!)).setStyles(style) }
-        Log.d("label","options: "+options.toString())
+
+        val clickedCafe = (requireActivity() as MainActivity).reviewingCafe.value
+
+        val options = viewModel.liveCafeList.value!!
+            .map { LabelOptions
+                .from(LatLng.from(it.latitude!!, it.longitude!!))
+                .setStyles(if(clickedCafe == it) lodLabelStyleIDDefault else lodLabelStyleIDClicked)
+                .setTexts(it.cafeName)
+                .setTag(it.cafeId)
+            }
         lodLabels = layer!!.addLodLabels(options)
     }
     private fun setLabelClickListener(){
@@ -159,16 +186,16 @@ class HomeFragment() : Fragment() {
         )
         kakaoMap.setOnLodLabelClickListener(
             fun (kakaoMap: KakaoMap, layer: LodLabelLayer, label: LodLabel){
-                Log.d("cafe", "$label label clicked")
-                label.changeStyles(LabelStyles.from(LabelStyle.from(R.drawable.defaultcafepin_clicked)),true)
-                onCafeDetailOpen(getCafeByLabelId(label.labelId))
+                val clickedCafe = getCafeByLabelId(label.labelId)
+                (requireActivity() as MainActivity).reviewingCafe.postValue(clickedCafe)
+                onCafeDetailOpen(clickedCafe)
             }
         )
     }
 
     fun onCafeDetailOpen(cafe:Cafe){
         onCafeDetailClosed() //remove possibly existing detailFragment
-        viewModel.cafeDetailFragment = CafeDetailFragment(cafe, (requireActivity() as MainActivity).reviewPhase)
+        viewModel.cafeDetailFragment = CafeDetailFragment(cafe,(requireActivity() as MainActivity).reviewingCafe, (requireActivity() as MainActivity).reviewPhase)
 
         childFragmentManager.beginTransaction().apply {
             add(binding.childFL.id, viewModel.cafeDetailFragment as Fragment).commit()
@@ -178,7 +205,6 @@ class HomeFragment() : Fragment() {
             BottomSheetBehavior.from(binding.bottomSheet).state =
                 BottomSheetBehavior.STATE_HALF_EXPANDED
         }
-
     }
     fun onCafeDetailClosed() {
         //there was no detailfragment
@@ -200,11 +226,9 @@ class HomeFragment() : Fragment() {
     }
 
     private fun observeCafeList() {
-        viewModel.liveCafeList.observe(viewLifecycleOwner) { cafeList ->
-            cafeList?.let {
-                updateCafeLabels()
+        viewModel.liveCafeList.observe(viewLifecycleOwner) {
+                if(it != null) updateCafeLabels()
             }
-        }
     }
 
     private fun observeLocation() {
@@ -216,6 +240,13 @@ class HomeFragment() : Fragment() {
             currentLabel!!.moveTo(LatLng.from(lat,lng))
         }
         moveCamera(lat,lng)
+    }
+
+    private fun observeReviewingCafe() {
+        (requireActivity() as MainActivity).reviewingCafe.observe(context as LifecycleOwner) {
+            updateCafeLabels()
+            if (it !== null) moveCamera(it.latitude!!,it.longitude!!)
+        }
     }
 }
 

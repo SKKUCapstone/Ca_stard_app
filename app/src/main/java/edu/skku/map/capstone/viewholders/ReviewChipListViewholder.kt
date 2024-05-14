@@ -35,7 +35,7 @@ class ReviewChipListViewholder(val context:Context, var binding:ItemReviewChipBi
                     binding.reviewChipTV.text ="와이파이가 빨라요"
                     binding.reviewChipTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context,R.drawable.icon_wifi_resize),null,null,null)
                 }
-                "table" -> {
+                "tables" -> {
                     binding.reviewChipTV.text ="책상이 넓어요"
                     binding.reviewChipTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context,R.drawable.icon_table_resize),null,null,null)
                 }

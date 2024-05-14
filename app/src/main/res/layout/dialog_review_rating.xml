@@ -5,16 +5,8 @@
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
     android:orientation="vertical"
+    android:padding="20dp"
     android:background="@drawable/review_dialog">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
-        android:text="오늘 방문하셨나요?" />
 
     <TextView
         android:id="@+id/cafeIdTV"
@@ -25,24 +17,563 @@
         android:gravity="center"
         android:text="스타벅스 정자점" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="40dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/rating_capacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/icon_capacity"
+                        app:tint="#70000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="넓이" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/capacitySlider"
+                        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:stepSize="1.0"
+                        android:valueFrom="0.0"
+                        android:valueTo="5.0"
+                        android:value="4.0"
+                        app:trackHeight="12dp"
+                        app:tickColor="@color/white"
+                        app:tickRadiusActive="3dp"
+                        app:tickRadiusInactive="3dp"
+                        app:thumbColor="@color/white"
+                        app:thumbStrokeColor="#2C483D"
+                        app:thumbStrokeWidth="4.3dp"
+                        app:trackColorActive="@color/green"
+                        app:trackColorInactive="#D5CEC6"
+                        app:labelBehavior="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/capacityTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:textSize="14sp"
+                        android:text="공간이 협소해요" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/rating_bright"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/icon_bright"
+                        app:tint="#70000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="밝기" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/brightSlider"
+                        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:stepSize="1.0"
+                        android:valueFrom="0.0"
+                        android:valueTo="5.0"
+                        android:value="4.0"
+                        app:trackHeight="12dp"
+                        app:tickColor="@color/white"
+                        app:tickRadiusActive="3dp"
+                        app:tickRadiusInactive="3dp"
+                        app:thumbColor="@color/white"
+                        app:thumbStrokeColor="#2C483D"
+                        app:thumbStrokeWidth="4.3dp"
+                        app:trackColorActive="@color/green"
+                        app:trackColorInactive="#D5CEC6"
+                        app:labelBehavior="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/brightTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:textSize="14sp"
+                        android:text="공간이 협소해요" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/rating_clean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/icon_clean"
+                        app:tint="#70000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="위생" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/cleanSlider"
+                        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:stepSize="1.0"
+                        android:valueFrom="0.0"
+                        android:valueTo="5.0"
+                        android:value="4.0"
+                        app:trackHeight="12dp"
+                        app:tickColor="@color/white"
+                        app:tickRadiusActive="3dp"
+                        app:tickRadiusInactive="3dp"
+                        app:thumbColor="@color/white"
+                        app:thumbStrokeColor="#2C483D"
+                        app:thumbStrokeWidth="4.3dp"
+                        app:trackColorActive="@color/green"
+                        app:trackColorInactive="#D5CEC6"
+                        app:labelBehavior="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/cleanTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:textSize="14sp"
+                        android:text="공간이 협소해요" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/rating_wifi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/icon_wifi"
+                        app:tint="#70000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="와이파이" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/wifiSlider"
+                        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:stepSize="1.0"
+                        android:valueFrom="0.0"
+                        android:valueTo="5.0"
+                        android:value="4.0"
+                        app:trackHeight="12dp"
+                        app:tickColor="@color/white"
+                        app:tickRadiusActive="3dp"
+                        app:tickRadiusInactive="3dp"
+                        app:thumbColor="@color/white"
+                        app:thumbStrokeColor="#2C483D"
+                        app:thumbStrokeWidth="4.3dp"
+                        app:trackColorActive="@color/green"
+                        app:trackColorInactive="#D5CEC6"
+                        app:labelBehavior="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/wifiTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:textSize="14sp"
+                        android:text="공간이 협소해요" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/rating_quiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/icon_quiet"
+                        app:tint="#70000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="소음" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/quietSlider"
+                        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:stepSize="1.0"
+                        android:valueFrom="0.0"
+                        android:valueTo="5.0"
+                        android:value="4.0"
+                        app:trackHeight="12dp"
+                        app:tickColor="@color/white"
+                        app:tickRadiusActive="3dp"
+                        app:tickRadiusInactive="3dp"
+                        app:thumbColor="@color/white"
+                        app:thumbStrokeColor="#2C483D"
+                        app:thumbStrokeWidth="4.3dp"
+                        app:trackColorActive="@color/green"
+                        app:trackColorInactive="#D5CEC6"
+                        app:labelBehavior="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/quietTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:textSize="14sp"
+                        android:text="공간이 협소해요" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/rating_tables"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/icon_tables"
+                        app:tint="#70000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="책상" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/tablesSlider"
+                        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:stepSize="1.0"
+                        android:valueFrom="0.0"
+                        android:valueTo="5.0"
+                        android:value="4.0"
+                        app:trackHeight="12dp"
+                        app:tickColor="@color/white"
+                        app:tickRadiusActive="3dp"
+                        app:tickRadiusInactive="3dp"
+                        app:thumbColor="@color/white"
+                        app:thumbStrokeColor="#2C483D"
+                        app:thumbStrokeWidth="4.3dp"
+                        app:trackColorActive="@color/green"
+                        app:trackColorInactive="#D5CEC6"
+                        app:labelBehavior="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/tablesTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:textSize="14sp"
+                        android:text="공간이 협소해요" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/rating_toilet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/icon_toilet"
+                        app:tint="#70000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="화장실" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/toiletSlider"
+                        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:stepSize="1.0"
+                        android:valueFrom="0.0"
+                        android:valueTo="5.0"
+                        android:value="4.0"
+                        app:trackHeight="12dp"
+                        app:tickColor="@color/white"
+                        app:tickRadiusActive="3dp"
+                        app:tickRadiusInactive="3dp"
+                        app:thumbColor="@color/white"
+                        app:thumbStrokeColor="#2C483D"
+                        app:thumbStrokeWidth="4.3dp"
+                        app:trackColorActive="@color/green"
+                        app:trackColorInactive="#D5CEC6"
+                        app:labelBehavior="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/toiletTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:textSize="14sp"
+                        android:text="공간이 협소해요" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/rating_powerSocket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/icon_powersocket"
+                        app:tint="#70000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="콘센트" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/powerSocketSlider"
+                        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:stepSize="1.0"
+                        android:valueFrom="0.0"
+                        android:valueTo="5.0"
+                        android:value="4.0"
+                        app:trackHeight="12dp"
+                        app:tickColor="@color/white"
+                        app:tickRadiusActive="3dp"
+                        app:tickRadiusInactive="3dp"
+                        app:thumbColor="@color/white"
+                        app:thumbStrokeColor="#2C483D"
+                        app:thumbStrokeWidth="4.3dp"
+                        app:trackColorActive="@color/green"
+                        app:trackColorInactive="#D5CEC6"
+                        app:labelBehavior="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/powerSocketTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:textSize="14sp"
+                        android:text="공간이 협소해요" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 
     <Button
         android:id="@+id/nextBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="다음으로" />
+        android:layout_height="56dp"
+        android:background="@drawable/green_r8"
+        android:text="다음으로"
+        android:textColor="@color/white" />
+
 
     <Button
-        android:id="@+id/cancelButton"
+        android:id="@+id/cancelBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="후기 다음에 남기기" />
+        android:background="#00ff0000"
+        android:text="후기 다음에 남기기"
+        android:textColor="@color/gray" />
 </LinearLayout>

@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.KakaoMapSdk
-//import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.dialogs.ReviewDialogCategory
 import edu.skku.map.capstone.dialogs.ReviewDialogComment
@@ -21,12 +20,12 @@ import edu.skku.map.capstone.fragments.FavoriteFragment
 import edu.skku.map.capstone.fragments.HomeFragment
 import edu.skku.map.capstone.fragments.MyCafeFragment
 import edu.skku.map.capstone.fragments.MyPageFragment
-import edu.skku.map.capstone.viewmodels.MainViewModel
+import edu.skku.map.capstone.models.Cafe
+import edu.skku.map.capstone.viewmodels.ReviewViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
-    val reviewPhase = MutableLiveData(0)
     private var upperFragment: Fragment? = null
     private lateinit var homeFragment: HomeFragment
     private lateinit var favoriteFragment: FavoriteFragment
@@ -36,6 +35,9 @@ class MainActivity : AppCompatActivity() {
     private var dialogCategory:ReviewDialogCategory? = null
     private var dialogRating:ReviewDialogRating? = null
     private var dialogComment:ReviewDialogComment? = null
+    var reviewViewModel: ReviewViewModel? = null
+    var reviewingCafe = MutableLiveData<Cafe>(null)
+    val reviewPhase = MutableLiveData(0)
 
 
     private val permissions = arrayOf(
@@ -53,9 +55,9 @@ class MainActivity : AppCompatActivity() {
         setNavActions()
         setUI()
         observeReviewPhase()
-
     }
     private fun setUI(){
+        supportActionBar?.hide()
         homeFragment = HomeFragment()
         supportFragmentManager.beginTransaction().add(binding.frameLayout.id, homeFragment).commit()
     }
@@ -125,10 +127,20 @@ class MainActivity : AppCompatActivity() {
                 activityResultLauncher.launch(permissions)
             }
         }
-        private fun createReviewInstance() {
-            dialogCategory = ReviewDialogCategory(this, this, reviewPhase)
-            dialogRating = ReviewDialogRating(this,this, reviewPhase)
-            dialogComment = ReviewDialogComment(this,this, reviewPhase)
+        fun initReviewViewModel() {
+            reviewViewModel = ReviewViewModel(this, reviewingCafe.value!!)
+        }
+
+        private fun initCategoryDialog() {
+            dialogCategory = ReviewDialogCategory(reviewViewModel!!,this,  reviewPhase)
+        }
+
+        private fun initRatingDialog() {
+            dialogRating = ReviewDialogRating(reviewViewModel!!,this, reviewPhase)
+        }
+
+        private fun initCommentDialog() {
+            dialogComment = ReviewDialogComment(reviewViewModel!!,this, reviewPhase)
         }
 
         private fun observeReviewPhase() {
@@ -142,21 +154,25 @@ class MainActivity : AppCompatActivity() {
                     dialogRating = null
                     dialogComment = null
                     dialogCategory = null
+                    reviewingCafe.postValue(null)
                 }
                 if(it == 1) {
-                    createReviewInstance()
+                    initReviewViewModel()
+                    initCategoryDialog()
                     Log.d("dialog","phase : 1")
                     dialogCategory!!.show()
                 }
                 if(it == 2) {
                     Log.d("dialog","phase : 2")
+                    initRatingDialog()
                     dialogRating!!.show()
                     dialogCategory!!.dismiss()
                 }
                 if(it == 3) {
                     Log.d("dialog","phase : 3")
-                    dialogRating!!.show()
-                    dialogComment!!.dismiss()
+                    initCommentDialog()
+                    dialogComment!!.show()
+                    dialogRating!!.dismiss()
                 }
             }
         }

@@ -9,13 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.MutableLiveData
+import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.databinding.FragmentCafeListBinding
 import edu.skku.map.capstone.models.Cafe
 import edu.skku.map.capstone.viewmodels.HomeViewModel
 
-class CafeDetailFragment(private val cafe: Cafe, private val phase: MutableLiveData<Int>) : Fragment() {
+class CafeDetailFragment(private val cafe: Cafe,private val reviewingCafe: MutableLiveData<Cafe>, private val phase: MutableLiveData<Int>) : Fragment() {
     private var _binding: FragmentCafeDetailBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -99,9 +100,11 @@ class CafeDetailFragment(private val cafe: Cafe, private val phase: MutableLiveD
         binding.backBtn.setOnClickListener {
             val parentFragment: HomeFragment = parentFragment as HomeFragment
             parentFragment.onCafeDetailClosed()
+            (activity as MainActivity).reviewingCafe.postValue(null)
         }
         binding.detailReviewBtn.setOnClickListener {
             Log.d("dialog", "reviewBtn clicked")
+            reviewingCafe.postValue(cafe)
             phase.postValue(1)
         }
     }
