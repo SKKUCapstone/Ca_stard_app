@@ -57,6 +57,7 @@ class ReviewDialogComment(private val viewModel: ReviewViewModel, context: Conte
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             binding.textLenTV.text = "${s!!.length}/$MAX_TEXTLEN"
+            viewModel.textReview = binding.commentET.text.toString().trim()
             if(s.length >= MAX_TEXTLEN) {
                 binding.textLenTV.setTextColor(context.getColor(R.color.red))
             }

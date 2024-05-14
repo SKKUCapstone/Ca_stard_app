@@ -14,7 +14,8 @@ import edu.skku.map.capstone.models.Cafe
 class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
 
     //category phase
-    val categorySelect = MutableLiveData(arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet"))
+//    val categorySelect = MutableLiveData(arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet"))
+    val categorySelect = MutableLiveData(arrayListOf("wifi","quiet","tables","powerSocket"))
 
     //rating phase
     var capacityRating = 3
@@ -25,7 +26,7 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
     var tablesRating = 3
     var powerSocketRating = 3
     var toiletRating = 3
-    var textInput = ""
+    var textReview = ""
 
 
     fun onSubmitReview() {

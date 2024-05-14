@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.MutableLiveData
+import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.databinding.FragmentCafeListBinding
@@ -99,6 +100,7 @@ class CafeDetailFragment(private val cafe: Cafe,private val reviewingCafe: Mutab
         binding.backBtn.setOnClickListener {
             val parentFragment: HomeFragment = parentFragment as HomeFragment
             parentFragment.onCafeDetailClosed()
+            (activity as MainActivity).reviewingCafe.postValue(null)
         }
         binding.detailReviewBtn.setOnClickListener {
             Log.d("dialog", "reviewBtn clicked")

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.adapters.CafePreviewListAdapter
 import edu.skku.map.capstone.databinding.FragmentCafeListBinding
 import edu.skku.map.capstone.models.Cafe
@@ -50,8 +51,6 @@ class CafeListFragment() : Fragment() {
     private fun observeCafeList() {
         viewModel.liveCafeList.observe(viewLifecycleOwner) { cafeList ->
             cafeList?.let {
-//                cafeListAdapter = CafePreviewListAdapter(requireActivity(), it)
-//                binding.cafeListRV.adapter = cafeListAdapter
                 cafeListAdapter.updateCafeList(it)
             }
         }
@@ -60,6 +59,7 @@ class CafeListFragment() : Fragment() {
         onCafeClick.observe(viewLifecycleOwner) {
             Log.d("cafe click", it.toString())
             (parentFragment as HomeFragment).onCafeDetailOpen(it)
+            ((parentFragment as HomeFragment).activity as MainActivity).reviewingCafe.postValue(it)
         }
     }
 
