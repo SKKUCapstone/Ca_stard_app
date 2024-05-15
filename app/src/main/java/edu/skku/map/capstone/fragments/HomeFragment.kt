@@ -1,9 +1,11 @@
 package edu.skku.map.capstone.fragments
+import android.graphics.Color
 import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +24,13 @@ import com.kakao.vectormap.camera.CameraAnimation
 import com.kakao.vectormap.camera.CameraPosition
 import com.kakao.vectormap.camera.CameraUpdateFactory
 import com.kakao.vectormap.label.Label
+import com.kakao.vectormap.label.LabelIconStyle
 import com.kakao.vectormap.label.LabelLayer
 import com.kakao.vectormap.label.LabelManager
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
+import com.kakao.vectormap.label.LabelTextStyle
 import com.kakao.vectormap.label.LabelTransition
 import com.kakao.vectormap.label.LodLabel
 import com.kakao.vectormap.label.LodLabelLayer
@@ -85,7 +89,7 @@ class HomeFragment : Fragment() {
     private val lodLabelStyleIDClicked = LabelStyles.from(
         LabelStyle.from(R.drawable.defaultcafepin_clicked)
             .setZoomLevel(0)
-            .setTextStyles(25,R.color.black)
+            .setTextStyles(LabelTextStyle.from(35,Color.BLACK,3, Color.WHITE))
             .setIconTransition(LabelTransition.from(Transition.None,Transition.None))
     )
 
