@@ -48,18 +48,18 @@ class HomeFragment : Fragment() {
     private val lodLabelStyleIDDefault = LabelStyles.from(
         LabelStyle.from(R.drawable.defaultcafepin)
             .setZoomLevel(0)
-            .setIconTransition(LabelTransition.from(Transition.Alpha,Transition.None)),
+            .setIconTransition(LabelTransition.from(Transition.None,Transition.None)),
         LabelStyle.from(R.drawable.defaultcafepin)
             .setTextStyles(25,R.color.black).setZoomLevel(17)
-            .setIconTransition(LabelTransition.from(Transition.Alpha,Transition.None))
+            .setIconTransition(LabelTransition.from(Transition.None,Transition.None))
     )
     private val lodLabelStyleIDClicked = LabelStyles.from(
         LabelStyle.from(R.drawable.defaultcafepin_clicked)
             .setZoomLevel(0)
-            .setIconTransition(LabelTransition.from(Transition.Alpha,Transition.None)),
+            .setIconTransition(LabelTransition.from(Transition.None,Transition.None)),
         LabelStyle.from(R.drawable.defaultcafepin_clicked)
             .setTextStyles(25,R.color.black).setZoomLevel(17)
-            .setIconTransition(LabelTransition.from(Transition.Alpha,Transition.None))
+            .setIconTransition(LabelTransition.from(Transition.None,Transition.None))
     )
 
     override fun onCreateView(
@@ -172,7 +172,7 @@ class HomeFragment : Fragment() {
         val options = viewModel.liveCafeList.value!!
             .map { LabelOptions
                 .from(LatLng.from(it.latitude!!, it.longitude!!))
-                .setStyles(if(clickedCafe == it) lodLabelStyleIDDefault else lodLabelStyleIDClicked)
+                .setStyles(if(clickedCafe != it) lodLabelStyleIDDefault else lodLabelStyleIDClicked)
                 .setTexts(it.cafeName)
                 .setTag(it.cafeId)
             }
@@ -187,7 +187,9 @@ class HomeFragment : Fragment() {
         kakaoMap.setOnLodLabelClickListener(
             fun (kakaoMap: KakaoMap, layer: LodLabelLayer, label: LodLabel){
                 val clickedCafe = getCafeByLabelId(label.labelId)
-                (requireActivity() as MainActivity).reviewingCafe.postValue(clickedCafe)
+                val reviewingCafe = (requireActivity() as MainActivity).reviewingCafe
+                if(clickedCafe == reviewingCafe.value) return
+                reviewingCafe.postValue(clickedCafe)
                 onCafeDetailOpen(clickedCafe)
             }
         )
