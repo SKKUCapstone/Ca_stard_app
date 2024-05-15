@@ -6,8 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -55,15 +54,247 @@
                 android:contentDescription="GPS" />
         </LinearLayout>
 
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/capacityBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/categorychip"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="10dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="6dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/capacityIV"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="9dp"
+                        android:src="@drawable/icon_capacity" />
+
+                    <TextView
+                        android:id="@+id/capacityTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:text="매장이 넓어요" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/brightBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/categorychip"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="10dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="6dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/brightIV"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="9dp"
+                        android:src="@drawable/icon_bright"/>
+
+                    <TextView
+                        android:id="@+id/brightTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:text="매장이 밝아요" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/cleanBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/categorychip"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="10dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="6dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/cleanIV"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="9dp"
+                        android:src="@drawable/icon_clean"/>
+
+                    <TextView
+                        android:id="@+id/cleanTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="깨끗해요"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/wifiBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/categorychip"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="10dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="6dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/wifiIV"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="9dp"
+                        android:src="@drawable/icon_wifi"/>
+
+                    <TextView
+                        android:id="@+id/wifiTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:text="와이파이가 빨라요" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/quietBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/categorychip"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="10dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="6dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/quietIV"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="9dp"
+                        android:src="@drawable/icon_quiet"/>
+
+                    <TextView
+                        android:id="@+id/quietTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:text="조용해요" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/tablesBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/categorychip"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="10dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="6dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/tablesIV"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="9dp"
+                        android:src="@drawable/icon_tables"/>
+
+                    <TextView
+                        android:id="@+id/tablesTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:text="책상이 편해요" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/powerSocketBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/categorychip"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="10dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="6dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/powerSocketIV"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="9dp"
+                        android:src="@drawable/icon_powersocket"/>
+
+                    <TextView
+                        android:id="@+id/powerSocketTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:text="충전이 가능해요" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/toiletBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/categorychip"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="10dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="6dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/toiletIV"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="9dp"
+                        android:src="@drawable/icon_toilet"/>
+
+                    <TextView
+                        android:id="@+id/toiletTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:text="화장실이 쾌적해요" />
+                </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
         <Button
             android:id="@+id/relocateBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="90dp"
+            android:visibility="gone"
             android:text="여기에서 재검색"
+            android:background="@drawable/white_s2g_c"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,7 +324,7 @@
             android:id="@+id/childFL"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/scrollBarCV"

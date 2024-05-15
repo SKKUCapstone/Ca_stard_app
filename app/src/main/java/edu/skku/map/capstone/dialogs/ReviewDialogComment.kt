@@ -27,7 +27,7 @@ class ReviewDialogComment(private val viewModel: ReviewViewModel, context: Conte
         setModalOptions()
         setUI()
         setClickListener()
-        setTextChangeListener()
+        listenEditText()
     }
 
     private fun setModalOptions() {
@@ -52,23 +52,20 @@ class ReviewDialogComment(private val viewModel: ReviewViewModel, context: Conte
             phase.postValue(0)
         }
     }
-    val textWatcher:TextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding.textLenTV.text = "${s!!.length}/$MAX_TEXTLEN"
-            viewModel.textReview = binding.commentET.text.toString().trim()
-            if(s.length >= MAX_TEXTLEN) {
-                binding.textLenTV.setTextColor(context.getColor(R.color.red))
+    private fun listenEditText() {
+        binding.commentET.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.textLenTV.text = "${s!!.length}/$MAX_TEXTLEN"
+                viewModel.textReview = binding.commentET.text.toString().trim()
+                if(s.length >= MAX_TEXTLEN) {
+                    binding.textLenTV.setTextColor(context.getColor(R.color.red))
+                }
+                else binding.textLenTV.setTextColor(context.getColor(R.color.black))
             }
-            else binding.textLenTV.setTextColor(context.getColor(R.color.black))
-        }
-
-        override fun afterTextChanged(s: Editable?) { }
+            override fun afterTextChanged(s: Editable?) { }
+        })
     }
-
-    private fun setTextChangeListener() {
-        binding.commentET.addTextChangedListener(textWatcher)
-    }
-
 }

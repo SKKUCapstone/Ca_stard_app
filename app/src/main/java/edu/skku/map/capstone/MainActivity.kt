@@ -1,6 +1,7 @@
 package edu.skku.map.capstone
 
 import android.content.pm.PackageManager
+import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         homeFragment = HomeFragment()
         supportFragmentManager.beginTransaction().add(binding.frameLayout.id, homeFragment).commit()
+        binding.homeIcon.isActivated = true
     }
 
     private fun removeUpperFragment() {
@@ -78,6 +80,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.homeBtn.setOnClickListener {
             removeUpperFragment()
+            binding.homeIcon.isActivated = true
+            binding.favIcon.isActivated = false
+            binding.myCafeIcon.isActivated = false
+            binding.myPageIcon.isActivated = false
         }
 
         binding.favBtn.setOnClickListener {
@@ -87,6 +93,10 @@ class MainActivity : AppCompatActivity() {
                 add(binding.frameLayout.id, favoriteFragment).commit()
             }
             upperFragment = favoriteFragment
+            binding.homeIcon.isActivated = false
+            binding.favIcon.isActivated = true
+            binding.myCafeIcon.isActivated = false
+            binding.myPageIcon.isActivated = false
         }
 
         binding.myCafeBtn.setOnClickListener {
@@ -96,6 +106,10 @@ class MainActivity : AppCompatActivity() {
                 add(binding.frameLayout.id, myCafeFragment).commit()
             }
             upperFragment = myCafeFragment
+            binding.homeIcon.isActivated = false
+            binding.favIcon.isActivated = false
+            binding.myCafeIcon.isActivated = true
+            binding.myPageIcon.isActivated = false
         }
 
         binding.myPageBtn.setOnClickListener {
@@ -105,6 +119,10 @@ class MainActivity : AppCompatActivity() {
                 add(binding.frameLayout.id, myPageFragment).commit()
             }
             upperFragment = myPageFragment
+            binding.homeIcon.isActivated = false
+            binding.favIcon.isActivated = false
+            binding.myCafeIcon.isActivated = false
+            binding.myPageIcon.isActivated = true
         }
     }
         private fun setActivityResultLauncher() {
@@ -127,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                 activityResultLauncher.launch(permissions)
             }
         }
-        fun initReviewViewModel() {
+        private fun initReviewViewModel() {
             reviewViewModel = ReviewViewModel(this, reviewingCafe.value!!)
         }
 
@@ -176,7 +194,4 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-
-
 }

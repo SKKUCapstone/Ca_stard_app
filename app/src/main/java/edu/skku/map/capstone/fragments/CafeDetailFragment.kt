@@ -16,7 +16,7 @@ import edu.skku.map.capstone.databinding.FragmentCafeListBinding
 import edu.skku.map.capstone.models.Cafe
 import edu.skku.map.capstone.viewmodels.HomeViewModel
 
-class CafeDetailFragment(private val cafe: Cafe,private val reviewingCafe: MutableLiveData<Cafe>, private val phase: MutableLiveData<Int>) : Fragment() {
+class CafeDetailFragment(private val cafe: Cafe,private val reviewingCafe: MutableLiveData<Cafe>, private val phase: MutableLiveData<Int>, private val pullDownBottomSheet: MutableLiveData<Boolean>) : Fragment() {
     private var _binding: FragmentCafeDetailBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -106,6 +106,12 @@ class CafeDetailFragment(private val cafe: Cafe,private val reviewingCafe: Mutab
             Log.d("dialog", "reviewBtn clicked")
             reviewingCafe.postValue(cafe)
             phase.postValue(1)
+        }
+        binding.detailMapBtn.setOnClickListener {
+            pullDownBottomSheet.postValue(true)
+        }
+        binding.detailLikeBtn.setOnClickListener {
+
         }
     }
 
