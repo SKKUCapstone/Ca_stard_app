@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:background="@color/white"
         android:layout_marginBottom="100dp"
-        tools:context=".fragments.CafeDetailFragment">
+        tools:context=".view.home.detail.CafeDetailFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

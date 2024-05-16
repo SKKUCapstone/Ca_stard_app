@@ -6,7 +6,7 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MyPageFragment"
+    tools:context=".view.mypage.MyPageFragment"
     android:background="@color/white">
 
 

@@ -1,7 +1,6 @@
 package edu.skku.map.capstone
 
 import android.content.pm.PackageManager
-import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -14,15 +13,15 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.KakaoMapSdk
 import edu.skku.map.capstone.databinding.ActivityMainBinding
-import edu.skku.map.capstone.dialogs.ReviewDialogCategory
-import edu.skku.map.capstone.dialogs.ReviewDialogComment
-import edu.skku.map.capstone.dialogs.ReviewDialogRating
-import edu.skku.map.capstone.fragments.FavoriteFragment
-import edu.skku.map.capstone.fragments.HomeFragment
-import edu.skku.map.capstone.fragments.MyCafeFragment
-import edu.skku.map.capstone.fragments.MyPageFragment
-import edu.skku.map.capstone.models.Cafe
-import edu.skku.map.capstone.viewmodels.ReviewViewModel
+import edu.skku.map.capstone.view.dialog.review.category.ReviewDialogCategory
+import edu.skku.map.capstone.view.dialog.review.comment.ReviewDialogComment
+import edu.skku.map.capstone.view.dialog.review.rating.ReviewDialogRating
+import edu.skku.map.capstone.view.favorite.FavoriteFragment
+import edu.skku.map.capstone.view.home.HomeFragment
+import edu.skku.map.capstone.view.mycafe.MyCafeFragment
+import edu.skku.map.capstone.view.mypage.MyPageFragment
+import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.view.dialog.review.ReviewViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -33,9 +32,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var myCafeFragment: MyCafeFragment
     private lateinit var myPageFragment: MyPageFragment
 
-    private var dialogCategory:ReviewDialogCategory? = null
-    private var dialogRating:ReviewDialogRating? = null
-    private var dialogComment:ReviewDialogComment? = null
+    private var dialogCategory: ReviewDialogCategory? = null
+    private var dialogRating: ReviewDialogRating? = null
+    private var dialogComment: ReviewDialogComment? = null
     var reviewViewModel: ReviewViewModel? = null
     var reviewingCafe = MutableLiveData<Cafe>(null)
     val reviewPhase = MutableLiveData(0)

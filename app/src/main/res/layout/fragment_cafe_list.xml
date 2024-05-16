@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="100dp"
     android:background="#FBFAF9"
-    tools:context=".fragments.CafeListFragment">
+    tools:context=".view.home.cafelist.CafeListFragment">
 
     <TextView
         android:id="@+id/myLocationTV"

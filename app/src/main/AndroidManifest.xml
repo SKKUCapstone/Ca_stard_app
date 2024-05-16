@@ -29,10 +29,10 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".view.splash.SplashActivity"
             android:exported="false" />
 
         <meta-data
