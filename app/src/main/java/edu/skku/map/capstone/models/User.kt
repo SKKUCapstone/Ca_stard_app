@@ -1,8 +1,15 @@
 package edu.skku.map.capstone.models
 
+import com.google.gson.annotations.SerializedName
+
 data class User(
-    val id: Long,
-    var userName: String,
-    val favorite: ArrayList<Favorite>,
-    val recentView:ArrayList<Long>
+    @SerializedName("id")val id: Long,
+    @SerializedName("userName")var userName: String,
+    @SerializedName("email")var email: String,
+    @SerializedName("reviews")val favorite: ArrayList<Favorite>,
 )
+
+
+
+
+

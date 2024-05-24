@@ -1,8 +1,14 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.gradle.internal.impldep.software.amazon.ion.impl.PrivateIonConstants.True
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+}
+
+// local.properties 내부에서 key값을 가져오는 함수 구현
+fun getApiKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir).getProperty(propertyKey)
 }
 
 android {
@@ -17,6 +23,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+//        // API KEY
+//        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getApiKey("KAKAO_NATIVE_APP_KEY"))
+//        buildConfigField("String", "KAKAO_REST_API_KEY", getApiKey("KAKAO_REST_API_KEY"))
+//        buildConfigField("String", "KAKAO_JAVASCRIPT_KEY", getApiKey("KAKAO_JAVASCRIPT_KEY"))
+//        buildConfigField("String", "KAKAO_ADMIN_KEY", getApiKey("KAKAO_ADMIN_KEY"))
     }
 
     buildTypes {
@@ -50,7 +62,8 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation("com.kakao.maps.open:android:2.9.5")
+    implementation("com.kakao.maps.open:android:2.9.5") // 카카오 지도
+    implementation ("com.kakao.sdk:v2-user:2.20.1") // 카카오 로그인 API 모듈
     implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

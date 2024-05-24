@@ -4,6 +4,208 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F6F4F1"
     tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+
+        app:layout_constraintEnd_toEndOf="@+id/rightGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="카공의 스탠다드"
+            android:textColor="@color/darkGreen"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="카스타드를 시작하세요!"
+            android:textColor="@color/darkGreen"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <EditText
+            android:id="@+id/val_login_email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/login_text"
+            android:ems="10"
+            android:hint="이메일을 입력하세요"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/castardLightBrown"
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/val_login_password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/login_text"
+            android:ems="10"
+            android:hint="비밀번호를 입력하세요"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/castardLightBrown"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/btn_find_password"
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_text"
+            android:paddingVertical="2dp"
+            android:stateListAnimator="@null"
+            android:text="비밀번호를 잊으셨나요?"
+            android:textColor="#9D917D"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btn_kakaologin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/darkgreen_r8"
+            android:text="로그인"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:gravity="center|center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+        <TextView
+            android:layout_width="144dp"
+            android:layout_height="1dp"
+            android:layout_marginRight="9dp"
+            android:background="@color/castardLightBrown"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="14dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Or"
+            android:textColor="@color/castardLightBrown"
+            android:textSize="13dp" />
+
+        <TextView
+            android:layout_width="144dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="9dp"
+            android:background="@color/castardLightBrown"
+            android:gravity="center_horizontal" />
+    </LinearLayout>
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="100dp"-->
+
+<!--        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/leftGuideline"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="144dp"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="@color/castardLightBrown"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView9"-->
+<!--            android:layout_width="18dp"-->
+<!--            android:layout_height="14dp"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:text="Or"-->
+<!--            android:textColor="@color/castardLightBrown"-->
+<!--            android:textSize="13dp"-->
+<!--            tools:layout_editor_absoluteY="4dp" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="144dp"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="@color/castardLightBrown"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/textView9"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+
+        <Button
+            android:id="@+id/btnEmailLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/email_login"
+            android:text="이메일로 회원가입하기"
+            android:textColor="@color/darkGreen" />
+
+        <Button
+            android:id="@+id/btnKakaoLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/kakao_login"
+            android:textColor="@color/darkGreen" />
+
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04136253" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

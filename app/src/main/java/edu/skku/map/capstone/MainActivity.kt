@@ -1,5 +1,7 @@
 package edu.skku.map.capstone
 
+import android.content.Intent
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
@@ -12,6 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import com.kakao.sdk.auth.AuthApiClient
+import com.kakao.sdk.user.UserApiClient
 import com.kakao.vectormap.KakaoMapSdk
 import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.dialogs.ReviewDialogCategory
@@ -50,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        kakaoLogout()
+        checkLoginStatus()
         KakaoMapSdk.init(this, "09e7ce580fee2dc13ec5d24c66cd8238")
         setActivityResultLauncher()
         resolvePermission(permissions)
@@ -194,4 +200,41 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    private fun kakaoLogout () {
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            }
+            else {
+                Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+            }
+        }
+    }
+
+    private fun checkLoginStatus() {
+        if(AuthApiClient.instance.hasToken()) {
+            // 로그인 정보 확인
+            UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+                // 로그인 필요
+                if (error != null) {
+                    Toast.makeText(this, "토큰 실패", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                    finish()
+                }
+                // 토큰 유효성 체크 성공 (필요 시 토큰 갱신됨)
+                else if (tokenInfo != null) {
+                    // 백엔드 Login Post
+
+                    Toast.makeText(this, "토큰 성공", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+        }
+        // 로그인 필요
+            else {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+    }
 }
