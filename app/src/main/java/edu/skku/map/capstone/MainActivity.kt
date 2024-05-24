@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
     var reviewingCafe = MutableLiveData<Cafe>(null)
     val reviewPhase = MutableLiveData(0)
 
-
     private val permissions = arrayOf(
         android.Manifest.permission.ACCESS_FINE_LOCATION,
         android.Manifest.permission.ACCESS_COARSE_LOCATION

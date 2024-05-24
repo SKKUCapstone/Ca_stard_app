@@ -2,12 +2,18 @@ package edu.skku.map.capstone.view.home.cafelist
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.transition.Visibility
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.transition.VisibilityPropagation
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.FragmentCafeListBinding
 import edu.skku.map.capstone.models.cafe.Cafe
@@ -41,7 +47,6 @@ class CafeListFragment() : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun initUI() {
         cafeListAdapter = CafeListAdapter(requireParentFragment().requireContext(), onCafeClick)
-
         Log.d("cafe", "default cafe list:" + viewModel.liveCafeList.value.toString())
         binding.cafeListRV.adapter = cafeListAdapter
     }
@@ -49,6 +54,14 @@ class CafeListFragment() : Fragment() {
         viewModel.liveCafeList.observe(viewLifecycleOwner) { cafeList ->
             cafeList?.let {
                 cafeListAdapter.updateCafeList(it)
+            }
+            if(cafeList.isEmpty()){
+                binding.cafeListRV.visibility = RecyclerView.GONE
+                binding.noDataView.visibility = LinearLayout.VISIBLE
+            }
+            else{
+                binding.cafeListRV.visibility = RecyclerView.VISIBLE
+                binding.noDataView.visibility = LinearLayout.GONE
             }
         }
     }

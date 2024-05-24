@@ -31,7 +31,7 @@ class MyCafeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyCafeBinding.inflate(inflater, container, false)
-        viewModel.fetchCafes(null,null)
+//        viewModel.fetchCafes(null,null)
         initUI()
         observeDataList()
 

@@ -4,34 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="100dp"
     android:background="#FBFAF9"
+    android:paddingBottom="100dp"
     tools:context=".view.home.cafelist.CafeListFragment">
 
     <TextView
         android:id="@+id/myLocationTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="용인시 기흥구"
         android:layout_marginTop="20dp"
-        android:textSize="16sp"
         android:background="@drawable/chip"
+        android:text="용인시 기흥구"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/yourPreferCafeTV"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/yourPreferCafeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
         android:text="정환님이 좋아할만한 근처 카페"
         android:textSize="20sp"
-        android:layout_marginVertical="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/myLocationTV"
-        app:layout_constraintBottom_toTopOf="@id/cafeListRV"/>
+        app:layout_constraintTop_toBottomOf="@id/myLocationTV" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -44,7 +43,50 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yourPreferCafeTV" >
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/yourPreferCafeTV"/>
+
+    <LinearLayout
+        android:id="@+id/noDataView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yourPreferCafeTV">
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/notice" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:gravity="center"
+            android:text="근처에 매장이 없습니다!"
+            android:textColor="#9D917D"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="근처 매장을 발견하면 알려드릴게요"
+            android:textColor="#D5CEC6"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="415dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

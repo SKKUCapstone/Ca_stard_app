@@ -1,5 +1,6 @@
 package edu.skku.map.capstone.view.home.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.view.ReviewActivity
 import edu.skku.map.capstone.view.home.HomeFragment
 
 class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: MutableLiveData<Cafe>, private val phase: MutableLiveData<Int>, private val pullDownBottomSheet: MutableLiveData<Boolean>) : Fragment() {
@@ -99,6 +101,8 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
             (activity as MainActivity).reviewingCafe.postValue(null)
         }
         binding.detailReviewBtn.setOnClickListener {
+//            val intent = Intent(requireActivity(), ReviewActivity::class.java)
+//            startActivity(intent)
             Log.d("dialog", "reviewBtn clicked")
             reviewingCafe.postValue(cafe)
             phase.postValue(1)

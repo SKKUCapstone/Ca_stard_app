@@ -24,20 +24,16 @@ class CafeListAdapter(val context: Context, private val onCafeClick: MutableLive
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CafeListViewholder {
         val binding = ItemCafePreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-
         val flexboxLayoutManager = FlexboxLayoutManager(context)
         flexboxLayoutManager.flexDirection = FlexDirection.ROW
         flexboxLayoutManager.flexWrap = FlexWrap.WRAP
         flexboxLayoutManager.justifyContent = JustifyContent.FLEX_START
         binding.reviewChipRV.layoutManager = flexboxLayoutManager
-
         return CafeListViewholder(context, binding)
     }
-
     override fun getItemCount(): Int {
         return cafeList.size
     }
-
     override fun onBindViewHolder(holder: CafeListViewholder, position: Int) {
         val cafe = cafeList[position]
         holder.bind(cafe)
@@ -46,3 +42,4 @@ class CafeListAdapter(val context: Context, private val onCafeClick: MutableLive
         }
     }
 }
+

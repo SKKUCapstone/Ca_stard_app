@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.kakao.vectormap.GestureType
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -40,6 +41,7 @@ import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
@@ -73,7 +75,6 @@ class HomeFragment : Fragment() {
     private val myCoroutineContext: CoroutineContext
         get() = Dispatchers.IO + myCoroutineJob
 
-
     private val lodLabelStyleIDDefault = LabelStyles.from(
         LabelStyle.from(R.drawable.defaultcafepin)
             .setZoomLevel(0)
@@ -98,11 +99,12 @@ class HomeFragment : Fragment() {
         setClickListener()
         initKakaoMap()
         viewModel.fetchCurrentLocation()
-        viewModel.fetchCafes(null,null)
+        viewModel.fetchCafes(null,null, viewModel.radius)
         observeReviewingCafe()
         observeBottomSheet()
         listenEditText()
         observeFilter()
+        viewModel.observeSearchText()
         return binding.root
     }
 
@@ -154,7 +156,7 @@ class HomeFragment : Fragment() {
         binding.relocateBtn.setOnClickListener {
             val newPos = kakaoMap.cameraPosition?.position
             if(newPos != null) {
-                viewModel.fetchCafes(newPos.latitude, newPos.longitude)
+                viewModel.fetchCafes(newPos.latitude, newPos.longitude, viewModel.radius)
                 updateCafeLabels()
             }
         }
@@ -202,12 +204,16 @@ class HomeFragment : Fragment() {
 
     private fun listenCamera() {
         kakaoMap.setOnCameraMoveEndListener { kakaoMap, position, gestureType ->
-
-            val dist = viewModel.calculateDistance(position.position, viewModel.liveLatLng.value!!)
-            Log.d("camera",dist.toString())
-            if(dist >= 1.0) {
-                Log.d("camera",position.position.toString())
-                binding.relocateBtn.visibility = View.VISIBLE
+            if(gestureType == GestureType.Pan) {
+                val dist =
+                    viewModel.calculateDistance(position.position, viewModel.liveLatLng.value!!)
+                if (dist >= 1.0) {
+                    Log.d("camera", position.position.toString())
+                    binding.relocateBtn.visibility = View.VISIBLE
+                }
+            }
+            else if(gestureType == GestureType.Zoom) {
+                Log.d("camera", "zoomLevel: "+kakaoMap.zoomLevel)
             }
         }
     }
@@ -344,7 +350,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
+    @OptIn(DelicateCoroutinesApi::class, FlowPreview::class)
     private fun listenEditText() {
         GlobalScope.launch(context = myCoroutineContext) {
             val editTextFlow = binding.searchET.textChangesToFlow()
@@ -352,7 +358,7 @@ class HomeFragment : Fragment() {
                 .debounce(700)
                 .filter { it?.trim()?.isNotEmpty()!! }
                 .onEach {
-                    viewModel.search(it.toString().trim())
+                    viewModel.searchText.postValue(it.toString().trim())
                 }
                 .launchIn(this)
             }
