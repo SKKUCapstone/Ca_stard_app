@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="마이페이지"
-                android:textColor="#2C483D"
+                android:textColor="@color/darkGreen"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="UserName"
-            android:textColor="#2C483D"
+            android:textColor="@color/darkGreen"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="UserEmail@email.com"
-            android:textColor="#9D917D"
+            android:textColor="@color/notRecommend"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +94,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userEmail"
             >
+            <androidx.cardview.widget.CardView
+                android:id="@+id/change_userData"
+                android:layout_width="match_parent"
+                android:layout_height="63dp">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/mypagecard"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp"
+                    android:text="회원정보 수정"
+                    android:textColor="@color/darkGreen" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="20dp"
+                    android:src="@drawable/arrow" />
+            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/personal_info_agreement"
                 android:layout_width="match_parent"
@@ -107,7 +127,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="개인정보 처리방침"
-                    android:textColor="#2C483D" />
+                    android:textColor="@color/darkGreen" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -127,7 +147,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="서비스 이용약관"
-                    android:textColor="#2C483D" />
+                    android:textColor="@color/darkGreen" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -148,7 +168,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="위치기반서비스 이용약관"
-                    android:textColor="#2C483D" />
+                    android:textColor="@color/darkGreen" />
 
                 <ImageView
                     android:id="@+id/card_arrow4"
@@ -157,6 +177,28 @@
                     android:layout_gravity="end"
                     android:layout_marginHorizontal="20dp"
                     android:src="@drawable/arrow" />
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="63dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/mypagecard"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp"
+                    android:text="로그아웃"
+                    android:textColor="@color/notRecommend" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="20dp"
+                    android:src="@drawable/arrow" />
+
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/unregister"
@@ -170,7 +212,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="회원탈퇴"
-                    android:textColor="#2C483D" />
+                    android:textColor="@color/notRecommend" />
 
                 <ImageView
                     android:layout_width="15dp"
