@@ -10,6 +10,15 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.slider.Slider
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.util.RetrofitService
+import edu.skku.map.capstone.util.ReviewDTO
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
 
@@ -29,8 +38,46 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
     var textReview = ""
 
 
-    fun onSubmitReview() {
+    fun onSubmitReview(cafe: Cafe, capacity:Int?, bright:Int?, clean:Int?, wifi:Int?, quiet:Int?, tables:Int?, powerSocket:Int?, toilet:Int?, comment:String?) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(context.getString(R.string.base_url))
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(RetrofitService::class.java)
 
+        service
+            .postReview(
+                body = ReviewDTO(
+                    userId = 1,
+                    cafeId = cafe.cafeId,
+                    cafeName = cafe.cafeName?:"",
+                    address = cafe.address?:"",
+                    phone = cafe.phone?:"",
+                    latitude = cafe.latitude,
+                    longitude = cafe.longitude,
+                    capacity = capacity,
+                    bright = bright,
+                    quiet = quiet,
+                    wifi = wifi,
+                    tables = tables,
+                    toilet = toilet,
+                    clean = clean,
+                    powerSocket = powerSocket,
+                    comment = comment
+                )
+            )
+            .enqueue(object : Callback<ResponseBody> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    Log.d("review",response.toString())
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("cafe", "failed to post review: ${t.localizedMessage}")
+                }
+            })
     }
 
     @SuppressLint("ResourceAsColor")

@@ -56,8 +56,7 @@ class HomeViewModel() {
     }
 
     fun fetchCafes(lat:Double?, lng: Double?, radius: Int) {
-        var filter = ""
-        filterCategory.value?.forEach { filter += it }
+        val filter:String? = filterCategory.value?.joinToString(separator = ",")
 
         val retrofit = Retrofit.Builder()
 //            .baseUrl("https://dapi.kakao.com/")
@@ -67,7 +66,6 @@ class HomeViewModel() {
         val service = retrofit.create(RetrofitService::class.java)
 
         Log.d("cafe","fetching cafes from (${lat?.toString()?:DEFAULT_LNG.toString()},${lng?.toString()?:DEFAULT_LAT.toString()})")
-
 //        service
 //            .getCafes(
 //                "KakaoAK f1c681d34107bd5d150c0bc5bd616975",
@@ -81,7 +79,8 @@ class HomeViewModel() {
                 (lng?:DEFAULT_LNG).toString(),
                 (lat?:DEFAULT_LAT).toString(),
                 radius,
-                if(searchText.value == "") null else searchText.value,
+                filter,
+                if(searchText.value!!.trim() == "") null else searchText.value,
             )
             .enqueue(object : Callback<ResponseBody> {
                 @SuppressLint("NotifyDataSetChanged")
@@ -97,8 +96,8 @@ class HomeViewModel() {
                     for (i in 0 until cafeData.length()) {
                         val cafeJsonObject = cafeData.getJSONObject(i)
                         Log.d("cafe", cafeJsonObject.toString())
-//                        val cafe = Cafe(cafeJsonObject)
-//                        newCafeList.add(cafe)
+                        val cafe = Cafe(cafeJsonObject)
+                        newCafeList.add(cafe)
                     }
                     Log.d("cafe","total ${newCafeList.size} cafe fetched:"+newCafeList.toString())
                     _liveCafeList.value = newCafeList

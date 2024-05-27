@@ -35,7 +35,10 @@ class MainActivity : AppCompatActivity() {
     private var dialogCategory: ReviewDialogCategory? = null
     private var dialogRating: ReviewDialogRating? = null
     private var dialogComment: ReviewDialogComment? = null
-    var reviewViewModel: ReviewViewModel? = null
+
+    var favoriteCafeList = MutableLiveData<ArrayList<Cafe>>(arrayListOf<Cafe>())
+
+    private var reviewViewModel: ReviewViewModel? = null
     var reviewingCafe = MutableLiveData<Cafe>(null)
     val reviewPhase = MutableLiveData(0)
 

@@ -19,5 +19,4 @@ class FavoriteFragment : Fragment() {
         return binding.root
     }
 
-
 }

@@ -43,7 +43,18 @@ class ReviewDialogComment(private val viewModel: ReviewViewModel, context: Conte
 
     private fun setClickListener() {
         binding.nextBtn.setOnClickListener {
-            viewModel.onSubmitReview()
+            viewModel.onSubmitReview(
+                cafe = viewModel.cafe,
+                capacity = viewModel.capacityRating,
+                quiet = viewModel.quietRating,
+                wifi = viewModel.wifiRating,
+                tables = viewModel.tablesRating,
+                toilet = viewModel.toiletRating,
+                clean = viewModel.cleanRating,
+                powerSocket = viewModel.powerSocketRating,
+                bright = viewModel.brightRating,
+                comment = viewModel.textReview
+            )
             phase.postValue((phase.value!!+1) % 4)
         }
         binding.cancelButton.setOnClickListener {
