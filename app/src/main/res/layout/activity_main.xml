@@ -23,10 +23,9 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingVertical="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/frameLayout"
         app:layout_constraintStart_toStartOf="@id/frameLayout"
@@ -43,8 +42,8 @@
 
             <ImageView
                 android:id="@+id/homeIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center"
                 android:src="@drawable/navbutton_home" />
 
@@ -53,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
+                android:textSize="12sp"
                 android:text="홈" />
         </LinearLayout>
 
@@ -66,8 +66,8 @@
 
             <ImageView
                 android:id="@+id/favIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center"
                 android:src="@drawable/navbutton_favorite" />
 
@@ -75,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:textSize="12sp"
                 android:gravity="center"
                 android:text="즐겨찾기" />
         </LinearLayout>
@@ -89,8 +90,8 @@
 
             <ImageView
                 android:id="@+id/myCafeIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center"
                 android:src="@drawable/navbutton_mycafe" />
 
@@ -99,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
+                android:textSize="12sp"
                 android:text="My 카페" />
         </LinearLayout>
 
@@ -112,8 +114,8 @@
 
             <ImageView
                 android:id="@+id/myPageIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center"
                 android:src="@drawable/navbutton_mypage" />
 
@@ -122,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
+                android:textSize="12sp"
                 android:text="마이페이지" />
         </LinearLayout>
 
