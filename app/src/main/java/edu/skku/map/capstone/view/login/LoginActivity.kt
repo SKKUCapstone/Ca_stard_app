@@ -1,9 +1,12 @@
 package edu.skku.map.capstone.view.login
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.UserManager
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -13,7 +16,22 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import edu.skku.map.capstone.MainActivity
+import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.ActivityLoginBinding
+import edu.skku.map.capstone.models.favorite.Favorite
+import edu.skku.map.capstone.models.user.LoginRequest
+import edu.skku.map.capstone.models.user.UserData
+import edu.skku.map.capstone.models.user.UserData.Companion.favorite
+import edu.skku.map.capstone.models.user.UserData.Companion.id
+import edu.skku.map.capstone.util.RetrofitService
+import edu.skku.map.capstone.util.ReviewDTO
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding:ActivityLoginBinding
@@ -27,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.refreshToken}")
-            printUserData()
+            fetchUserData()
             navigateMainActivity()
 
             finish()
@@ -69,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.refreshToken}")
-                        printUserData()
+                        fetchUserData()
                         navigateMainActivity()
                     }
                 }
@@ -83,16 +101,63 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun printUserData() {
+    private fun fetchUserData() {
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Log.e(TAG, "사용자 정보 요청 실패", error)
             }
             else if (user != null) {
+                val email = user.kakaoAccount?.email ?: ""
+                val username = user.kakaoAccount?.profile?.nickname ?: ""
                 Log.i(TAG, "사용자 정보 요청 성공" +
-                    "\n이메일: ${user.kakaoAccount?.email}" +
-                    "\n닉네임: ${user.kakaoAccount?.profile?.nickname}")
+                    "\n이메일: ${email}" +
+                    "\n닉네임: ${username}")
+
+                val retrofit = Retrofit.Builder()
+                    .baseUrl("http://43.201.119.249:8080/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                val service = retrofit.create(RetrofitService::class.java)
+
+                service
+                    .login(
+                        body = LoginRequest(
+                            email = email,
+                            username = username,
+                        )
+                    )
+                    .enqueue(object : Callback<ResponseBody> {
+                        @SuppressLint("NotifyDataSetChanged")
+                        override fun onResponse(
+                            call: Call<ResponseBody>,
+                            response: Response<ResponseBody>
+                        ) {
+                            if(response.isSuccessful) {
+                                Log.d("loginResponse", "백엔드와 통신완료")
+                                val body = response.body()!!
+                                val jsonObject = JSONObject(body.string())
+
+                                val id = jsonObject.getString("id")
+                                val email = jsonObject.getString("email")
+                                val username = jsonObject.getString("userName")
+//                                val favorite: ArrayList<Favorite> = jsonObject.getJSONArray("reviews") as  ArrayList<Favorite>
+                                Log.d("loginResponse", "ID: ${id}, Email: ${email}, Username: ${username}")
+                                // UserManager에 데이터 저장
+                                UserData.id = id
+                                UserData.email = email
+                                UserData.username = username
+                                UserData.favorite = favorite
+
+                            }
+                            
+                        }
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Log.d("login", "failed to login: ${t.localizedMessage}")
+                        }
+                    })
             }
         }
     }
+
+
 }
