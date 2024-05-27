@@ -101,63 +101,66 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun fetchUserData() {
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error)
-            }
-            else if (user != null) {
-                val email = user.kakaoAccount?.email ?: ""
-                val username = user.kakaoAccount?.profile?.nickname ?: ""
-                Log.i(TAG, "사용자 정보 요청 성공" +
-                    "\n이메일: ${email}" +
-                    "\n닉네임: ${username}")
+    companion object {
+        fun fetchUserData() {
+            UserApiClient.instance.me { user, error ->
+                if (error != null) {
+                    Log.e(TAG, "사용자 정보 요청 실패", error)
+                }
+                else if (user != null) {
+                    val email = user.kakaoAccount?.email ?: ""
+                    val username = user.kakaoAccount?.profile?.nickname ?: ""
+                    Log.i(TAG, "사용자 정보 요청 성공" +
+                            "\n이메일: ${email}" +
+                            "\n닉네임: ${username}")
 
-                val retrofit = Retrofit.Builder()
-                    .baseUrl("http://43.201.119.249:8080/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                val service = retrofit.create(RetrofitService::class.java)
+                    val retrofit = Retrofit.Builder()
+                        .baseUrl("http://43.201.119.249:8080/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                    val service = retrofit.create(RetrofitService::class.java)
 
-                service
-                    .login(
-                        body = LoginRequest(
-                            email = email,
-                            username = username,
+                    service
+                        .login(
+                            body = LoginRequest(
+                                email = email,
+                                username = username,
+                            )
                         )
-                    )
-                    .enqueue(object : Callback<ResponseBody> {
-                        @SuppressLint("NotifyDataSetChanged")
-                        override fun onResponse(
-                            call: Call<ResponseBody>,
-                            response: Response<ResponseBody>
-                        ) {
-                            if(response.isSuccessful) {
-                                Log.d("loginResponse", "백엔드와 통신완료")
-                                val body = response.body()!!
-                                val jsonObject = JSONObject(body.string())
+                        .enqueue(object : Callback<ResponseBody> {
+                            @SuppressLint("NotifyDataSetChanged")
+                            override fun onResponse(
+                                call: Call<ResponseBody>,
+                                response: Response<ResponseBody>
+                            ) {
+                                if(response.isSuccessful) {
+                                    Log.d("loginResponse", "백엔드와 통신완료")
+                                    val body = response.body()!!
+                                    val jsonObject = JSONObject(body.string())
 
-                                val id = jsonObject.getString("id")
-                                val email = jsonObject.getString("email")
-                                val username = jsonObject.getString("userName")
+                                    val id = jsonObject.getString("id")
+                                    val email = jsonObject.getString("email")
+                                    val username = jsonObject.getString("userName")
 //                                val favorite: ArrayList<Favorite> = jsonObject.getJSONArray("reviews") as  ArrayList<Favorite>
-                                Log.d("loginResponse", "ID: ${id}, Email: ${email}, Username: ${username}")
-                                // UserManager에 데이터 저장
-                                UserData.id = id
-                                UserData.email = email
-                                UserData.username = username
-                                UserData.favorite = favorite
+                                    Log.d("loginResponse", "ID: ${id}, Email: ${email}, Username: ${username}")
+                                    // UserManager에 데이터 저장
+                                    UserData.id = id
+                                    UserData.email = email
+                                    UserData.username = username
+                                    UserData.favorite = favorite
+
+                                }
 
                             }
-                            
-                        }
-                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                            Log.d("login", "failed to login: ${t.localizedMessage}")
-                        }
-                    })
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                Log.d("login", "failed to login: ${t.localizedMessage}")
+                            }
+                        })
+                }
             }
         }
     }
+
 
 
 }

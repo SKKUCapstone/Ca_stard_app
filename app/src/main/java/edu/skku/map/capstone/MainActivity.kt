@@ -216,7 +216,7 @@ class MainActivity : AppCompatActivity() {
                 // 토큰 유효성 체크 성공 (필요 시 토큰 갱신됨)
                 else if (tokenInfo != null) {
                     // 백엔드 Login Post
-
+                    LoginActivity.fetchUserData()
                     Toast.makeText(this, "토큰 성공", Toast.LENGTH_SHORT).show()
 
                 }

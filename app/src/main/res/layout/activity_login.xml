@@ -150,9 +150,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+
             android:background="@drawable/kakao_login"
             android:textColor="@color/darkGreen" />
-
+<!--        android:text="카카오 로그인"-->
+<!--        android:background="#FEE500"-->
 
     </LinearLayout>
 
