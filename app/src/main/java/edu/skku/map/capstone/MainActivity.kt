@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
     private var dialogComment: ReviewDialogComment? = null
 
     var favoriteCafeList = MutableLiveData<ArrayList<Cafe>>(arrayListOf<Cafe>())
-
     private var reviewViewModel: ReviewViewModel? = null
+
     var reviewingCafe = MutableLiveData<Cafe>(null)
     val reviewPhase = MutableLiveData(0)
 
@@ -235,6 +235,7 @@ class MainActivity : AppCompatActivity() {
         }
         // 로그인 필요
             else {
+                //  화면 넘어가기
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }

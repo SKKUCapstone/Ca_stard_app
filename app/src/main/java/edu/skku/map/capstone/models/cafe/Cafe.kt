@@ -58,5 +58,6 @@ data class Cafe(
 //        brightCnt = jsonObject.getInt("brightCnt"),
 //        cleanCnt = jsonObject.getInt("cleanCnt"),
 //        reviews = arrayListOf()
+
     ) {}
 }

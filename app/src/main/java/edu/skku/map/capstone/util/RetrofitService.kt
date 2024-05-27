@@ -1,31 +1,12 @@
 package edu.skku.map.capstone.util
 
-import com.google.gson.annotations.SerializedName
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.Body
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.Header
 import retrofit2.http.Query
-
-class ReviewDTO(
-    @SerializedName("userId") private val userId: Long,
-    @SerializedName("cafeId") private val cafeId: Long,
-    @SerializedName("cafeName") private val cafeName: String,
-    @SerializedName("address") private val address: String,
-    @SerializedName("phone") private val phone: String,
-    @SerializedName("longitude") private val longitude: Double,
-    @SerializedName("latitude") private val latitude: Double,
-    @SerializedName("powerSocket") private val powerSocket: Int?,
-    @SerializedName("capacity") private val capacity: Int?,
-    @SerializedName("quiet") private val quiet: Int?,
-    @SerializedName("wifi") private val wifi: Int?,
-    @SerializedName("tables") private val tables: Int?,
-    @SerializedName("toilet") private val toilet: Int?,
-    @SerializedName("bright") private val bright: Int?,
-    @SerializedName("clean") private val clean: Int?,
-    @SerializedName("comment") private val comment: String?
-)
 
 //interface RetrofitService {
 //    @GET("v2/local/search/category")
@@ -44,14 +25,27 @@ interface RetrofitService {
         @Query("x") x: String,
         @Query("y") y: String,
         @Query("radius") radius: Int,
-        @Query("filter") filter: String?,
-        @Query("searchText") searchText: String?,
+        @Query("searchText") searchText: String? = null,
+        @Query("powerSocket") powerSocket: Boolean? = null,
+        @Query("capacity") capacity: Boolean? = null,
+        @Query("quiet")  quiet: Boolean? = null,
+        @Query("wifi")  wifi: Boolean? = null,
+        @Query("tables")  tables: Boolean? = null,
+        @Query("toilet")  toilet: Boolean? = null,
+        @Query("bright")  bright: Boolean? = null,
+        @Query("clean") clean: Boolean? = null,
     ): Call<ResponseBody>
-
-    @POST("/review/post")
-    fun postReview(
-        @Body body: ReviewDTO
-    ):Call<ResponseBody>
 }
 
+object RetrofitClient {
+    private const val BASE_URL = "http://43.201.119.249:8080/"
+
+    val retrofitService: RetrofitService by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        retrofit.create(RetrofitService::class.java)
+    }
+}
 

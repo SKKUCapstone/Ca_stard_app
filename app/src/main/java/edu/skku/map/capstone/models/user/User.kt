@@ -12,6 +12,11 @@ data class User(
 )
 
 
+// 로그인 관련
+data class LoginRequest(
+    val email: String,
+    val username: String
+)
 
 
 

@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F6F4F1"
     tools:context=".view.login.LoginActivity">
-
-
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"
@@ -127,43 +126,6 @@
             android:background="@color/castardLightBrown"
             android:gravity="center_horizontal" />
     </LinearLayout>
-
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="100dp"-->
-
-<!--        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/leftGuideline"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">-->
-
-<!--        <TextView-->
-<!--            android:layout_width="144dp"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:background="@color/castardLightBrown"-->
-<!--            android:gravity="center_horizontal"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/textView9"-->
-<!--            android:layout_width="18dp"-->
-<!--            android:layout_height="14dp"-->
-<!--            android:gravity="center_horizontal"-->
-<!--            android:text="Or"-->
-<!--            android:textColor="@color/castardLightBrown"-->
-<!--            android:textSize="13dp"-->
-<!--            tools:layout_editor_absoluteY="4dp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="144dp"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:background="@color/castardLightBrown"-->
-<!--            android:gravity="center_horizontal"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/textView9"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <LinearLayout
         android:id="@+id/linearLayout7"

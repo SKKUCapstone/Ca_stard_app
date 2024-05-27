@@ -12,6 +12,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -26,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.refreshToken}")
+            printUserData()
             navigateMainActivity()
 
             finish()
@@ -67,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.refreshToken}")
-
+                        printUserData()
                         navigateMainActivity()
                     }
                 }
@@ -79,5 +81,18 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun printUserData() {
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 요청 실패", error)
+            }
+            else if (user != null) {
+                Log.i(TAG, "사용자 정보 요청 성공" +
+                    "\n이메일: ${user.kakaoAccount?.email}" +
+                    "\n닉네임: ${user.kakaoAccount?.profile?.nickname}")
+            }
+        }
     }
 }
