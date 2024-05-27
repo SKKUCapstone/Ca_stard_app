@@ -28,28 +28,23 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
     }
 
     private fun initUI() {
-//        val rateCapacity = cafe.capacity
-//        val rateBright = cafe.bright
-//        val rateClean = cafe.clean
-//        val rateWifi = cafe.wifi
-//        val rateQuiet = cafe.quiet
-//        val rateTables = cafe.tables
-//        val ratePowerSocket = cafe.powerSocket
-//        val rateToilet = cafe.toilet
-        val rateCapacity = 0.5
-        val rateBright = 0.0
-        val rateClean = 4.5
-        val rateWifi = 3.2
-        val rateQuiet = 2.9
-        val rateTables = 4.2
-        val ratePowerSocket = 3.4
-        val rateToilet = 5.0
 
         binding.detailCafeNameTV.text = cafe.cafeName
         binding.detailCafeName2TV.text = cafe.cafeName
         binding.detailAddressTV.text = cafe.address
         binding.detailPhoneTV.text = cafe.phone
         binding.detailDistanceTV.text = cafe.distance.toString()+"KM"
+
+        val ratingLLs = listOf(
+            binding.ratingCapacityLL,
+            binding.ratingBrightLL,
+            binding.ratingCleanLL,
+            binding.ratingWifiLL,
+            binding.ratingQuietLL,
+            binding.ratingTablesLL,
+            binding.ratingPowerSocketLL,
+            binding.ratingToiletLL
+        )
 
         val ratingCVs = listOf(
             binding.ratingbarCapacityScoreCV,
@@ -74,20 +69,29 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
         )
 
         val ratings = listOf(
-            rateCapacity,
-            rateBright,
-            rateClean,
-            rateQuiet,
-            rateWifi,
-            rateTables,
-            ratePowerSocket,
-            rateToilet
+            cafe.capacity,
+            cafe.bright,
+            cafe.clean,
+            cafe.quiet,
+            cafe.wifi,
+            cafe.tables,
+            cafe.powerSocket,
+            cafe.toilet
         )
 
-        for(i in 0..7) ratingTVs[i].text = ratings[i].toString()
-        Log.d("layout",binding.ratingbarBrightBaseCV.layoutParams.width.toString())
+        val ratingCnts = listOf(
+            cafe.capacityCnt,
+            cafe.brightCnt,
+            cafe.cleanCnt,
+            cafe.quietCnt,
+            cafe.wifiCnt,
+            cafe.tablesCnt,
+            cafe.powerSocketCnt,
+            cafe.toiletCnt
+        )
 
         for(i in 0..7) {
+            ratingTVs[i].text = ratings[i].toString()
             val layoutParams = ratingCVs[i].layoutParams as ViewGroup.LayoutParams
             layoutParams.width = ratingBarLength(ratings[i])
             ratingCVs[i].layoutParams = layoutParams

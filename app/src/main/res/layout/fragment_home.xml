@@ -290,6 +290,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginBottom="90dp"
+            android:paddingHorizontal="20dp"
             android:visibility="gone"
             android:text="여기에서 재검색"
             android:background="@drawable/green_r20_ph10_pv5"

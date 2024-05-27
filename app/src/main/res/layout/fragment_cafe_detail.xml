@@ -286,6 +286,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <LinearLayout
+                    android:id="@+id/rating_capacityLL"
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
                     android:layout_marginVertical="6dp"
@@ -329,6 +330,7 @@
                         android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/rating_brightLL"
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
                     android:layout_marginVertical="6dp"
@@ -372,6 +374,7 @@
                         android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/rating_cleanLL"
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
                     android:layout_marginVertical="6dp"
@@ -415,6 +418,7 @@
                         android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/rating_wifiLL"
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
                     android:layout_marginVertical="6dp"
@@ -458,6 +462,7 @@
                         android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/rating_quiet_LL"
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
                     android:layout_marginVertical="6dp"
@@ -501,6 +506,7 @@
                         android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/rating_tables_LL"
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
                     android:layout_marginVertical="6dp"
@@ -545,6 +551,7 @@
                         android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/rating_powerSocketLL"
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
                     android:layout_marginVertical="6dp"
@@ -588,6 +595,7 @@
                         android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/rating_toiletLL"
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
                     android:layout_marginVertical="6dp"

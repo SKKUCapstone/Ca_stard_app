@@ -39,7 +39,7 @@ class HomeViewModel() {
     val filterCategory = MutableLiveData<ArrayList<String>>(arrayListOf())
     val searchText = MutableLiveData("")
     val zoomLevel = MutableLiveData(1)
-    var radius = 2000
+    var radius = 20000
     lateinit var cafeListFragment: CafeListFragment
     var cafeDetailFragment: CafeDetailFragment? = null
     var prevCafeDetailFragment: CafeDetailFragment? = null
@@ -56,6 +56,9 @@ class HomeViewModel() {
     }
 
     fun fetchCafes(lat:Double?, lng: Double?, radius: Int) {
+        var filter = ""
+        filterCategory.value?.forEach { filter += it }
+
         val retrofit = Retrofit.Builder()
 //            .baseUrl("https://dapi.kakao.com/")
             .baseUrl("http://43.201.119.249:8080/")
@@ -71,7 +74,7 @@ class HomeViewModel() {
 //                "CE7",
 //                lat?.toString()?:DEFAULT_LNG.toString(),
 //                lng?.toString()?:DEFAULT_LAT.toString(),
-//                DEFAULT_RADIUS
+//                radius
 //            )
         service
             .getCafes(
@@ -93,8 +96,9 @@ class HomeViewModel() {
 
                     for (i in 0 until cafeData.length()) {
                         val cafeJsonObject = cafeData.getJSONObject(i)
-                        val cafe = Cafe(cafeJsonObject)
-                        newCafeList.add(cafe)
+                        Log.d("cafe", cafeJsonObject.toString())
+//                        val cafe = Cafe(cafeJsonObject)
+//                        newCafeList.add(cafe)
                     }
                     Log.d("cafe","total ${newCafeList.size} cafe fetched:"+newCafeList.toString())
                     _liveCafeList.value = newCafeList

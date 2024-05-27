@@ -17,6 +17,7 @@ import retrofit2.http.Query
 //    ): Call<ResponseBody>
 //}
 
+
 interface RetrofitService {
     @GET("cafes/list")
     fun getCafes(
@@ -24,13 +25,5 @@ interface RetrofitService {
         @Query("y") y: String,
         @Query("radius") radius: Int,
         @Query("searchText") searchText: String? = null,
-        @Query("powerSocket") powerSocket: Boolean? = null,
-        @Query("capacity") capacity: Boolean? = null,
-        @Query("quiet")  quiet: Boolean? = null,
-        @Query("wifi")  wifi: Boolean? = null,
-        @Query("tables")  tables: Boolean? = null,
-        @Query("toilet")  toilet: Boolean? = null,
-        @Query("bright")  bright: Boolean? = null,
-        @Query("clean") clean: Boolean? = null,
     ): Call<ResponseBody>
 }
