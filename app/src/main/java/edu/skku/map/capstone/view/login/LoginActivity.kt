@@ -20,9 +20,7 @@ import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.ActivityLoginBinding
 import edu.skku.map.capstone.models.favorite.Favorite
 import edu.skku.map.capstone.models.user.LoginRequest
-import edu.skku.map.capstone.models.user.UserData
-import edu.skku.map.capstone.models.user.UserData.Companion.favorite
-import edu.skku.map.capstone.models.user.UserData.Companion.id
+import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.util.ReviewDTO
 import okhttp3.ResponseBody
@@ -47,7 +45,6 @@ class LoginActivity : AppCompatActivity() {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.refreshToken}")
             fetchUserData()
             navigateMainActivity()
-
             finish()
         }
     }
@@ -115,7 +112,7 @@ class LoginActivity : AppCompatActivity() {
                             "\n닉네임: ${username}")
 
                     val retrofit = Retrofit.Builder()
-                        .baseUrl("http://43.201.119.249:8080/")
+                        .baseUrl(R.string.base_url.toString())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
                     val service = retrofit.create(RetrofitService::class.java)
@@ -137,20 +134,10 @@ class LoginActivity : AppCompatActivity() {
                                     Log.d("loginResponse", "백엔드와 통신완료")
                                     val body = response.body()!!
                                     val jsonObject = JSONObject(body.string())
-
-                                    val id = jsonObject.getString("id")
-                                    val email = jsonObject.getString("email")
-                                    val username = jsonObject.getString("userName")
-//                                val favorite: ArrayList<Favorite> = jsonObject.getJSONArray("reviews") as  ArrayList<Favorite>
-                                    Log.d("loginResponse", "ID: ${id}, Email: ${email}, Username: ${username}")
-                                    // UserManager에 데이터 저장
-                                    UserData.id = id
-                                    UserData.email = email
-                                    UserData.username = username
-                                    UserData.favorite = favorite
+                                    User.getInstance(jsonObject)
+                                    Log.d("loginResponse", "ID: ${User.id}, Email: ${User.email}, Username: ${User.username}")
 
                                 }
-
                             }
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                                 Log.d("login", "failed to login: ${t.localizedMessage}")

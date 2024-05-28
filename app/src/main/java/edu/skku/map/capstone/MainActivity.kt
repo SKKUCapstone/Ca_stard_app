@@ -218,7 +218,6 @@ class MainActivity : AppCompatActivity() {
                     // 백엔드 Login Post
                     LoginActivity.fetchUserData()
                     Toast.makeText(this, "토큰 성공", Toast.LENGTH_SHORT).show()
-
                 }
             }
         }

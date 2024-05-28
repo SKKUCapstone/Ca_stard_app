@@ -40,7 +40,7 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
 
     fun onSubmitReview(cafe: Cafe, capacity:Int?, bright:Int?, clean:Int?, wifi:Int?, quiet:Int?, tables:Int?, powerSocket:Int?, toilet:Int?, comment:String?) {
         val retrofit = Retrofit.Builder()
-            .baseUrl(context.getString(R.string.base_url))
+            .baseUrl(R.string.base_url.toString())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(RetrofitService::class.java)
