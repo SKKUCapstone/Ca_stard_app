@@ -1,6 +1,7 @@
 package edu.skku.map.capstone
 
 import android.app.Application
+import android.util.Log
 import com.kakao.sdk.common.KakaoSdk
 
 class GlobalApplication: Application() {
@@ -10,4 +11,7 @@ class GlobalApplication: Application() {
         // Kakao Sdk 초기화
         KakaoSdk.init(this, "09e7ce580fee2dc13ec5d24c66cd8238")
     }
+
+
+
 }

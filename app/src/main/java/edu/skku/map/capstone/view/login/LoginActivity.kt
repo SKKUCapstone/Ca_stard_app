@@ -1,12 +1,10 @@
 package edu.skku.map.capstone.view.login
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.UserManager
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -38,11 +36,11 @@ class LoginActivity : AppCompatActivity() {
     // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            Log.e(TAG, "카카오계정으로 로그인 실패", error)
+            Log.e("Login", "카카오계정으로 로그인 실패", error)
         } else if (token != null) {
-            Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
-            Log.i(TAG, "카카오계정으로 로그인 성공 ${token.refreshToken}")
-            fetchUserData()
+            Log.i("Login", "카카오계정으로 로그인 성공 ${token.accessToken}")
+            Log.i("Login", "카카오계정으로 로그인 성공 ${token.refreshToken}")
+            LoginViewModel.fetchUserData()
             navigateMainActivity()
             finish()
         }
@@ -60,7 +58,6 @@ class LoginActivity : AppCompatActivity() {
 //        userEmail = binding.valLoginEmail
 //        userPassword = binding.valLoginPassword
 //        btnLogin = binding.btnKakaologin
-
         setActions()
     }
 
@@ -70,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                     if (error != null) {
-                        Log.e(TAG, "카카오톡으로 로그인 실패", error)
+                        Log.e("Login", "카카오톡으로 로그인 실패", error)
 
                         // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
                         // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
@@ -81,9 +78,9 @@ class LoginActivity : AppCompatActivity() {
                         // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                         UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                     } else if (token != null) {
-                        Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
-                        Log.i(TAG, "카카오톡으로 로그인 성공 ${token.refreshToken}")
-                        fetchUserData()
+                        Log.i("Login", "카카오톡으로 로그인 성공 ${token.accessToken}")
+                        Log.i("Login", "카카오톡으로 로그인 성공 ${token.refreshToken}")
+                        LoginViewModel.fetchUserData()
                         navigateMainActivity()
                     }
                 }
@@ -97,57 +94,8 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    companion object {
-        fun fetchUserData() {
-            UserApiClient.instance.me { user, error ->
-                if (error != null) {
-                    Log.e(TAG, "사용자 정보 요청 실패", error)
-                }
-                else if (user != null) {
-                    val email = user.kakaoAccount?.email ?: ""
-                    val username = user.kakaoAccount?.profile?.nickname ?: ""
-                    val baseUrl = "http://43.201.119.249:8080/"
-//                    val baseUrl = R.string.base_url.toString()
-                    Log.i(TAG, "사용자 정보 요청 성공" +
-                            "\n이메일: ${email}" +
-                            "\n닉네임: ${username}")
-                    Log.d("login", "BASEURL: ${baseUrl}")
-                    val retrofit = Retrofit.Builder()
-                        .baseUrl(baseUrl)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build()
-                    val service = retrofit.create(RetrofitService::class.java)
 
-                    service
-                        .login(
-                            body = LoginRequest(
-                                email = email,
-                                username = username,
-                            )
-                        )
-                        .enqueue(object : Callback<ResponseBody> {
-                            @SuppressLint("NotifyDataSetChanged")
-                            override fun onResponse(
-                                call: Call<ResponseBody>,
-                                response: Response<ResponseBody>
-                            ) {
-                                if(response.isSuccessful) {
-                                    Log.d("loginResponse", "백엔드와 통신완료")
-                                    val body = response.body()!!
-                                    val jsonObject = JSONObject(body.string())
-                                    User.getInstance(jsonObject)
-                                    Log.d("loginResponse", "ID: ${User.id}, Email: ${User.email}, Username: ${User.username}")
 
-                                }
-                            }
-                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                Log.d("login", "failed to login: ${t.localizedMessage}")
-                            }
-                        })
-                }
-            }
-        }
-    }
 
 
 

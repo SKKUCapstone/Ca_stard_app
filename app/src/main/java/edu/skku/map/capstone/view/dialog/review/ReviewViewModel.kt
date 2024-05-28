@@ -37,7 +37,6 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
     var toiletRating = 3
     var textReview = ""
 
-
     fun onSubmitReview(cafe: Cafe, capacity:Int?, bright:Int?, clean:Int?, wifi:Int?, quiet:Int?, tables:Int?, powerSocket:Int?, toilet:Int?, comment:String?) {
         val retrofit = Retrofit.Builder()
             .baseUrl(R.string.base_url.toString())

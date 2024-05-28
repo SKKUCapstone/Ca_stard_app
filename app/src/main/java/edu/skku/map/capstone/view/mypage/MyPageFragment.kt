@@ -30,8 +30,8 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setUI(){
-        binding.userName.setText(User.username)
-        binding.userEmail.setText(User.email)
+        binding.userName.text = User.username
+        binding.userEmail.text = User.email
     }
     private fun setPolicyClickListeners() {
         binding.personalInfoAgreement.setOnClickListener {
@@ -56,8 +56,8 @@ class MyPageFragment : Fragment() {
                     Log.i(ContentValues.TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
                 }
             }
-            val intent = Intent (getActivity(), LoginActivity::class.java)
-            getActivity()?.startActivity(intent)
+            val intent = Intent (activity, LoginActivity::class.java)
+            activity?.startActivity(intent)
         }
     }
 

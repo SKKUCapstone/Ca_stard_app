@@ -25,8 +25,10 @@ import edu.skku.map.capstone.view.home.HomeFragment
 import edu.skku.map.capstone.view.mycafe.MyCafeFragment
 import edu.skku.map.capstone.view.mypage.MyPageFragment
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.view.dialog.review.ReviewViewModel
 import edu.skku.map.capstone.view.login.LoginActivity
+import edu.skku.map.capstone.view.login.LoginViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -216,8 +218,9 @@ class MainActivity : AppCompatActivity() {
                 // 토큰 유효성 체크 성공 (필요 시 토큰 갱신됨)
                 else if (tokenInfo != null) {
                     // 백엔드 Login Post
-                    LoginActivity.fetchUserData()
-                    Toast.makeText(this, "토큰 성공", Toast.LENGTH_SHORT).show()
+                      LoginViewModel.fetchUserData()
+//                    Log.d("login","token:"+tokenInfo.toString())
+//                    Toast.makeText(this, "${User.username}님, 안녕하세요!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
