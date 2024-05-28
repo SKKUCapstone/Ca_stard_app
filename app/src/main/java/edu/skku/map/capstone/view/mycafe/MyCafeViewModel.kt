@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.models.favorite.Favorite
+//import edu.skku.map.capstone.models.favorite.Favorite
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -16,15 +16,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MyCafeViewModel() {
-    private val _favoriteCafeList: MutableLiveData<List<Favorite>> = MutableLiveData<List<Favorite>>() // 즐겨찾기한 카페
+//    private val _favoriteCafeList: MutableLiveData<List<Favorite>> = MutableLiveData<List<Favorite>>() // 즐겨찾기한 카페
     private val _recommendCafeList: MutableLiveData<List<Cafe>> =MutableLiveData<List<Cafe>>() // 추천 카페
     private val _visitedCafeList:MutableLiveData<List<Cafe>> =MutableLiveData<List<Cafe>>() // 방문한 카페
 
-    val favoriteCafeList:LiveData<List<Favorite>> get() = _favoriteCafeList
+//    val favoriteCafeList:LiveData<List<Favorite>> get() = _favoriteCafeList
     val recommendCafeList: LiveData<List<Cafe>> get() = _recommendCafeList
     val visitedCafeList: LiveData<List<Cafe>> get() = _visitedCafeList
     init {
-        _favoriteCafeList.value = listOf()
+//        _favoriteCafeList.value = listOf()
         _recommendCafeList.value = listOf()
         _visitedCafeList.value = listOf()
     }

@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.kakao.sdk.user.UserApiClient
 import edu.skku.map.capstone.databinding.FragmentMyPageBinding
-import edu.skku.map.capstone.models.user.UserData
+import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.view.login.LoginActivity
 import kotlinx.coroutines.Dispatchers.Main
 
@@ -30,8 +30,8 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setUI(){
-        binding.userName.setText(UserData.username)
-        binding.userEmail.setText(UserData.email)
+        binding.userName.setText(User.username)
+        binding.userEmail.setText(User.email)
     }
     private fun setPolicyClickListeners() {
         binding.personalInfoAgreement.setOnClickListener {

@@ -18,7 +18,6 @@ import com.kakao.sdk.user.UserApiClient
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.ActivityLoginBinding
-import edu.skku.map.capstone.models.favorite.Favorite
 import edu.skku.map.capstone.models.user.LoginRequest
 import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.RetrofitService
@@ -107,12 +106,14 @@ class LoginActivity : AppCompatActivity() {
                 else if (user != null) {
                     val email = user.kakaoAccount?.email ?: ""
                     val username = user.kakaoAccount?.profile?.nickname ?: ""
+                    val baseUrl = "http://43.201.119.249:8080/"
+//                    val baseUrl = R.string.base_url.toString()
                     Log.i(TAG, "사용자 정보 요청 성공" +
                             "\n이메일: ${email}" +
                             "\n닉네임: ${username}")
-
+                    Log.d("login", "BASEURL: ${baseUrl}")
                     val retrofit = Retrofit.Builder()
-                        .baseUrl(R.string.base_url.toString())
+                        .baseUrl(baseUrl)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
                     val service = retrofit.create(RetrofitService::class.java)
