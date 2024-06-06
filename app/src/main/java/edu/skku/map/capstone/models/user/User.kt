@@ -11,7 +11,7 @@ class User private constructor() {
         var id: Long = 0
         lateinit var email: String
         lateinit var username: String
-        lateinit var favorite: ArrayList<Cafe>
+//        lateinit var favorite: ArrayList<Cafe>
 
         fun getInstance(jsonObject: JSONObject): User {
             return instance ?: synchronized(this) {
@@ -19,7 +19,7 @@ class User private constructor() {
                     id = jsonObject.getLong("id")
                     email = jsonObject.getString("email")
                     username = jsonObject.getString("userName")
-                    favorite = parseFavorites(jsonObject.getJSONArray("reviews"))
+//                    favorite = parseFavorites(jsonObject.getJSONArray("reviews"))
                     instance = it
                 }
             }
