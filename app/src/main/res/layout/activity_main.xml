@@ -77,7 +77,7 @@
                 android:layout_margin="8dp"
                 android:textSize="12sp"
                 android:gravity="center"
-                android:text="즐겨찾기" />
+                android:text="카페찾기" />
         </LinearLayout>
 
         <LinearLayout

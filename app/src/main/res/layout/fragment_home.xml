@@ -311,7 +311,7 @@
         app:behavior_fitToContents="false"
         app:behavior_hideable="false"
         app:behavior_peekHeight="80dp"
-        app:behavior_halfExpandedRatio="0.45"
+        app:behavior_halfExpandedRatio="0.42"
 
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
         <androidx.cardview.widget.CardView

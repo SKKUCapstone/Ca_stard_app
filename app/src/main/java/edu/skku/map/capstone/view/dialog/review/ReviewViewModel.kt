@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.slider.Slider
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.util.ReviewDTO
 import okhttp3.ResponseBody
@@ -47,10 +48,10 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
         service
             .postReview(
                 body = ReviewDTO(
-                    userId = 1,
+                    userId = User.id,
                     cafeId = cafe.cafeId,
                     cafeName = cafe.cafeName?:"",
-                    address = cafe.address?:"",
+                    address = cafe.roadAddressName?:"",
                     phone = cafe.phone?:"",
                     latitude = cafe.latitude,
                     longitude = cafe.longitude,

@@ -8,7 +8,7 @@ class User private constructor() {
     companion object {
 
         private var instance: User? = null
-        lateinit var id: String
+        var id: Long = 0
         lateinit var email: String
         lateinit var username: String
         lateinit var favorite: ArrayList<Cafe>
@@ -16,7 +16,7 @@ class User private constructor() {
         fun getInstance(jsonObject: JSONObject): User {
             return instance ?: synchronized(this) {
                 instance ?: User().also {
-                    id = jsonObject.getString("id")
+                    id = jsonObject.getLong("id")
                     email = jsonObject.getString("email")
                     username = jsonObject.getString("userName")
                     favorite = parseFavorites(jsonObject.getJSONArray("reviews"))
@@ -36,15 +36,6 @@ class User private constructor() {
         }
     }
 }
-
-data class Cafe(
-    val id: String,
-    val name: String
-    // Add other fields as necessary
-)
-
-
-
 
 // 로그인 관련
 data class LoginRequest(

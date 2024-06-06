@@ -39,7 +39,7 @@ class HomeViewModel() {
     val filterCategory = MutableLiveData<ArrayList<String>>(arrayListOf())
     val searchText = MutableLiveData("")
     val zoomLevel = MutableLiveData(1)
-    var radius = 20000
+    var radius = 500
     lateinit var cafeListFragment: CafeListFragment
     var cafeDetailFragment: CafeDetailFragment? = null
     var prevCafeDetailFragment: CafeDetailFragment? = null
@@ -56,59 +56,49 @@ class HomeViewModel() {
     }
 
     fun fetchCafes(lat:Double?, lng: Double?, radius: Int) {
-
-        val filter:String? = filterCategory.value?.joinToString(separator = ",")
-
-        val retrofit = Retrofit.Builder()
-//            .baseUrl("https://dapi.kakao.com/")
-            .baseUrl("http://43.201.119.249:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(RetrofitService::class.java)
-
-        Log.d("cafe","fetching cafes from (${lat?.toString()?:DEFAULT_LNG.toString()},${lng?.toString()?:DEFAULT_LAT.toString()})")
-
+//
+//        val filter:String? = filterCategory.value?.joinToString(separator = ",")
+//        val retrofit = Retrofit.Builder()
+////            .baseUrl("https://dapi.kakao.com/")
+//            .baseUrl("http://43.201.119.249:8080/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//        val service = retrofit.create(RetrofitService::class.java)
+//
+//        Log.d("cafe","fetching cafes from (${lat?.toString()?:DEFAULT_LNG.toString()},${lng?.toString()?:DEFAULT_LAT.toString()})")
+//
 //        service
 //            .getCafes(
-//                "KakaoAK f1c681d34107bd5d150c0bc5bd616975",
-//                "CE7",
-//                lat?.toString()?:DEFAULT_LNG.toString(),
-//                lng?.toString()?:DEFAULT_LAT.toString(),
-//                radius
-//                DEFAULT_RADIUS
+//                (lng?:DEFAULT_LNG).toString(),
+//                (lat?:DEFAULT_LAT).toString(),
+//                radius,
+//                filter,
+//                if(searchText.value!!.trim() == "") null else searchText.value,
 //            )
-        service
-            .getCafes(
-                (lng?:DEFAULT_LNG).toString(),
-                (lat?:DEFAULT_LAT).toString(),
-                radius,
-                filter,
-                if(searchText.value!!.trim() == "") null else searchText.value,
-            )
-            .enqueue(object : Callback<ResponseBody> {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    val newCafeList = mutableListOf<Cafe>()
-                    val body = response.body()!!
-                    val jsonObject = JSONObject(body.string())
-                    val cafeData = jsonObject.getJSONArray("documents")
-                    Log.d("cafe","cafeData ${cafeData}")
-                    for (i in 0 until cafeData.length()) {
-                        val cafeJsonObject = cafeData.getJSONObject(i)
-                        Log.d("cafe", cafeJsonObject.toString())
-                        val cafe = Cafe(cafeJsonObject)
-                        newCafeList.add(cafe)
-                    }
-                    Log.d("cafe","total ${newCafeList.size} cafe fetched:"+newCafeList.toString())
-                    _liveCafeList.value = newCafeList
-                }
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
-                }
-            })
+//            .enqueue(object : Callback<ResponseBody> {
+//                @SuppressLint("NotifyDataSetChanged")
+//                override fun onResponse(
+//                    call: Call<ResponseBody>,
+//                    response: Response<ResponseBody>
+//                ) {
+//                    val newCafeList = mutableListOf<Cafe>()
+//                    val body = response.body()!!
+//                    val jsonObject = JSONObject(body.string())
+//                    val cafeData = jsonObject.getJSONArray("documents")
+//                    Log.d("cafe","cafeData ${cafeData}")
+//                    for (i in 0 until cafeData.length()) {
+//                        val cafeJsonObject = cafeData.getJSONObject(i)
+//                        Log.d("cafe", cafeJsonObject.toString())
+//                        val cafe = Cafe(cafeJsonObject)
+//                        newCafeList.add(cafe)
+//                    }
+//                    Log.d("cafe","total ${newCafeList.size} cafe fetched:"+newCafeList.toString())
+//                    _liveCafeList.value = newCafeList
+//                }
+//                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                    Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
+//                }
+//            })
     }
 
     fun observeSearchText() {

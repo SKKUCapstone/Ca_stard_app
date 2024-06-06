@@ -1,6 +1,7 @@
 package edu.skku.map.capstone.view.home.detail
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -31,9 +32,11 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
 
         binding.detailCafeNameTV.text = cafe.cafeName
         binding.detailCafeName2TV.text = cafe.cafeName
-        binding.detailAddressTV.text = cafe.address
-        binding.detailPhoneTV.text = cafe.phone
+        binding.detailAddressTV.text = if(cafe.roadAddressName == "") "정보 없음" else cafe.roadAddressName
+        binding.detailUrlTV.text = if(cafe.placeURL == null) "웹사이트 정보 없음" else cafe.placeURL.toString()
+        binding.detailPhoneTV.text = if(cafe.phone == "") "정보 없음" else cafe.phone
         binding.detailDistanceTV.text = cafe.distance.toString()+"KM"
+        binding.detailRatingTV.text = if(cafe.getTotalRating() == null) "별점 정보 없음" else cafe.getTotalRating().toString()
 
         val ratingLLs = listOf(
             binding.ratingCapacityLL,
@@ -90,7 +93,15 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
             cafe.toiletCnt
         )
 
+        if(cafe.getTotalCnt() == 0) {
+            binding.ratingListRV.visibility = View.INVISIBLE
+            binding.noDataView.visibility = View.VISIBLE
+        }
         for(i in 0..7) {
+            //rating bar is not visible if there is no review.
+            if(ratingCnts[i] == 0) ratingLLs[i].visibility = View.GONE
+
+            //style of each ratingbar
             ratingTVs[i].text = ratings[i].toString()
             val layoutParams = ratingCVs[i].layoutParams as ViewGroup.LayoutParams
             layoutParams.width = ratingBarLength(ratings[i])
@@ -105,12 +116,15 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
             (activity as MainActivity).reviewingCafe.postValue(null)
         }
         binding.detailReviewBtn.setOnClickListener {
-//            val intent = Intent(requireActivity(), ReviewActivity::class.java)
-//            startActivity(intent)
-            Log.d("dialog", "reviewBtn clicked")
+//            Log.d("dialog", "reviewBtn clicked")
             reviewingCafe.postValue(cafe)
             phase.postValue(1)
         }
+        binding.detailReviewBtn2.setOnClickListener {
+            reviewingCafe.postValue(cafe)
+            phase.postValue(1)
+        }
+
         binding.detailMapBtn.setOnClickListener {
             pullDownBottomSheet.postValue(true)
         }
@@ -120,4 +134,5 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
     }
 
     private fun ratingBarLength(rating:Double):Int = (rating/5.0*578).toInt()
+
 }

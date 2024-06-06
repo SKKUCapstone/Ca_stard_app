@@ -1,12 +1,15 @@
 package edu.skku.map.capstone.models.cafe
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import edu.skku.map.capstone.models.review.Review
 import org.json.JSONObject
 
-data class Cafe(
+val typeToken = object : TypeToken<List<Review>>() {}.type
+class Cafe(
     val cafeId:Long,
     val cafeName:String? = null,
-    val address:String? = null,
+//    val address: String? = null,
     val roadAddressName:String? = null,
     val phone:String? = null,
     val latitude:Double,
@@ -31,16 +34,18 @@ data class Cafe(
     val cleanCnt:Int = 0,
     val reviews:ArrayList<Review> = arrayListOf()
 ){
+
     constructor(jsonObject: JSONObject) : this(
         cafeId = jsonObject.getString("id").takeIf { it.isNotEmpty() }?.toLongOrNull() ?: 0L,
         cafeName = jsonObject.getString("place_name"),
-        address = jsonObject.getString("address_name"),
+//        address = jsonObject.getString("address"),
         roadAddressName = jsonObject.getString("road_address_name"),
         phone = jsonObject.getString("phone"),
         latitude = jsonObject.getString("y").toDouble(),
         longitude = jsonObject.getString("x").toDouble(),
         distance = jsonObject.getString("distance").takeIf { it.isNotEmpty() }?.toDoubleOrNull(),
         placeURL = jsonObject.getString("place_url"),
+
 //        capacity = jsonObject.getDouble("capacity"),
 //        powerSocket = jsonObject.getDouble("powerSocket"),
 //        quiet = jsonObject.getDouble("quiet"),
@@ -57,7 +62,28 @@ data class Cafe(
 //        toiletCnt = jsonObject.getInt("toiletCnt"),
 //        brightCnt = jsonObject.getInt("brightCnt"),
 //        cleanCnt = jsonObject.getInt("cleanCnt"),
-//        reviews = arrayListOf()
-
+//        reviews = Gson().fromJson(jsonObject.getJSONArray("Reviews").toString(), typeToken)
     ) {}
+
+    fun getTotalCnt():Int {
+        return capacityCnt + brightCnt + cleanCnt + quietCnt + wifiCnt + tablesCnt + powerSocketCnt + toiletCnt
+    }
+
+    private fun getTotalRatingSum():Double {
+        return (capacity * capacityCnt
+                + bright * brightCnt
+                + clean * cleanCnt
+                + quiet * quietCnt
+                + wifi * wifiCnt
+                + tables * tablesCnt
+                + powerSocket * powerSocketCnt
+                + toilet * toiletCnt)
+    }
+
+    fun getTotalRating():Double? {
+        return if(getTotalCnt() == 0) null
+        else{
+            getTotalRatingSum()/getTotalCnt()
+        }
+    }
 }

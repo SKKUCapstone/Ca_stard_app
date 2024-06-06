@@ -54,7 +54,6 @@ interface RetrofitService {
         @Body body: ReviewDTO
     ):Call<ResponseBody>
 
-
     @POST("/user/login")
     fun login(
         @Body body: LoginRequest

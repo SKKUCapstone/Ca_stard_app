@@ -147,7 +147,6 @@ class HomeFragment : Fragment() {
         viewModel.filterCategory.postValue(prevList)
     }
 
-
     private fun setClickListener() {
         binding.gpsBtn.setOnClickListener {
             moveCamera(viewModel.liveLatLng.value!!.latitude,viewModel.liveLatLng.value!!.longitude)
