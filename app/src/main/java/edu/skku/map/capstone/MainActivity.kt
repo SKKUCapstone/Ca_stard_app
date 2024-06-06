@@ -20,12 +20,11 @@ import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.view.dialog.review.category.ReviewDialogCategory
 import edu.skku.map.capstone.view.dialog.review.comment.ReviewDialogComment
 import edu.skku.map.capstone.view.dialog.review.rating.ReviewDialogRating
-import edu.skku.map.capstone.view.favorite.FavoriteFragment
+import edu.skku.map.capstone.view.recommend.RecommendFragment
 import edu.skku.map.capstone.view.home.HomeFragment
 import edu.skku.map.capstone.view.mycafe.MyCafeFragment
 import edu.skku.map.capstone.view.mypage.MyPageFragment
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.view.dialog.review.ReviewViewModel
 import edu.skku.map.capstone.view.login.LoginActivity
 import edu.skku.map.capstone.view.login.LoginViewModel
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
     private var upperFragment: Fragment? = null
     private lateinit var homeFragment: HomeFragment
-    private lateinit var favoriteFragment: FavoriteFragment
+    private lateinit var recommendFragment: RecommendFragment
     private lateinit var myCafeFragment: MyCafeFragment
     private lateinit var myPageFragment: MyPageFragment
 
@@ -83,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun setNavActions() {
         homeFragment = HomeFragment()
-        favoriteFragment = FavoriteFragment()
+        recommendFragment = RecommendFragment()
         myCafeFragment = MyCafeFragment()
         myPageFragment = MyPageFragment()
 
@@ -97,11 +96,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.favBtn.setOnClickListener {
             removeUpperFragment()
-            if ( upperFragment == favoriteFragment ) return@setOnClickListener
-                supportFragmentManager.beginTransaction().apply {
-                add(binding.frameLayout.id, favoriteFragment).commit()
+            if ( upperFragment == recommendFragment ) {}
+            supportFragmentManager.beginTransaction().apply {
+                add(binding.frameLayout.id, recommendFragment).commit()
             }
-            upperFragment = favoriteFragment
+            upperFragment = recommendFragment
             binding.homeIcon.isActivated = false
             binding.favIcon.isActivated = true
             binding.myCafeIcon.isActivated = false

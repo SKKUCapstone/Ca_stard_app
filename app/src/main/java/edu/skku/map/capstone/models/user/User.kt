@@ -1,17 +1,21 @@
 package edu.skku.map.capstone.models.user
+import androidx.lifecycle.MutableLiveData
+import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.models.cafe.Cafe
 import org.json.JSONObject
 import org.json.JSONArray
 
+val DEFAULT_LAT = 37.402005
+val DEFAULT_LNG = 127.108621
 class User private constructor() {
 
     companion object {
-
         private var instance: User? = null
         var id: Long = 0
         lateinit var email: String
         lateinit var username: String
         lateinit var favorite: ArrayList<Cafe>
+        var latLng = MutableLiveData(LatLng.from(DEFAULT_LAT, DEFAULT_LNG))
 
         fun getInstance(jsonObject: JSONObject): User {
             return instance ?: synchronized(this) {
@@ -19,7 +23,7 @@ class User private constructor() {
                     id = jsonObject.getLong("id")
                     email = jsonObject.getString("email")
                     username = jsonObject.getString("userName")
-                    favorite = parseFavorites(jsonObject.getJSONArray("reviews"))
+//                    favorite = parseFavorites(jsonObject.getJSONArray("reviews"))
                     instance = it
                 }
             }

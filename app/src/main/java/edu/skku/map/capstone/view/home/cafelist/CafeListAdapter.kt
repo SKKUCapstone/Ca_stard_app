@@ -10,8 +10,10 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.databinding.ItemCafePreviewBinding
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.models.user.User
 
 class CafeListAdapter(val context: Context, private val onCafeClick: MutableLiveData<Cafe>): RecyclerView.Adapter<CafeListViewholder>() {
     private var cafeList: List<Cafe> = listOf()

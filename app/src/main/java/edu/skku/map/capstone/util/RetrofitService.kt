@@ -27,18 +27,6 @@ class ReviewDTO(
     @SerializedName("clean") private val clean: Int?,
     @SerializedName("comment") private val comment: String?
 )
-
-//interface RetrofitService {
-//    @GET("v2/local/search/category")
-//    fun getCafes(
-//        @Header("Authorization") restApiKey: String,
-//        @Query("category_group_code") categoryGroupCode: String,
-//        @Query("x") x: String,
-//        @Query("y") y: String,
-//        @Query("radius") radius: Int
-//    ): Call<ResponseBody>
-//}
-
 interface RetrofitService {
     @GET("cafes/list")
     fun getCafes(

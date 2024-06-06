@@ -18,6 +18,7 @@ import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.view.home.detail.CafeDetailFragment
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.models.user.User
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
@@ -33,10 +34,10 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 class HomeViewModel() {
-    private val _liveCafeList: MutableLiveData<List<Cafe>> = MutableLiveData<List<Cafe>>() //viewModel 안에서만 수정
+    private val DEFAULT_LAT = 37.402005
+    private val DEFAULT_LNG = 127.108621
+    private val _liveCafeList: MutableLiveData<List<Cafe>> = MutableLiveData<List<Cafe>>()
     val liveCafeList: LiveData<List<Cafe>> get() = _liveCafeList //뷰모델 밖에서 수정
-    private val _liveLatLng:MutableLiveData<LatLng> = MutableLiveData<LatLng>()
-    val liveLatLng:LiveData<LatLng> get() = _liveLatLng
     val filterCategory = MutableLiveData<ArrayList<String>>(arrayListOf())
     val searchText = MutableLiveData("")
     val zoomLevel = MutableLiveData(1)
@@ -46,14 +47,10 @@ class HomeViewModel() {
     var prevCafeDetailFragment: CafeDetailFragment? = null
     private lateinit var locationManager: LocationManager
     private lateinit var locationListener: LocationListener
-
     lateinit var activity: Activity
-    private val DEFAULT_LAT = 37.402005
-    private val DEFAULT_LNG = 127.108621
 
     init {
         _liveCafeList.value = listOf()
-        _liveLatLng.value = LatLng.from(DEFAULT_LAT,DEFAULT_LNG)
     }
 
     fun fetchCafes(lat:Double?, lng: Double?, radius: Int) {
@@ -139,7 +136,7 @@ class HomeViewModel() {
                     val newLat = DEFAULT_LAT
                     val newLng = DEFAULT_LNG
                     Log.d("gps", "lat: $newLat, lng: $newLng")
-                    _liveLatLng.value = LatLng.from(newLat,newLng)
+                    User.latLng.postValue(LatLng.from(newLat,newLng))
                 }
                 override fun onProviderEnabled(provider: String) {}
                 override fun onProviderDisabled(provider: String) {}
