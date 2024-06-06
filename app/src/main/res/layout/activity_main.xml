@@ -50,9 +50,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:gravity="center"
                 android:textSize="12sp"
+                android:layout_marginTop="10dp"
                 android:text="홈" />
         </LinearLayout>
 
@@ -74,9 +74,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:textSize="12sp"
                 android:gravity="center"
+                android:layout_marginTop="10dp"
                 android:text="카페찾기" />
         </LinearLayout>
 
@@ -98,9 +98,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:gravity="center"
                 android:textSize="12sp"
+                android:layout_marginTop="10dp"
                 android:text="My 카페" />
         </LinearLayout>
 
@@ -122,9 +122,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:gravity="center"
                 android:textSize="12sp"
+                android:layout_marginTop="10dp"
                 android:text="마이페이지" />
         </LinearLayout>
 

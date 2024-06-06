@@ -228,9 +228,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
                         android:gravity="center_vertical"
-                        android:textStyle="bold"
-                        android:textColor="@color/green"
-                        android:text="영업중"/>
+                        android:text="cafe_url"/>
                     <TextView
                         android:id="@+id/detail_addressTV"
                         android:layout_width="match_parent"

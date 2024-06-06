@@ -9,9 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
+import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.util.calculateDistance
 import edu.skku.map.capstone.view.ReviewActivity
 import edu.skku.map.capstone.view.home.HomeFragment
 
@@ -23,12 +25,12 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCafeDetailBinding.inflate(inflater, container, false)
-        initUI()
+        setUI()
         handleClickListeners()
         return binding.root
     }
 
-    private fun initUI() {
+    private fun setUI() {
 
         binding.detailCafeNameTV.text = cafe.cafeName
         binding.detailCafeName2TV.text = cafe.cafeName

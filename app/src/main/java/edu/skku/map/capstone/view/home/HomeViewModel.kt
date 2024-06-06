@@ -19,6 +19,7 @@ import edu.skku.map.capstone.view.home.detail.CafeDetailFragment
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
 import okhttp3.ResponseBody
+import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -56,49 +57,48 @@ class HomeViewModel() {
     }
 
     fun fetchCafes(lat:Double?, lng: Double?, radius: Int) {
-//
-//        val filter:String? = filterCategory.value?.joinToString(separator = ",")
-//        val retrofit = Retrofit.Builder()
-////            .baseUrl("https://dapi.kakao.com/")
-//            .baseUrl("http://43.201.119.249:8080/")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//        val service = retrofit.create(RetrofitService::class.java)
-//
-//        Log.d("cafe","fetching cafes from (${lat?.toString()?:DEFAULT_LNG.toString()},${lng?.toString()?:DEFAULT_LAT.toString()})")
-//
-//        service
-//            .getCafes(
-//                (lng?:DEFAULT_LNG).toString(),
-//                (lat?:DEFAULT_LAT).toString(),
-//                radius,
-//                filter,
-//                if(searchText.value!!.trim() == "") null else searchText.value,
-//            )
-//            .enqueue(object : Callback<ResponseBody> {
-//                @SuppressLint("NotifyDataSetChanged")
-//                override fun onResponse(
-//                    call: Call<ResponseBody>,
-//                    response: Response<ResponseBody>
-//                ) {
-//                    val newCafeList = mutableListOf<Cafe>()
-//                    val body = response.body()!!
-//                    val jsonObject = JSONObject(body.string())
-//                    val cafeData = jsonObject.getJSONArray("documents")
-//                    Log.d("cafe","cafeData ${cafeData}")
-//                    for (i in 0 until cafeData.length()) {
-//                        val cafeJsonObject = cafeData.getJSONObject(i)
+
+        val filter:String? = filterCategory.value?.joinToString(separator = ",")
+        val retrofit = Retrofit.Builder()
+//            .baseUrl("https://dapi.kakao.com/")
+            .baseUrl("http://43.201.119.249:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(RetrofitService::class.java)
+
+        Log.d("cafe","fetching cafes from (${lat?.toString()?:DEFAULT_LNG.toString()},${lng?.toString()?:DEFAULT_LAT.toString()})")
+
+        service
+            .getCafes(
+                (lng?:DEFAULT_LNG).toString(),
+                (lat?:DEFAULT_LAT).toString(),
+                radius,
+                filter,
+                if(searchText.value!!.trim() == "") null else searchText.value,
+            )
+            .enqueue(object : Callback<ResponseBody> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    val newCafeList = mutableListOf<Cafe>()
+                    val body = response.body()!!
+                    val jsonArray = JSONArray(body.string())
+                    Log.d("cafe","cafeData ${jsonArray}")
+                    for (i in 0 until jsonArray.length()) {
+                        val cafeJsonObject = jsonArray.getJSONObject(i)
 //                        Log.d("cafe", cafeJsonObject.toString())
-//                        val cafe = Cafe(cafeJsonObject)
-//                        newCafeList.add(cafe)
-//                    }
-//                    Log.d("cafe","total ${newCafeList.size} cafe fetched:"+newCafeList.toString())
-//                    _liveCafeList.value = newCafeList
-//                }
-//                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                    Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
-//                }
-//            })
+                        val cafe = Cafe(cafeJsonObject)
+                        newCafeList.add(cafe)
+                    }
+                    Log.d("cafe","total ${newCafeList.size} cafe fetched:"+newCafeList.toString())
+                    _liveCafeList.value = newCafeList
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
+                }
+            })
     }
 
     fun observeSearchText() {
@@ -146,23 +146,5 @@ class HomeViewModel() {
             }
         }
     }
-
-    fun calculateDistance(point1: LatLng, point2: LatLng): Double {
-        val earthRadius = 6371 // Radius of the Earth in kilometers
-
-        val lat1 = Math.toRadians(point1.latitude)
-        val lon1 = Math.toRadians(point1.longitude)
-        val lat2 = Math.toRadians(point2.latitude)
-        val lon2 = Math.toRadians(point2.longitude)
-
-        val dlon = lon2 - lon1
-        val dlat = lat2 - lat1
-
-        val a = sin(dlat / 2).pow(2) + cos(lat1) * cos(lat2) * sin(dlon / 2).pow(2)
-        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-        return earthRadius * c // Distance in kilometers
-    }
-
 
  }

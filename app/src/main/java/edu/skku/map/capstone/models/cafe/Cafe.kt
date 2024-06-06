@@ -9,12 +9,11 @@ val typeToken = object : TypeToken<List<Review>>() {}.type
 class Cafe(
     val cafeId:Long,
     val cafeName:String? = null,
-//    val address: String? = null,
     val roadAddressName:String? = null,
     val phone:String? = null,
     val latitude:Double,
     val longitude:Double,
-    val distance:Double? = null,
+    var distance:Double? = null,
     val placeURL:String? = null,
     val powerSocket:Double = 0.0,
     val capacity:Double = 0.0,
@@ -34,35 +33,31 @@ class Cafe(
     val cleanCnt:Int = 0,
     val reviews:ArrayList<Review> = arrayListOf()
 ){
-
     constructor(jsonObject: JSONObject) : this(
         cafeId = jsonObject.getString("id").takeIf { it.isNotEmpty() }?.toLongOrNull() ?: 0L,
-        cafeName = jsonObject.getString("place_name"),
-//        address = jsonObject.getString("address"),
+        cafeName = jsonObject.getString("cafe_name"),
         roadAddressName = jsonObject.getString("road_address_name"),
         phone = jsonObject.getString("phone"),
-        latitude = jsonObject.getString("y").toDouble(),
-        longitude = jsonObject.getString("x").toDouble(),
-        distance = jsonObject.getString("distance").takeIf { it.isNotEmpty() }?.toDoubleOrNull(),
+        latitude = jsonObject.getString("latitude").toDouble(),
+        longitude = jsonObject.getString("longitude").toDouble(),
         placeURL = jsonObject.getString("place_url"),
-
-//        capacity = jsonObject.getDouble("capacity"),
-//        powerSocket = jsonObject.getDouble("powerSocket"),
-//        quiet = jsonObject.getDouble("quiet"),
-//        wifi = jsonObject.getDouble("wifi"),
-//        tables = jsonObject.getDouble("tables"),
-//        toilet = jsonObject.getDouble("toilet"),
-//        bright = jsonObject.getDouble("bright"),
-//        clean = jsonObject.getDouble("clean"),
-//        capacityCnt = jsonObject.getInt("capacityCnt"),
-//        powerSocketCnt = jsonObject.getInt("powerSocketCnt"),
-//        quietCnt = jsonObject.getInt("quietCnt"),
-//        wifiCnt = jsonObject.getInt("wifiCnt"),
-//        tablesCnt = jsonObject.getInt("tablesCnt"),
-//        toiletCnt = jsonObject.getInt("toiletCnt"),
-//        brightCnt = jsonObject.getInt("brightCnt"),
-//        cleanCnt = jsonObject.getInt("cleanCnt"),
-//        reviews = Gson().fromJson(jsonObject.getJSONArray("Reviews").toString(), typeToken)
+        capacity = jsonObject.getDouble("capacity"),
+        powerSocket = jsonObject.getDouble("power_socket"),
+        quiet = jsonObject.getDouble("quiet"),
+        wifi = jsonObject.getDouble("wifi"),
+        tables = jsonObject.getDouble("tables"),
+        toilet = jsonObject.getDouble("toilet"),
+        bright = jsonObject.getDouble("bright"),
+        clean = jsonObject.getDouble("clean"),
+        capacityCnt = jsonObject.getInt("capacity_cnt"),
+        powerSocketCnt = jsonObject.getInt("power_socket_cnt"),
+        quietCnt = jsonObject.getInt("quiet_cnt"),
+        wifiCnt = jsonObject.getInt("wifi_cnt"),
+        tablesCnt = jsonObject.getInt("tables_cnt"),
+        toiletCnt = jsonObject.getInt("toilet_cnt"),
+        brightCnt = jsonObject.getInt("bright_cnt"),
+        cleanCnt = jsonObject.getInt("clean_cnt"),
+        reviews = Gson().fromJson(jsonObject.getJSONArray("reviews").toString(), typeToken)
     ) {}
 
     fun getTotalCnt():Int {
@@ -79,7 +74,6 @@ class Cafe(
                 + powerSocket * powerSocketCnt
                 + toilet * toiletCnt)
     }
-
     fun getTotalRating():Double? {
         return if(getTotalCnt() == 0) null
         else{

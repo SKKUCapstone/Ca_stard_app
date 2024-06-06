@@ -39,6 +39,7 @@ import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.view.home.detail.CafeDetailFragment
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.util.calculateDistance
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -205,7 +206,7 @@ class HomeFragment : Fragment() {
         kakaoMap.setOnCameraMoveEndListener { kakaoMap, position, gestureType ->
             if(gestureType == GestureType.Pan) {
                 val dist =
-                    viewModel.calculateDistance(position.position, viewModel.liveLatLng.value!!)
+                    calculateDistance(position.position, viewModel.liveLatLng.value!!)
                 if (dist >= 1.0) {
                     Log.d("camera", position.position.toString())
                     binding.relocateBtn.visibility = View.VISIBLE

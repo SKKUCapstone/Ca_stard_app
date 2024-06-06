@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         binding.favBtn.setOnClickListener {
             removeUpperFragment()
             if ( upperFragment == favoriteFragment ) return@setOnClickListener
-            supportFragmentManager.beginTransaction().apply {
+                supportFragmentManager.beginTransaction().apply {
                 add(binding.frameLayout.id, favoriteFragment).commit()
             }
             upperFragment = favoriteFragment
