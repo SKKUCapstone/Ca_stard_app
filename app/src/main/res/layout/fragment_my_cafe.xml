@@ -40,46 +40,95 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
             android:orientation="vertical"
-            android:paddingHorizontal="28dp"
-            android:layout_marginTop="30dp">
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pieChart"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_gravity="center" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                >
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintWidth_percent="0.52"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70dp"
+
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/anaylzeImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/analyzeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/green"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:id="@+id/analyzeCnt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="#807D65"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/myCafe_content1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="36dp"
                 android:text="통계에 따르면 정환님이 선호하시는 카페는"
                 android:textColor="#b3000000"
-                android:textSize="12sp"
-                />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/myCafe_content2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:letterSpacing="-0.02"
-                android:text="조용하고, 충전 가능한 카페에요"
-                android:textColor="#2e6e59"
-                android:textSize="25sp"
-                android:textStyle="bold"
                 android:layout_gravity="center"
-                />
+                android:layout_marginTop="16dp"
+                android:text="조용하고, 충전 가능한 카페에요"
+                android:textColor="@color/green"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@color/white"
             android:orientation="vertical"
-            android:paddingHorizontal="28dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/white">
+            android:paddingHorizontal="28dp">
 
             <TextView
                 android:id="@+id/textView2"
@@ -90,7 +139,7 @@
                 android:text="즐겨찾기한 카페"
                 android:textColor="#444444"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cafeImageList"
@@ -140,20 +189,19 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="28dp"
-            android:background="#FBFAF9"
             android:layout_marginTop="8dp"
-            >
+            android:background="#FBFAF9"
+            android:paddingHorizontal="28dp">
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="이 카페를 많이 갔어요"
                 android:textColor="#444444"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -163,13 +211,14 @@
                 android:id="@+id/myCafeVisitedListRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:overScrollMode="never"
                 android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                android:nestedScrollingEnabled="false"/>
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

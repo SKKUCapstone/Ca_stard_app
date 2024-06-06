@@ -80,7 +80,7 @@ class HomeFragment : Fragment() {
         LabelStyle.from(R.drawable.defaultcafepin)
             .setZoomLevel(0)
             .setIconTransition(LabelTransition.from(Transition.None,Transition.None))
-        )
+    )
     private val lodLabelStyleIDClicked = LabelStyles.from(
         LabelStyle.from(R.drawable.defaultcafepin_clicked)
             .setZoomLevel(0)
@@ -300,8 +300,8 @@ class HomeFragment : Fragment() {
 
     private fun observeCafeList() {
         viewModel.liveCafeList.observe(viewLifecycleOwner) {
-                if(it != null) updateCafeLabels()
-            }
+            if(it != null) updateCafeLabels()
+        }
     }
 
     private fun observeLocation() {
@@ -361,12 +361,12 @@ class HomeFragment : Fragment() {
                     viewModel.searchText.postValue(it.toString().trim())
                 }
                 .launchIn(this)
-            }
         }
-        override fun onDestroy() {
-            myCoroutineContext.cancel()
-            super.onDestroy()
-        }
+    }
+    override fun onDestroy() {
+        myCoroutineContext.cancel()
+        super.onDestroy()
+    }
 
     private fun observeFilter() {
 
