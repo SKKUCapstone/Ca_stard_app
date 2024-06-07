@@ -39,6 +39,7 @@ import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.view.home.detail.CafeDetailFragment
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.calculateDistance
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -69,8 +70,7 @@ class HomeFragment : Fragment() {
     private lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var lodLabels: Array<LodLabel>
     val pullDownBottemSheet = MutableLiveData(false)
-    val DEFAULT_LAT = 37.402005
-    val DEFAULT_LNG = 127.108621
+
     private val categoryList = arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet")
     private var myCoroutineJob: Job = Job()
     private val myCoroutineContext: CoroutineContext
@@ -150,7 +150,7 @@ class HomeFragment : Fragment() {
 
     private fun setClickListener() {
         binding.gpsBtn.setOnClickListener {
-            moveCamera(viewModel.liveLatLng.value!!.latitude,viewModel.liveLatLng.value!!.longitude)
+            moveCamera(User.latLng.value!!.latitude,User.latLng.value!!.longitude)
             binding.relocateBtn.visibility = View.INVISIBLE
         }
         binding.relocateBtn.setOnClickListener {
@@ -206,7 +206,7 @@ class HomeFragment : Fragment() {
         kakaoMap.setOnCameraMoveEndListener { kakaoMap, position, gestureType ->
             if(gestureType == GestureType.Pan) {
                 val dist =
-                    calculateDistance(position.position, viewModel.liveLatLng.value!!)
+                    calculateDistance(position.position, User.latLng.value!!)
                 if (dist >= 1.0) {
                     Log.d("camera", position.position.toString())
                     binding.relocateBtn.visibility = View.VISIBLE
@@ -269,7 +269,7 @@ class HomeFragment : Fragment() {
     fun onCafeDetailOpen(cafe: Cafe){
         onCafeDetailClosed() //remove possibly existing detailFragment
         val activity = (requireActivity() as MainActivity)
-        viewModel.cafeDetailFragment = CafeDetailFragment(cafe,activity.reviewingCafe, activity.reviewPhase, pullDownBottemSheet)
+        viewModel.cafeDetailFragment = CafeDetailFragment(cafe,activity.reviewingCafe, activity.reviewPhase,User.latLng.value!!, pullDownBottemSheet)
 
         childFragmentManager.beginTransaction().apply {
             add(binding.childFL.id, viewModel.cafeDetailFragment as Fragment).commit()
@@ -305,8 +305,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeLocation() {
-        val lat = viewModel.liveLatLng.value!!.latitude
-        val lng = viewModel.liveLatLng.value!!.longitude
+        val lat = User.latLng.value!!.latitude
+        val lng = User.latLng.value!!.longitude
         if (currentLabel == null) {
             currentLabel = createMyLabel(lat,lng)
         } else {

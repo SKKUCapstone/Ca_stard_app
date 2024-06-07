@@ -13,7 +13,6 @@ class Cafe(
     val phone:String? = null,
     val latitude:Double,
     val longitude:Double,
-    var distance:Double? = null,
     val placeURL:String? = null,
     val powerSocket:Double = 0.0,
     val capacity:Double = 0.0,
@@ -79,5 +78,19 @@ class Cafe(
         else{
             getTotalRatingSum()/getTotalCnt()
         }
+    }
+    fun getTopCategories():List<String> {
+        val ratings = mapOf(
+            "powerSocket" to powerSocket,
+            "capacity" to capacity,
+            "quiet" to quiet,
+            "wifi" to wifi,
+            "tables" to tables,
+            "toilet" to toilet,
+            "bright" to bright,
+            "clean" to clean
+        ).entries.sortedBy { it.value }
+        return ratings.take(3).map { it.key }
+
     }
 }

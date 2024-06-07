@@ -40,7 +40,7 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
 
     fun onSubmitReview(cafe: Cafe, capacity:Int?, bright:Int?, clean:Int?, wifi:Int?, quiet:Int?, tables:Int?, powerSocket:Int?, toilet:Int?, comment:String?) {
         val retrofit = Retrofit.Builder()
-            .baseUrl(R.string.base_url.toString())
+            .baseUrl("http://43.201.119.249:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(RetrofitService::class.java)
@@ -72,10 +72,10 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
-                    Log.d("review",response.toString())
+                    Log.d("review",response.body().toString())
                 }
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("cafe", "failed to post review: ${t.localizedMessage}")
+                    Log.d("review", "failed to post review: ${t.localizedMessage}")
                 }
             })
     }

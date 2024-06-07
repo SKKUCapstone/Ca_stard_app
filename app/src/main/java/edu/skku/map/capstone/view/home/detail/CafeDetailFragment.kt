@@ -14,10 +14,12 @@ import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.util.calculateDistance
+import edu.skku.map.capstone.util.getCafeDistance
 import edu.skku.map.capstone.view.ReviewActivity
 import edu.skku.map.capstone.view.home.HomeFragment
+import kotlin.math.roundToInt
 
-class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: MutableLiveData<Cafe>, private val phase: MutableLiveData<Int>, private val pullDownBottomSheet: MutableLiveData<Boolean>) : Fragment() {
+class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: MutableLiveData<Cafe>, private val phase: MutableLiveData<Int>,private val latLng: LatLng, private val pullDownBottomSheet: MutableLiveData<Boolean>) : Fragment() {
     private var _binding: FragmentCafeDetailBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -31,13 +33,12 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
     }
 
     private fun setUI() {
-
         binding.detailCafeNameTV.text = cafe.cafeName
         binding.detailCafeName2TV.text = cafe.cafeName
         binding.detailAddressTV.text = if(cafe.roadAddressName == "") "정보 없음" else cafe.roadAddressName
         binding.detailUrlTV.text = if(cafe.placeURL == null) "웹사이트 정보 없음" else cafe.placeURL.toString()
         binding.detailPhoneTV.text = if(cafe.phone == "") "정보 없음" else cafe.phone
-        binding.detailDistanceTV.text = cafe.distance.toString()+"KM"
+        binding.detailDistanceTV.text = getCafeDistance(latLng, LatLng.from(cafe.latitude, cafe.longitude)) +"m"
         binding.detailRatingTV.text = if(cafe.getTotalRating() == null) "별점 정보 없음" else cafe.getTotalRating().toString()
 
         val ratingLLs = listOf(

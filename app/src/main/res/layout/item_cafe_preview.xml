@@ -24,6 +24,8 @@
         android:id="@+id/distanceTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/green"
+        android:textStyle="bold"
         android:text="10KM"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
