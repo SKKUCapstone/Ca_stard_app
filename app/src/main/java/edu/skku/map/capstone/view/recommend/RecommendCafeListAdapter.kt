@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import edu.skku.map.capstone.databinding.ItemCafeFavoriteListBinding
+import edu.skku.map.capstone.databinding.ItemCafePreviewBinding
 import edu.skku.map.capstone.models.cafe.Cafe
 
 class RecommendCafeListAdapter(val context: Context, private val reviewList: List<Cafe>):RecyclerView.Adapter<RecommendCafeListViewholder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendCafeListViewholder {
-        val binding = ItemCafeFavoriteListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ItemCafePreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return RecommendCafeListViewholder(context, binding)
     }
 

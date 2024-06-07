@@ -1,4 +1,4 @@
-package edu.skku.map.capstone.view.recommend.minireviewchip
+package edu.skku.map.capstone.view.mycafe.minireviewchip
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
