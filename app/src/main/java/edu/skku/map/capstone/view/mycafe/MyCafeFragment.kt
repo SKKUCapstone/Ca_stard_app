@@ -1,5 +1,6 @@
 package edu.skku.map.capstone.view.mycafe
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -150,7 +151,7 @@ class MyCafeFragment : Fragment() {
         val pieEntries = mutableListOf<PieEntry>()
 
         counts.forEach { (key, value) ->
-            pieEntries.add(PieEntry(value.toFloat(), key))
+            pieEntries.add(PieEntry(value.toFloat(), siwtchToKor(key)))
         }
 
         val pieColors = listOf(
@@ -169,13 +170,29 @@ class MyCafeFragment : Fragment() {
             legend.isEnabled = false
             isRotationEnabled = false
             holeRadius = 70f
+            setEntryLabelColor(Color.WHITE) // 안 글씨 색
+//            setDrawRoundedSlices(true) // 모양 둥글게
             setTouchEnabled(false)
-            setDrawEntryLabels(false) // 항목 라벨 숨기기
-            setDrawCenterText(false)
+            setDrawEntryLabels(true) // 항목 라벨 숨기기
+            setDrawCenterText(true)
             animateY(1200, Easing.EaseInOutCubic)
             animate()
         }
+    }
 
+    private fun siwtchToKor(category: String): String {
+        val categoryText = when (category) {
+            "powerSocket" -> "콘센트"
+            "capacity" -> "공간"
+            "quiet" -> "분위기"
+            "wifi" -> "와이파이"
+            "tables" -> "좌석"
+            "toilet" -> "화장실"
+            "bright" -> "밝기"
+            "clean" -> "위생"
+            else -> ""
+        }
+        return categoryText
     }
 
     private fun setPieChartContents() {

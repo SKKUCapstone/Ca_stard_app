@@ -10,4 +10,5 @@
     <color name="red">#FF0000</color>
     <color name="castardLightBrown">#D5CEC6</color>
     <color name="notRecommend">#9D917D</color>
+    <color name="kakaoLogin">#FEE500</color>
 </resources>

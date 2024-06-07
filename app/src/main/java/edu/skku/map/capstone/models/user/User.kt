@@ -2,6 +2,7 @@ package edu.skku.map.capstone.models.user
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.models.review.Review
 import org.json.JSONObject
 import org.json.JSONArray
 
@@ -14,6 +15,7 @@ class User private constructor() {
         var id: Long = 0
         lateinit var email: String
         lateinit var username: String
+//        lateinit var reviews: ArrayList<Review>
         lateinit var favorite: ArrayList<Cafe>
         var latLng = MutableLiveData(LatLng.from(DEFAULT_LAT, DEFAULT_LNG))
 
