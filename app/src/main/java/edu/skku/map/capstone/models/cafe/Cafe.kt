@@ -5,7 +5,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class Cafe(
-    val cafeId:Long,
+        val cafeId:Long,
     val cafeName:String? = null,
     val roadAddressName:String? = null,
     val phone:String? = null,
@@ -20,7 +20,7 @@ class Cafe(
     val toilet:Double = 0.0,
     val bright:Double = 0.0,
     val clean:Double = 0.0,
-    val powerSocketCnt:Int = 0,
+        val powerSocketCnt:Int = 0,
     val capacityCnt:Int = 0,
     val quietCnt:Int = 0,
     val wifiCnt:Int = 0,
@@ -55,7 +55,8 @@ class Cafe(
         toiletCnt = jsonObject.getInt("toilet_cnt"),
         brightCnt = jsonObject.getInt("bright_cnt"),
         cleanCnt = jsonObject.getInt("clean_cnt"),
-        reviews = parseReview(jsonObject.getJSONArray("reviews"))
+        reviews = jsonObject.optJSONArray("reviews")?.let { parseReview(it) } ?: arrayListOf(),  // 리뷰가 없으면 빈 리스트
+        isFavorite = MutableLiveData(jsonObject.optBoolean("isFavorite", false))  // isFavorite가 없으면 false
     ) {}
 
     companion object {

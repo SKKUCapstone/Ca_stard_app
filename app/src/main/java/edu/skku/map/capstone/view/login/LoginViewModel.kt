@@ -58,8 +58,13 @@ class LoginViewModel {
                                     User.getInstance(jsonObject)
                                     Log.d(
                                         "loginResponse",
-                                        "ID: ${User.id}, Email: ${User.email}, Username: ${User.username}"
+                                        "ID: ${User.id}, Email: ${User.email}, Username: ${User.username}"                                        ,
                                     )
+                                    Log.d(
+                                        "loginResponse",
+                                        "Favorite: ${User.favorite}, Reviews: ${User.review}"
+                                    )
+
                                 }
                             }
 
