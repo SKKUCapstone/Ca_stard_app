@@ -17,8 +17,8 @@ class User private constructor() {
         lateinit var username: String
 //        lateinit var reviews: ArrayList<Review>
         lateinit var favorite: ArrayList<Cafe>
+        lateinit var review: ArrayList<Review>
         var latLng = MutableLiveData(LatLng.from(DEFAULT_LAT, DEFAULT_LNG))
-
 
         fun getInstance(jsonObject: JSONObject): User {
             return instance ?: synchronized(this) {
@@ -26,7 +26,8 @@ class User private constructor() {
                     id = jsonObject.getLong("id")
                     email = jsonObject.getString("email")
                     username = jsonObject.getString("userName")
-//                    favorite = parseFavorites(jsonObject.getJSONArray("reviews"))
+                    favorite = parseFavorites(jsonObject.getJSONArray("favorites"))
+                    review = parseReviews(jsonObject.getJSONArray("reviews"))
                     instance = it
                 }
             }
@@ -35,11 +36,21 @@ class User private constructor() {
         private fun parseFavorites(jsonArray: JSONArray): ArrayList<Cafe> {
             val favoriteList = ArrayList<Cafe>()
             for (i in 0 until jsonArray.length()) {
-                val cafeJson = jsonArray.getJSONObject(i)
+                val cafeJson = jsonArray.getJSONObject(i).getJSONObject("cafe")
                 val cafe = Cafe(cafeJson)
                 favoriteList.add(cafe)
             }
             return favoriteList
+        }
+
+        private fun parseReviews(jsonArray: JSONArray): ArrayList<Review> {
+            val reviewList = ArrayList<Review>()
+            for (i in 0..<jsonArray.length()){
+                val reviewJson = jsonArray.getJSONObject(i)
+                val review = Review(reviewJson)
+                reviewList.add(review)
+            }
+            return reviewList
         }
     }
 }

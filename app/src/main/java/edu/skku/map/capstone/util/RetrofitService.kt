@@ -27,21 +27,42 @@ class ReviewDTO(
     @SerializedName("clean") private val clean: Int?,
     @SerializedName("comment") private val comment: String?
 )
+
+class FavoriteDTO(
+    @SerializedName("userId") private val userId: Long,
+    @SerializedName("cafeId") private val cafeId: Long
+)
+
 interface RetrofitService {
+    //cafes
     @GET("cafes/list")
     fun getCafes(
-        @Query("x") x: String,
-        @Query("y") y: String,
+        @Query("x") x: Double,
+        @Query("y") y: Double,
         @Query("radius") radius: Int,
         @Query("filter") filter: String?,
         @Query("searchText") searchText: String?,
     ): Call<ResponseBody>
+
+    //reviews
+
+    @GET("/review/user/byuserId")
+    fun getReviews(
+        @Query("userId") userId: Long
+    ):Call<ResponseBody>
 
     @POST("/review/post")
     fun postReview(
         @Body body: ReviewDTO
     ):Call<ResponseBody>
 
+    //favorite
+    @POST("/favorite/post")
+    fun addFavorite(
+        @Body body: FavoriteDTO
+    ):Call<ResponseBody>
+
+    //user
     @POST("/user/login")
     fun login(
         @Body body: LoginRequest

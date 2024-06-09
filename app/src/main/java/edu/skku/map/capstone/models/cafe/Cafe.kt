@@ -1,11 +1,9 @@
 package edu.skku.map.capstone.models.cafe
-
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.models.review.Review
+import org.json.JSONArray
 import org.json.JSONObject
 
-val typeToken = object : TypeToken<List<Review>>() {}.type
 class Cafe(
     val cafeId:Long,
     val cafeName:String? = null,
@@ -30,10 +28,11 @@ class Cafe(
     val toiletCnt:Int = 0,
     val brightCnt:Int = 0,
     val cleanCnt:Int = 0,
-    val reviews:ArrayList<Review> = arrayListOf()
+    val reviews:ArrayList<Review> = arrayListOf(),
+    var isFavorite: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
 ){
     constructor(jsonObject: JSONObject) : this(
-        cafeId = jsonObject.getString("id").takeIf { it.isNotEmpty() }?.toLongOrNull() ?: 0L,
+        cafeId = jsonObject.getLong("id"),
         cafeName = jsonObject.getString("cafe_name"),
         roadAddressName = jsonObject.getString("road_address_name"),
         phone = jsonObject.getString("phone"),
@@ -56,8 +55,22 @@ class Cafe(
         toiletCnt = jsonObject.getInt("toilet_cnt"),
         brightCnt = jsonObject.getInt("bright_cnt"),
         cleanCnt = jsonObject.getInt("clean_cnt"),
-        reviews = Gson().fromJson(jsonObject.getJSONArray("reviews").toString(), typeToken)
+        reviews = parseReview(jsonObject.getJSONArray("reviews"))
     ) {}
+
+    companion object {
+        fun parseReview(jsonArray: JSONArray):ArrayList<Review> {
+            val reviewArray: ArrayList<Review> = arrayListOf()
+            for (i in 0 until jsonArray.length()) {
+                val reviewJsonObject = jsonArray.getJSONObject(i)
+                val review = Review(reviewJsonObject)
+                reviewArray.add(review)
+            }
+            return reviewArray
+        }
+    }
+
+
 
     fun getTotalCnt():Int {
         return capacityCnt + brightCnt + cleanCnt + quietCnt + wifiCnt + tablesCnt + powerSocketCnt + toiletCnt
@@ -92,5 +105,40 @@ class Cafe(
         ).entries.sortedBy { it.value }
         return ratings.take(3).map { it.key }
 
+    }
+
+    fun filterTopReviews():ArrayList<String> {
+        val filteredList = arrayListOf<String>()
+        val size = reviews.size
+        var sum = 0
+        for(review in reviews){ sum += review.bright }
+        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("bright")
+        sum = 0
+        for(review in reviews){ sum += review.clean }
+        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("clean")
+        sum = 0
+        for(review in reviews){ sum += review.quiet }
+        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("quiet")
+        sum = 0
+        for(review in reviews){ sum += review.capacity }
+        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("capacity")
+        sum = 0
+        for(review in reviews){ sum += review.powerSocket }
+        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("powerSocket")
+        sum = 0
+        for(review in reviews){ sum += review.wifi }
+        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("wifi")
+        sum = 0
+        for(review in reviews){ sum += review.tables }
+        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("table")
+        sum = 0
+        for(review in reviews){ sum += review.toilet }
+        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("toilet")
+
+        return filteredList
+    }
+
+    fun updateIsFavorite(value: Boolean) {
+        isFavorite.postValue(value)
     }
 }

@@ -95,7 +95,7 @@
             app:layout_constraintTop_toBottomOf="@+id/userEmail"
             >
             <androidx.cardview.widget.CardView
-                android:id="@+id/change_userData"
+                android:id="@+id/change_userData_CV"
                 android:layout_width="match_parent"
                 android:layout_height="63dp">
 
@@ -116,7 +116,28 @@
                     android:src="@drawable/arrow" />
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/personal_info_agreement"
+                android:id="@+id/my_reviews_CV"
+                android:layout_width="match_parent"
+                android:layout_height="63dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/mypagecard"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp"
+                    android:text="내 리뷰 보기"
+                    android:textColor="@color/darkGreen" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="20dp"
+                    android:src="@drawable/arrow" />
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/personal_info_agreement_CV"
                 android:layout_width="match_parent"
                 android:layout_height="63dp">
 
@@ -137,7 +158,7 @@
                     android:src="@drawable/arrow" />
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/service_agreement"
+                android:id="@+id/service_agreement_CV"
                 android:layout_width="match_parent"
                 android:layout_height="63dp">
                 <TextView
@@ -157,7 +178,7 @@
                     android:src="@drawable/arrow" />
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/place_agreement"
+                android:id="@+id/place_agreement_CV"
                 android:layout_width="match_parent"
                 android:layout_height="63dp">
 
@@ -179,7 +200,7 @@
                     android:src="@drawable/arrow" />
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/logout"
+                android:id="@+id/logout_CV"
                 android:layout_width="match_parent"
                 android:layout_height="63dp">
 
@@ -201,7 +222,7 @@
 
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/unregister"
+                android:id="@+id/unregister_CV"
                 android:layout_width="match_parent"
                 android:layout_height="63dp">
 

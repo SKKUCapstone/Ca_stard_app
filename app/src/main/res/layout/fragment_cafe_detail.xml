@@ -142,12 +142,13 @@
                         android:textSize="14sp" />
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/detailLikeBtn"
+                    android:id="@+id/detailFavBtn"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
+                        android:id="@+id/detailFavIcon_IV"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
