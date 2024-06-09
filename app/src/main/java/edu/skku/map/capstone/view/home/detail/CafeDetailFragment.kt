@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.MainActivity
+import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.util.calculateDistance
@@ -22,6 +23,7 @@ import kotlin.math.roundToInt
 class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: MutableLiveData<Cafe>, private val phase: MutableLiveData<Int>,private val latLng: LatLng, private val pullDownBottomSheet: MutableLiveData<Boolean>) : Fragment() {
     private var _binding: FragmentCafeDetailBinding? = null
     private val binding get() = _binding!!
+    private val viewModel = CafeDetailViewModel()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +31,7 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
         _binding = FragmentCafeDetailBinding.inflate(inflater, container, false)
         setUI()
         handleClickListeners()
+//        observeFavorite()
         return binding.root
     }
 
@@ -112,6 +115,7 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
         }
     }
 
+
     private fun handleClickListeners() {
         binding.backBtn.setOnClickListener {
             val parentFragment: HomeFragment = parentFragment as HomeFragment
@@ -131,11 +135,19 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
         binding.detailMapBtn.setOnClickListener {
             pullDownBottomSheet.postValue(true)
         }
-        binding.detailLikeBtn.setOnClickListener {
-
+        binding.detailFavBtn.setOnClickListener {
+            val res = viewModel.onAddFavorite(cafe.cafeId)
+            cafe.updateIsFavorite(res) //synchronize data
         }
     }
 
     private fun ratingBarLength(rating:Double):Int = (rating/5.0*578).toInt()
+
+//    private fun observeFavorite() {
+//        cafe.isFavorite.observe(requireParentFragment().requireActivity()) {
+//            if(it) binding.detailFavIconIV.setImageResource(R.drawable.icon_like_filled)
+//            else binding.detailFavIconIV.setImageResource(R.drawable.icon_like)
+//        }
+//    }
 
 }

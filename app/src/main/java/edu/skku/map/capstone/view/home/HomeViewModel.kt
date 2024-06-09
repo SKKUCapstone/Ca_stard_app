@@ -71,8 +71,8 @@ class HomeViewModel() {
 
         service
             .getCafes(
-                (lng ?: DEFAULT_LNG).toString(),
-                (lat ?: DEFAULT_LAT).toString(),
+                (lng ?: DEFAULT_LNG),
+                (lat ?: DEFAULT_LAT),
                 radius,
                 filter,
                 if (searchText.value!!.trim() == "") null else searchText.value,
@@ -85,11 +85,11 @@ class HomeViewModel() {
                 ) {
                     val newCafeList = mutableListOf<Cafe>()
                     val body = response.body()!!
+
                     val jsonArray = JSONArray(body.string())
                     Log.d("cafe", "cafeData ${jsonArray}")
                     for (i in 0 until jsonArray.length()) {
                         val cafeJsonObject = jsonArray.getJSONObject(i)
-
                         Log.d("cafe", cafeJsonObject.toString())
                         val cafe = Cafe(cafeJsonObject)
                         newCafeList.add(cafe)

@@ -20,9 +20,14 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustNothing"
         tools:targetApi="31">
+        <activity
+            android:name=".view.myreviews.MyReviewsActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="09e7ce580fee2dc13ec5d24c66cd8238" />
+
         <activity
             android:name=".view.ReviewActivity"
             android:exported="false" />
@@ -38,12 +43,9 @@
         <activity
             android:name=".view.login.LoginActivity"
             android:exported="false" />
-
         <activity
             android:name=".view.splash.SplashActivity"
-            android:exported="false" />
-
-        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
+            android:exported="false" /> <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true"

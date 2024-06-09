@@ -18,20 +18,20 @@ class FavoriteListViewholder(val context: Context, var binding: ItemCafePreviewB
         val reviewChipListAdapter = ReviewChipListAdapter(context, filterTopReviews(cafe.reviews))
         binding.cafeNameTV.text = cafe.cafeName
         binding.distanceTV.text = "${getCafeDistance(User.latLng.value!!, LatLng.from(cafe.latitude,cafe.longitude))}m"
-        binding.ratingTV.text = if(cafe.getTotalCnt() == 0) "별점 정보 없음" else getAverage(cafe.reviews).toString()
+        binding.ratingTV.text = if(cafe.getTotalCnt() == 0) "별점 정보 없음" else cafe.getTotalRating().toString()
 
         binding.reviewChipRV.adapter = reviewChipListAdapter
         setClickListener()
     }
 
-    private fun getAverage(reviews: ArrayList<Review>): Double {
-        var total = 0.0
-        for(review in reviews){
-            total += review.total
-        }
-        if(reviews.isNotEmpty()) total /= reviews.size
-        return total
-    }
+//    private fun getAverage(reviews: ArrayList<Review>): Double {
+//        var total = 0.0
+//        for(review in reviews){
+//            total += review.total
+//        }
+//        if(reviews.isNotEmpty()) total /= reviews.size
+//        return total
+//    }
 
     private fun filterTopReviews(reviews:ArrayList<Review>):ArrayList<String> {
         val filteredList = arrayListOf<String>()
