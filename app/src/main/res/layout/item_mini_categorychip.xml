@@ -11,7 +11,7 @@
     >
     <ImageView
         android:id="@+id/iconIV"
-        android:layout_width="18dp"
-        android:layout_height="18dp"/>
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
 
 </LinearLayout>

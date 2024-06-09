@@ -5,6 +5,8 @@ import android.util.Log
 import com.kakao.sdk.user.UserApiClient
 import edu.skku.map.capstone.models.user.LoginRequest
 import edu.skku.map.capstone.models.user.User
+import edu.skku.map.capstone.models.user.User.Companion.favorite
+import edu.skku.map.capstone.models.user.User.Companion.review
 import edu.skku.map.capstone.util.RetrofitService
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -60,10 +62,12 @@ class LoginViewModel {
                                         "loginResponse",
                                         "ID: ${User.id}, Email: ${User.email}, Username: ${User.username}"                                        ,
                                     )
-                                    Log.d(
-                                        "loginResponse",
-                                        "Favorite: ${User.favorite}, Reviews: ${User.review}"
-                                    )
+                                    User.favorite.forEach { cafe ->
+                                        Log.d("loginResponse", "Cafe ID: ${cafe.cafeId}, Cafe Name: ${cafe.cafeName}, Address: ${cafe.roadAddressName}, Phone: ${cafe.phone}, Latitude: ${cafe.latitude}, Longitude: ${cafe.longitude}")
+                                    }
+                                    User.review.forEach { review ->
+                                        Log.d("loginResponse", "Cafe ID: ${review.cafeId}, UserID: ${review.userId},")
+                                    }
 
                                 }
                             }

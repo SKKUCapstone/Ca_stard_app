@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat.animate
 import androidx.lifecycle.MutableLiveData
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
@@ -29,7 +30,9 @@ class MyCafeFragment : Fragment() {
 
     // #1. Piechart
     private lateinit var topCategories: List<Map.Entry<String, Int>>
-    // #2. 이런곳은 어떤가요?
+    // #2. 즐겨찾기한 카페
+    private lateinit var favoriteListAdapter: FavoriteListAdapter
+    // #3. 이런곳은 어떤가요?
     private lateinit var cafeListAdapter: CafeListAdapter
     private val onCafeClick = MutableLiveData<Cafe>()
 
@@ -40,6 +43,7 @@ class MyCafeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyCafeBinding.inflate(inflater, container, false)
+        viewModel.updateFavoriteCafeList()
         initUI()
         observeDataList()
 
@@ -48,6 +52,11 @@ class MyCafeFragment : Fragment() {
     }
 
     private fun initUI() {
+        // #2. 즐겨찾기한 카페
+        favoriteListAdapter = FavoriteListAdapter(requireContext(), onCafeClick)
+        binding.favoriteCafeListRV.adapter = favoriteListAdapter
+
+        // #3. 이런곳은 어떤가요?
         cafeListAdapter = CafeListAdapter(requireContext(), onCafeClick)
         binding.myCafeRecommendListRV.adapter = cafeListAdapter
         binding.myCafeVisitedListRV.adapter = cafeListAdapter
@@ -58,12 +67,17 @@ class MyCafeFragment : Fragment() {
     }
 
     private fun observeDataList() {
-        viewModel.recommendCafeList.observe(viewLifecycleOwner) { recommendCafeList ->
-            cafeListAdapter.updateCafeList(recommendCafeList)
+        // #2. 즐겨찾기한 카페
+        viewModel.favoriteCafeList.observe(viewLifecycleOwner) { favoriteCafeList ->
+            favoriteListAdapter.updateCafeList(favoriteCafeList)
         }
-        viewModel.visitedCafeList.observe(viewLifecycleOwner) { visitedCafeList ->
-            cafeListAdapter.updateCafeList(visitedCafeList)
-        }
+        // #3. 이런곳은 어떤가요?
+//        viewModel.recommendCafeList.observe(viewLifecycleOwner) { recommendCafeList ->
+//            cafeListAdapter.updateCafeList(recommendCafeList)
+//        }
+//        viewModel.visitedCafeList.observe(viewLifecycleOwner) { visitedCafeList ->
+//            cafeListAdapter.updateCafeList(visitedCafeList)
+//        }
     }
     private fun generateExtremeDummyCafes(): ArrayList<Cafe> {
         val dummyCafes = ArrayList<Cafe>()

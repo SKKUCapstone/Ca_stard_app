@@ -142,4 +142,22 @@ class Cafe(
     fun updateIsFavorite(value: Boolean) {
         isFavorite.postValue(value)
     }
+
+    fun filterTop(): List<String> {
+        val ratings = mapOf(
+            "bright" to bright,
+            "clean" to clean,
+            "quiet" to quiet,
+            "capacity" to capacity,
+            "powerSocket" to powerSocket,
+            "wifi" to wifi,
+            "tables" to tables,
+            "toilet" to toilet
+        ).filter { it.value > 3.5 }
+            .entries
+            .sortedByDescending { it.value }
+            .map { it.key }
+
+        return ratings
+    }
 }

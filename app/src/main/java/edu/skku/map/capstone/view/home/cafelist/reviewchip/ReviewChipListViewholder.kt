@@ -9,7 +9,6 @@ import edu.skku.map.capstone.databinding.ItemReviewChipBinding
 
 class ReviewChipListViewholder(val context:Context, var binding:ItemReviewChipBinding):RecyclerView.ViewHolder(binding.root) {
     fun bind(reviewText: String){
-
             when(reviewText){
                 "bright" -> {
                     binding.reviewChipTV.text ="밝아요"

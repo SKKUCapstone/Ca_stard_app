@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/card"
-    android:paddingHorizontal="18.17dp"
-    android:paddingVertical="28.5dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="64dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/card_favorite"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="20dp">
 
     <TextView
         android:id="@+id/cafeNameTV"
         android:layout_width="wrap_content"
-        android:maxWidth="170dp"
         android:layout_height="wrap_content"
+        android:maxWidth="170dp"
         android:text="스타벅스 정자점보다 이름이 긴 카페 이름일 경우" />
+
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/reviewChipRV"
+        android:id="@+id/minireviewChipRV"
         android:layout_width="120dp"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </LinearLayout>

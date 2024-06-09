@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.models.user.User
 //import edu.skku.map.capstone.models.favorite.Favorite
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -16,19 +17,21 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MyCafeViewModel() {
-//    private val _favoriteCafeList: MutableLiveData<List<Favorite>> = MutableLiveData<List<Favorite>>() // 즐겨찾기한 카페
-    private val _recommendCafeList: MutableLiveData<List<Cafe>> =MutableLiveData<List<Cafe>>() // 추천 카페
-    private val _visitedCafeList:MutableLiveData<List<Cafe>> =MutableLiveData<List<Cafe>>() // 방문한 카페
+    private val _favoriteCafeList: MutableLiveData<List<Cafe>> = MutableLiveData<List<Cafe>>() // 즐겨찾기한 카페
+//    private val _recommendCafeList: MutableLiveData<List<Cafe>> =MutableLiveData<List<Cafe>>() // 추천 카페
+//    private val _visitedCafeList:MutableLiveData<List<Cafe>> =MutableLiveData<List<Cafe>>() // 방문한 카페
 
-//    val favoriteCafeList:LiveData<List<Favorite>> get() = _favoriteCafeList
-    val recommendCafeList: LiveData<List<Cafe>> get() = _recommendCafeList
-    val visitedCafeList: LiveData<List<Cafe>> get() = _visitedCafeList
+    val favoriteCafeList:LiveData<List<Cafe>> get() = _favoriteCafeList
+//    val recommendCafeList: LiveData<List<Cafe>> get() = _recommendCafeList
+//    val visitedCafeList: LiveData<List<Cafe>> get() = _visitedCafeList
     init {
 //        _favoriteCafeList.value = listOf()
-        _recommendCafeList.value = listOf()
-        _visitedCafeList.value = listOf()
+//        _recommendCafeList.value = listOf()
+//        _visitedCafeList.value = listOf()
     }
-
+    fun updateFavoriteCafeList() {
+        _favoriteCafeList.value = User.favorite
+    }
     // 백엔드로부터 받으면, 없어도 되는 데이터
     private val DEFAULT_LAT = 37.402005
     private val DEFAULT_LNG = 127.108621
