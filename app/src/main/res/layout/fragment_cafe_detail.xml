@@ -219,6 +219,7 @@
                     android:src="@drawable/icon_clock"
                     android:layout_gravity="start"/>
                 <LinearLayout
+                    android:id="@+id/detailURLBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -229,7 +230,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
                         android:gravity="center_vertical"
-                        android:text="cafe_url"/>
+                        android:text="cafe_url"
+                        />
                     <TextView
                         android:id="@+id/detail_addressTV"
                         android:layout_width="match_parent"

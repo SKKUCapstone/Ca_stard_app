@@ -1,6 +1,7 @@
 package edu.skku.map.capstone.view.home.detail
 
 import android.content.Intent
+import android.net.Uri
 import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
@@ -138,6 +139,11 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
         binding.detailFavBtn.setOnClickListener {
             val res = viewModel.onAddFavorite(cafe.cafeId)
             cafe.updateIsFavorite(res) //synchronize data
+        }
+        binding.detailURLBtn.setOnClickListener {
+            // Intent를 사용하여 웹 브라우저 열기
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(cafe.placeURL))
+            startActivity(browserIntent)
         }
     }
 
