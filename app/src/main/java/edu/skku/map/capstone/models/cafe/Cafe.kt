@@ -3,6 +3,7 @@ import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.models.review.Review
 import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.math.roundToInt
 
 class Cafe(
         val cafeId:Long,
@@ -90,7 +91,8 @@ class Cafe(
     fun getTotalRating():Double? {
         return if(getTotalCnt() == 0) null
         else{
-            getTotalRatingSum()/getTotalCnt()
+            val average = getTotalRatingSum()/getTotalCnt()
+            return (average * 10).roundToInt().toDouble() / 10
         }
     }
     fun getTopCategories():List<String> {

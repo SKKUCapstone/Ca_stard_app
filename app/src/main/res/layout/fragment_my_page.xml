@@ -39,7 +39,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.7"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.cardview.widget.CardView
@@ -57,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:src="@drawable/deafult_profile"
+                android:src="@drawable/default_profile"
                 />
         </androidx.cardview.widget.CardView>
 
@@ -79,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="UserEmail@email.com"
-            android:textColor="@color/notRecommend"
+            android:textColor="@color/castardDarkBrown"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -211,7 +212,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="로그아웃"
-                    android:textColor="@color/notRecommend" />
+                    android:textColor="@color/castardDarkBrown" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -233,7 +234,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="회원탈퇴"
-                    android:textColor="@color/notRecommend" />
+                    android:textColor="@color/castardDarkBrown" />
 
                 <ImageView
                     android:layout_width="15dp"

@@ -41,7 +41,7 @@ class Review(
         cafeId=Cafe_(jsonObject.getJSONObject("cafe")).cafeId,
         userId=User_(jsonObject.getJSONObject("user")).userId,
         cafeName=Cafe_(jsonObject.getJSONObject("cafe")).cafeName,
-        powerSocket=jsonObject.getInt("power_socket"),
+        powerSocket= jsonObject.getInt("power_socket"),
         capacity=jsonObject.getInt("capacity"),
         quiet=jsonObject.getInt("quiet"),
         wifi=jsonObject.getInt("wifi"),
@@ -50,10 +50,8 @@ class Review(
         bright=jsonObject.getInt("bright"),
         clean=jsonObject.getInt("clean"),
 //        timeStamp= LocalDateTime(),
-        comment=if(jsonObject.getString("comment").trim() == "") null else jsonObject.getString("comment").trim()
+        comment=if(jsonObject.isNull("comment") || !jsonObject.isNull("comment")&&jsonObject.getString("comment").trim() == "" ) null
+                else jsonObject.getString("comment").trim()
     )
 
-    private fun getTotal():Double {
-        return (capacity + quiet + wifi + tables + toilet + bright + clean).toDouble() / 8.0
-    }
 }

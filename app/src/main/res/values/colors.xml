@@ -8,7 +8,8 @@
     <color name="darkGreen">#2C483D</color>
     <color name="yellow">#FFD339</color>
     <color name="red">#FF0000</color>
-    <color name="castardLightBrown">#D5CEC6</color>
-    <color name="notRecommend">#9D917D</color>
+    <color name="castardBrown">#D5CEC6</color>
+    <color name="castardLightBrown">#F6F4F1</color>
+    <color name="castardDarkBrown">#9D917D</color>
     <color name="kakaoLogin">#FEE500</color>
 </resources>

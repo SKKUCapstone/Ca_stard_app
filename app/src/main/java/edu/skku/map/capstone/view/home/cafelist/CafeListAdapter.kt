@@ -10,10 +10,8 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.databinding.ItemCafePreviewBinding
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.models.user.User
 
 class CafeListAdapter(val context: Context, private val onCafeClick: MutableLiveData<Cafe>): RecyclerView.Adapter<CafeListViewholder>() {
     private var cafeList: List<Cafe> = listOf()
@@ -26,11 +24,7 @@ class CafeListAdapter(val context: Context, private val onCafeClick: MutableLive
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CafeListViewholder {
         val binding = ItemCafePreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        val flexboxLayoutManager = FlexboxLayoutManager(context)
-        flexboxLayoutManager.flexDirection = FlexDirection.ROW
-        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
-        flexboxLayoutManager.justifyContent = JustifyContent.FLEX_START
-        binding.reviewChipRV.layoutManager = flexboxLayoutManager
+        initFlexboxLayout(binding.reviewChipRV)
         return CafeListViewholder(context, binding)
     }
     override fun getItemCount(): Int {
@@ -42,6 +36,14 @@ class CafeListAdapter(val context: Context, private val onCafeClick: MutableLive
         holder.binding.previewBodyCL.setOnClickListener {
             onCafeClick.postValue(cafe)
         }
+    }
+
+    private fun initFlexboxLayout(rv: RecyclerView) {
+        val flexboxLayoutManager = FlexboxLayoutManager(context)
+        flexboxLayoutManager.flexDirection = FlexDirection.ROW
+        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
+        flexboxLayoutManager.justifyContent = JustifyContent.FLEX_START
+        rv.layoutManager = flexboxLayoutManager
     }
 }
 

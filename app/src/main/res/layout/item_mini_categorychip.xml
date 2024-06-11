@@ -4,14 +4,24 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/categorychip_faded"
-    android:paddingHorizontal="8dp"
-    android:paddingVertical="8dp"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="12dp"
     android:gravity="center"
     android:layout_margin="6dp"
     >
     <ImageView
-        android:id="@+id/iconIV"
+        android:src="@drawable/icon_capacity_faded"
+        android:id="@+id/icon_IV"
         android:layout_width="24dp"
         android:layout_height="24dp"/>
+    <TextView
+        android:text="3"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:id="@+id/score_TV"
+        android:layout_marginStart="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>

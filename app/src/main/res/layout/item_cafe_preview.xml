@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/previewBodyCL"
+    android:id="@+id/preview_body_CL"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="20dp"
@@ -11,7 +11,7 @@
     android:background="@drawable/card">
 
     <TextView
-        android:id="@+id/cafeNameTV"
+        android:id="@+id/cafe_name_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="스타벅스 정자점"
@@ -21,10 +21,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/distanceTV"
+        android:id="@+id/distance_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/green"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:text="10KM"
         android:textSize="16sp"
@@ -32,23 +32,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/ratingTV"
+        android:id="@+id/rating_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="3.5"
         android:drawableStart="@drawable/star_resize"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cafeNameTV" />
+        app:layout_constraintTop_toBottomOf="@+id/cafe_name_TV" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/reviewChipRV"
+        android:id="@+id/reviewChip_RV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:minHeight="8dp"
         android:nestedScrollingEnabled="false"
         android:overScrollMode="never"
-        app:layout_constraintTop_toBottomOf="@+id/ratingTV" />
+        app:layout_constraintTop_toBottomOf="@+id/rating_TV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

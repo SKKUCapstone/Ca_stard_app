@@ -17,11 +17,12 @@ import edu.skku.map.capstone.models.review.Review
 import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.view.mycafe.FavoriteListViewholder
 
-class MyReviewListAdapter(val context: Context, val reviewList:List<Review>): RecyclerView.Adapter<MyReviewListViewholder>() {
+class MyReviewListAdapter(val context: Context, private val reviewList:List<Review>): RecyclerView.Adapter<MyReviewListViewholder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyReviewListViewholder {
         val binding = ItemReviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-
+        initFlexboxLayout(binding.reviewChipRV)
+        binding.reviewChipRV.adapter
         return MyReviewListViewholder(context, binding)
     }
     override fun getItemCount(): Int {
@@ -30,5 +31,12 @@ class MyReviewListAdapter(val context: Context, val reviewList:List<Review>): Re
     override fun onBindViewHolder(holder: MyReviewListViewholder, position: Int) {
         val review = reviewList[position]
         holder.bind(review)
+    }
+    private fun initFlexboxLayout(rv: RecyclerView) {
+        val flexboxLayoutManager = FlexboxLayoutManager(context)
+        flexboxLayoutManager.flexDirection = FlexDirection.ROW
+        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
+        flexboxLayoutManager.justifyContent = JustifyContent.FLEX_START
+        rv.layoutManager = flexboxLayoutManager
     }
 }

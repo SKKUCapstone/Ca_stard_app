@@ -730,7 +730,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/categorychip_faded"
-                            android:textColor="@color/castardLightBrown"
+                            android:textColor="@color/castardBrown"
                             android:layout_marginTop="32dp"
                             android:text="리뷰남기기"/>
                     </LinearLayout>
