@@ -1,20 +1,10 @@
 package edu.skku.map.capstone.view.mycafe
 
-import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.user.User
 //import edu.skku.map.capstone.models.favorite.Favorite
-import okhttp3.ResponseBody
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MyCafeViewModel() {
     private val _favoriteCafeList: MutableLiveData<List<Cafe>> = MutableLiveData<List<Cafe>>() // 즐겨찾기한 카페
@@ -30,7 +20,7 @@ class MyCafeViewModel() {
 //        _visitedCafeList.value = listOf()
     }
     fun updateFavoriteCafeList() {
-        _favoriteCafeList.value = User.favorite
+        _favoriteCafeList.value = User.favorites
     }
     // 백엔드로부터 받으면, 없어도 되는 데이터
     private val DEFAULT_LAT = 37.402005

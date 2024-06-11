@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.DialogReviewCommentBinding
+import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.view.dialog.review.ReviewViewModel
 
 class ReviewDialogComment(private val viewModel: ReviewViewModel, context: Context, private val phase: MutableLiveData<Int>):Dialog(context) {
@@ -43,7 +44,7 @@ class ReviewDialogComment(private val viewModel: ReviewViewModel, context: Conte
 
     private fun setClickListener() {
         binding.nextBtn.setOnClickListener {
-            viewModel.onSubmitReview(
+            MyReviewManager.getInstance().onSubmitReview(
                 cafe = viewModel.cafe,
                 capacity = viewModel.capacityRating,
                 quiet = viewModel.quietRating,

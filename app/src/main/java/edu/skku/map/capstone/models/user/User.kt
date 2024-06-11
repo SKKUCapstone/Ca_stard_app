@@ -1,6 +1,8 @@
 package edu.skku.map.capstone.models.user
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.LatLng
+import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.review.Review
 import org.json.JSONObject
@@ -15,19 +17,24 @@ class User private constructor() {
         var id: Long = 0
         lateinit var email: String
         lateinit var username: String
+        lateinit var favorites: ArrayList<Cafe>
 //        lateinit var reviews: ArrayList<Review>
-        lateinit var favorite: ArrayList<Cafe>
-        lateinit var review: ArrayList<Review>
         var latLng = MutableLiveData(LatLng.from(DEFAULT_LAT, DEFAULT_LNG))
 
         fun getInstance(jsonObject: JSONObject): User {
+            //initialize myReviewManager
+            val reviews = parseReviews(jsonObject.getJSONArray("reviews"))
+
+            Log.d("@@@myreviews",reviews[0].reviewId.toString())
+
+            MyReviewManager.getInstance().reviews.postValue(reviews)
+
             return instance ?: synchronized(this) {
                 instance ?: User().also {
                     id = jsonObject.getLong("id")
                     email = jsonObject.getString("email")
                     username = jsonObject.getString("userName")
-                    favorite = parseFavorites(jsonObject.getJSONArray("favorites"))
-                    review = parseReviews(jsonObject.getJSONArray("reviews"))
+                    favorites = parseFavorites(jsonObject.getJSONArray("favorites"))
                     instance = it
                 }
             }

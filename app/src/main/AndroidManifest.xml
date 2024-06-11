@@ -29,9 +29,6 @@
             android:value="09e7ce580fee2dc13ec5d24c66cd8238" />
 
         <activity
-            android:name=".view.ReviewActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

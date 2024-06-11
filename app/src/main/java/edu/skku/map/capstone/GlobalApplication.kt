@@ -11,7 +11,4 @@ class GlobalApplication: Application() {
         // Kakao Sdk 초기화
         KakaoSdk.init(this, "09e7ce580fee2dc13ec5d24c66cd8238")
     }
-
-
-
 }

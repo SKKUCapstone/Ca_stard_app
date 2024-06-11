@@ -11,12 +11,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.MainActivity
-import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.util.calculateDistance
 import edu.skku.map.capstone.util.getCafeDistance
-import edu.skku.map.capstone.view.ReviewActivity
 import edu.skku.map.capstone.view.home.HomeFragment
 import kotlin.math.roundToInt
 

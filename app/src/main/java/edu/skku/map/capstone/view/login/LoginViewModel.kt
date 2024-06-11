@@ -3,10 +3,9 @@ package edu.skku.map.capstone.view.login
 import android.annotation.SuppressLint
 import android.util.Log
 import com.kakao.sdk.user.UserApiClient
+import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.models.user.LoginRequest
 import edu.skku.map.capstone.models.user.User
-import edu.skku.map.capstone.models.user.User.Companion.favorite
-import edu.skku.map.capstone.models.user.User.Companion.review
 import edu.skku.map.capstone.util.RetrofitService
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -29,7 +28,7 @@ class LoginViewModel {
                     val baseUrl = "http://43.201.119.249:8080/"
 //                    val baseUrl = R.string.base_url.toString()
                     Log.i(
-                        "Login", "사용자 정보 요청 성공" +
+                        "login", "사용자 정보 요청 성공" +
                                 "\n이메일: ${email}" +
                                 "\n닉네임: ${username}"
                     )
@@ -54,19 +53,15 @@ class LoginViewModel {
                                 response: Response<ResponseBody>
                             ) {
                                 if (response.isSuccessful) {
-                                    Log.d("loginResponse", "백엔드와 통신완료")
                                     val body = response.body()!!
                                     val jsonObject = JSONObject(body.string())
                                     User.getInstance(jsonObject)
                                     Log.d(
-                                        "loginResponse",
+                                        "login",
                                         "ID: ${User.id}, Email: ${User.email}, Username: ${User.username}"                                        ,
                                     )
-                                    User.favorite.forEach { cafe ->
-                                        Log.d("loginResponse", "Cafe ID: ${cafe.cafeId}, Cafe Name: ${cafe.cafeName}, Address: ${cafe.roadAddressName}, Phone: ${cafe.phone}, Latitude: ${cafe.latitude}, Longitude: ${cafe.longitude}")
-                                    }
-                                    User.review.forEach { review ->
-                                        Log.d("loginResponse", "Cafe ID: ${review.cafeId}, UserID: ${review.userId},")
+                                    User.favorites.forEach { cafe ->
+                                        Log.d("login", "Cafe ID: ${cafe.cafeId}, Cafe Name: ${cafe.cafeName}, Address: ${cafe.roadAddressName}, Phone: ${cafe.phone}, Latitude: ${cafe.latitude}, Longitude: ${cafe.longitude}")
                                     }
 
                                 }

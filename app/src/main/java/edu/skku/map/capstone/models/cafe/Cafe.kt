@@ -6,7 +6,7 @@ import org.json.JSONObject
 import kotlin.math.roundToInt
 
 class Cafe(
-        val cafeId:Long,
+    val cafeId:Long,
     val cafeName:String? = null,
     val roadAddressName:String? = null,
     val phone:String? = null,
@@ -21,7 +21,7 @@ class Cafe(
     val toilet:Double = 0.0,
     val bright:Double = 0.0,
     val clean:Double = 0.0,
-        val powerSocketCnt:Int = 0,
+    val powerSocketCnt:Int = 0,
     val capacityCnt:Int = 0,
     val quietCnt:Int = 0,
     val wifiCnt:Int = 0,

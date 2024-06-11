@@ -24,61 +24,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
 
     //category phase
-//    val categorySelect = MutableLiveData(arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet"))
     val categorySelect = MutableLiveData(arrayListOf("wifi","quiet","tables","powerSocket"))
 
     //rating phase
-    var capacityRating = 3
-    var brightRating = 3
-    var cleanRating = 3
-    var wifiRating = 3
-    var quietRating = 3
-    var tablesRating = 3
-    var powerSocketRating = 3
-    var toiletRating = 3
+    var capacityRating = 0
+    var brightRating = 0
+    var cleanRating = 0
+    var wifiRating = 0
+    var quietRating = 0
+    var tablesRating = 0
+    var powerSocketRating = 0
+    var toiletRating = 0
     var textReview = ""
 
-    fun onSubmitReview(cafe: Cafe, capacity:Int?, bright:Int?, clean:Int?, wifi:Int?, quiet:Int?, tables:Int?, powerSocket:Int?, toilet:Int?, comment:String?) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://43.201.119.249:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(RetrofitService::class.java)
 
-        service
-            .postReview(
-                body = ReviewDTO(
-                    userId = User.id,
-                    cafeId = cafe.cafeId,
-                    cafeName = cafe.cafeName?:"",
-                    address = cafe.roadAddressName?:"",
-                    phone = cafe.phone?:"",
-                    latitude = cafe.latitude,
-                    longitude = cafe.longitude,
-                    capacity = capacity,
-                    bright = bright,
-                    quiet = quiet,
-                    wifi = wifi,
-                    tables = tables,
-                    toilet = toilet,
-                    clean = clean,
-                    powerSocket = powerSocket,
-                    comment = comment
-                )
-            )
-            .enqueue(object : Callback<ResponseBody> {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    Log.d("review",response.body().toString())
-                }
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("review", "failed to post review: ${t.localizedMessage}")
-                }
-            })
-    }
 
     @SuppressLint("ResourceAsColor")
     fun initSliderListeners(id: String, slider: Slider, textView: TextView, textState: Array<String>) {
@@ -108,7 +67,7 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
             }
 
             Log.d("slider", slider.trackActiveTintList.toString())
-            if (value <= 1.0) {
+            if (value <= 2.0) {
                 slider.trackActiveTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.orange))
             } else if (value <= 3.0) {
                 slider.trackActiveTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.yellow))

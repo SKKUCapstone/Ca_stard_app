@@ -4,33 +4,36 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import edu.skku.map.capstone.databinding.ItemCafePreviewBinding
 import edu.skku.map.capstone.databinding.ItemReviewBinding
-import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.models.review.Review
 import edu.skku.map.capstone.models.user.User
-import edu.skku.map.capstone.view.mycafe.FavoriteListViewholder
 
-class MyReviewListAdapter(val context: Context, private val reviewList:List<Review>): RecyclerView.Adapter<MyReviewListViewholder>() {
+class MyReviewListAdapter(val context: Context): RecyclerView.Adapter<MyReviewListViewholder>() {
+    private var reviewList = ArrayList<Review>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyReviewListViewholder {
         val binding = ItemReviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         initFlexboxLayout(binding.reviewChipRV)
-        binding.reviewChipRV.adapter
         return MyReviewListViewholder(context, binding)
     }
     override fun getItemCount(): Int {
+        Log.d("@@@myreview", "size: ${reviewList.size}")
         return reviewList.size
     }
     override fun onBindViewHolder(holder: MyReviewListViewholder, position: Int) {
         val review = reviewList[position]
         holder.bind(review)
+        holder.binding.deleteBtn.setOnClickListener {
+//            onDeleteReview(review.reviewId)
+            MyReviewManager.getInstance().deleteReview(review.reviewId)
+        }
     }
     private fun initFlexboxLayout(rv: RecyclerView) {
         val flexboxLayoutManager = FlexboxLayoutManager(context)
@@ -39,4 +42,16 @@ class MyReviewListAdapter(val context: Context, private val reviewList:List<Revi
         flexboxLayoutManager.justifyContent = JustifyContent.FLEX_START
         rv.layoutManager = flexboxLayoutManager
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun reloadData(reviewList: ArrayList<Review>) {
+        this.reviewList = reviewList
+        this.notifyDataSetChanged()
+    }
+
+    private fun onDeleteReview(reviewId: Long) {
+        MyReviewManager.getInstance().onDeleteReview(User.id, reviewId)
+    }
+
+
 }

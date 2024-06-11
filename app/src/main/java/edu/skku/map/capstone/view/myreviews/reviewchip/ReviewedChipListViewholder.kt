@@ -28,8 +28,10 @@ class ReviewedChipListViewholder(val context:Context, var binding:ItemMiniCatego
                 else-> Unit
             }
         binding.scoreTV.text = review.second.toString()
-        val layoutParams = binding.scoreTV.layoutParams as MarginLayoutParams
-        layoutParams.marginStart = 6
-        binding.scoreTV.layoutParams = layoutParams
+        val mLayoutParams = binding.scoreTV.layoutParams as MarginLayoutParams
+        mLayoutParams.marginStart = 8
+        binding.scoreTV.layoutParams = mLayoutParams
+        binding.reviewChipLL.setPadding(30,10,30,10)
+
     }
 }

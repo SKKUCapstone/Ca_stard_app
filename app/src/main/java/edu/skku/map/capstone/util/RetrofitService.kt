@@ -5,7 +5,9 @@ import edu.skku.map.capstone.models.user.LoginRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -26,7 +28,9 @@ class ReviewDTO(
     @SerializedName("bright") private val bright: Int?,
     @SerializedName("clean") private val clean: Int?,
     @SerializedName("comment") private val comment: String?
-)
+){
+
+}
 
 class FavoriteDTO(
     @SerializedName("userId") private val userId: Long,
@@ -45,7 +49,6 @@ interface RetrofitService {
     ): Call<ResponseBody>
 
     //reviews
-
     @GET("/review/user/byuserId")
     fun getReviews(
         @Query("userId") userId: Long
@@ -56,11 +59,18 @@ interface RetrofitService {
         @Body body: ReviewDTO
     ):Call<ResponseBody>
 
+    @DELETE("/review/delete")
+    fun deleteReview(
+        @Header("userId") userId: Long,
+        @Header("reviewId") reviewId: Long
+    ):Call<ResponseBody>
+
     //favorite
     @POST("/favorite/post")
     fun addFavorite(
         @Body body: FavoriteDTO
     ):Call<ResponseBody>
+
 
     //user
     @POST("/user/login")

@@ -3,6 +3,8 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import edu.skku.map.capstone.databinding.ItemReviewBinding
 import edu.skku.map.capstone.models.review.Review
+import edu.skku.map.capstone.models.user.User
+import edu.skku.map.capstone.view.dialog.review.ReviewViewModel
 import edu.skku.map.capstone.view.myreviews.reviewchip.ReviewedChipListAdapter
 
 class MyReviewListViewholder(val context: Context, var binding: ItemReviewBinding):
@@ -13,9 +15,8 @@ class MyReviewListViewholder(val context: Context, var binding: ItemReviewBindin
         binding.commentTV.text = review.comment
         binding.reviewChipRV.adapter = ReviewedChipListAdapter(context, renderReviews(review))
 
-
     }
-    fun renderReviews(review: Review):ArrayList<Pair<String,Int>> {
+    private fun renderReviews(review: Review):ArrayList<Pair<String,Int>> {
         val pairs = arrayListOf<Pair<String,Int>>()
         if(review.capacity != 0) {
             pairs.add(Pair("capacity", review.capacity))
@@ -43,4 +44,5 @@ class MyReviewListViewholder(val context: Context, var binding: ItemReviewBindin
         }
         return pairs
     }
+
 }

@@ -45,19 +45,12 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
-    // 로그인 정보
-    lateinit var userEmail: EditText
-    lateinit var userPassword: EditText
-    lateinit var btnLogin: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-//        userEmail = binding.valLoginEmail
-//        userPassword = binding.valLoginPassword
-//        btnLogin = binding.btnKakaologin
         setActions()
     }
 
