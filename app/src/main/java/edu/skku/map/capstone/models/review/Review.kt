@@ -1,4 +1,5 @@
 package edu.skku.map.capstone.models.review
+import android.util.Log
 import org.json.JSONObject
 import java.time.LocalDateTime
 
