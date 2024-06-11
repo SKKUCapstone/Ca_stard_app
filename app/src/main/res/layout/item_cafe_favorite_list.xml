@@ -5,14 +5,14 @@
     android:layout_height="64dp"
     android:layout_marginBottom="12dp"
     android:background="@drawable/card_favorite"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="20dp">
+    android:paddingHorizontal="16dp">
 
     <TextView
         android:id="@+id/cafeNameTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxWidth="170dp"
+        android:layout_gravity="center_vertical"
         android:text="스타벅스 정자점보다 이름이 긴 카페 이름일 경우" />
 
     <View
@@ -23,7 +23,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/minireviewChipRV"
         android:layout_width="120dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

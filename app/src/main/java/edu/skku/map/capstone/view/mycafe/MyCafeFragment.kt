@@ -33,7 +33,6 @@ class MyCafeFragment : Fragment() {
     // #2. 즐겨찾기한 카페
     private lateinit var favoriteListAdapter: FavoriteListAdapter
     // #3. 이런곳은 어떤가요?
-    private lateinit var cafeListAdapter: CafeListAdapter
     private val onCafeClick = MutableLiveData<Cafe>()
 
 
@@ -55,13 +54,6 @@ class MyCafeFragment : Fragment() {
         // #2. 즐겨찾기한 카페
         favoriteListAdapter = FavoriteListAdapter(requireContext(), onCafeClick)
         binding.favoriteCafeListRV.adapter = favoriteListAdapter
-
-        // #3. 이런곳은 어떤가요?
-        cafeListAdapter = CafeListAdapter(requireContext(), onCafeClick)
-        binding.myCafeRecommendListRV.adapter = cafeListAdapter
-        binding.myCafeVisitedListRV.adapter = cafeListAdapter
-
-
         initPieChart()
         setPieChartContents()
     }
