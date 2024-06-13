@@ -21,12 +21,6 @@ class CafeListViewholder(val context: Context, var binding:ItemCafePreviewBindin
         binding.distanceTV.text = "${getCafeDistance(User.latLng.value!!, LatLng.from(cafe.latitude,cafe.longitude))}m"
         binding.ratingTV.text = if(cafe.getTotalCnt() == 0) "별점 정보 없음" else cafe.getTotalRating().toString()
         binding.reviewChipRV.adapter = reviewChipListAdapter
-        setClickListener()
-    }
 
-    private fun setClickListener() {
-        binding.previewBodyCL.setOnClickListener{
-
-        }
     }
 }

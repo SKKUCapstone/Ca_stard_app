@@ -1,6 +1,8 @@
 package edu.skku.map.capstone.view.home.detail
 
 import android.content.Intent
+import android.icu.lang.UCharacter.GraphemeClusterBreak.L
+import android.net.Uri
 import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
@@ -8,19 +10,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.models.review.Review
 import edu.skku.map.capstone.util.getCafeDistance
 import edu.skku.map.capstone.view.home.HomeFragment
+import edu.skku.map.capstone.view.mycafe.FavoriteListAdapter
 import kotlin.math.roundToInt
 
 class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: MutableLiveData<Cafe>, private val phase: MutableLiveData<Int>,private val latLng: LatLng, private val pullDownBottomSheet: MutableLiveData<Boolean>) : Fragment() {
     private var _binding: FragmentCafeDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel = CafeDetailViewModel()
+    // # 리뷰 리스트
+    private lateinit var cafeDetailReviewListAdapter: CafeDetailReviewAdapter
+    private val onReviewClick = MutableLiveData<Review>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +38,9 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
         setUI()
         handleClickListeners()
 //        observeFavorite()
+        Log.d("cafeDetailFragment", "cafe reviews: ${cafe.reviews}")
+
+
         return binding.root
     }
 
@@ -110,6 +122,12 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
             layoutParams.width = ratingBarLength(ratings[i])
             ratingCVs[i].layoutParams = layoutParams
         }
+
+        // Review List
+        cafeDetailReviewListAdapter = CafeDetailReviewAdapter(requireContext(), onReviewClick)
+        binding.reviewListRV.adapter = cafeDetailReviewListAdapter
+        cafeDetailReviewListAdapter.updateCafeList(cafe.reviews)
+
     }
 
 
@@ -136,6 +154,11 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
             val res = viewModel.onAddFavorite(cafe.cafeId)
             cafe.updateIsFavorite(res) //synchronize data
         }
+        binding.detailURLBtn.setOnClickListener {
+            // Intent를 사용하여 웹 브라우저 열기
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(cafe.placeURL))
+            startActivity(browserIntent)
+        }
     }
 
     private fun ratingBarLength(rating:Double):Int = (rating/5.0*578).toInt()
@@ -146,5 +169,7 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
 //            else binding.detailFavIconIV.setImageResource(R.drawable.icon_like)
 //        }
 //    }
+
+
 
 }

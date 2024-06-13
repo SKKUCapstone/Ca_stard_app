@@ -32,7 +32,8 @@ class MyReviewListAdapter(val context: Context): RecyclerView.Adapter<MyReviewLi
         holder.bind(review)
         holder.binding.deleteBtn.setOnClickListener {
 //            onDeleteReview(review.reviewId)
-            MyReviewManager.getInstance().deleteReview(review.reviewId)
+            Log.d("@@@myreview", "delete request on user ${User.id} and review ${review.reviewId}")
+            MyReviewManager.getInstance().onDeleteReview(User.id,review.reviewId)
         }
     }
     private fun initFlexboxLayout(rv: RecyclerView) {

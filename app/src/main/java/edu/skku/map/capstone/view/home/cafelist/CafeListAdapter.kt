@@ -33,7 +33,7 @@ class CafeListAdapter(val context: Context, private val onCafeClick: MutableLive
     override fun onBindViewHolder(holder: CafeListViewholder, position: Int) {
         val cafe = cafeList[position]
         holder.bind(cafe)
-        holder.binding.previewBodyCL.setOnClickListener {
+        holder.binding.previewBodyV.setOnClickListener {
             onCafeClick.postValue(cafe)
         }
     }

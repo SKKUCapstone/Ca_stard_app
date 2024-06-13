@@ -50,8 +50,13 @@ interface RetrofitService {
 
     //reviews
     @GET("/review/user/byuserId")
-    fun getReviews(
+    fun getUserReviews(
         @Query("userId") userId: Long
+    ):Call<ResponseBody>
+
+    @GET("/review/cafe/bycafeId")
+    fun getCafeReviews(
+        @Query("cafeId") cafeId: Long
     ):Call<ResponseBody>
 
     @POST("/review/post")
@@ -61,8 +66,8 @@ interface RetrofitService {
 
     @DELETE("/review/delete")
     fun deleteReview(
-        @Header("userId") userId: Long,
-        @Header("reviewId") reviewId: Long
+        @Query("userId") userId: Long,
+        @Query("reviewId") reviewId: Long
     ):Call<ResponseBody>
 
     //favorite

@@ -26,11 +26,11 @@ class FavoriteListAdapter(val context: Context, private val onCafeClick: Mutable
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteListViewholder {
         val binding = ItemCafeFavoriteListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-//        val flexboxLayoutManager = FlexboxLayoutManager(context)
-//        flexboxLayoutManager.flexDirection = FlexDirection.ROW
-//        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
-//        flexboxLayoutManager.justifyContent = JustifyContent.FLEX_START
-//        binding.reviewChipRV.layoutManager = flexboxLayoutManager
+        val flexboxLayoutManager = FlexboxLayoutManager(context)
+        flexboxLayoutManager.flexDirection = FlexDirection.ROW
+        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
+        flexboxLayoutManager.justifyContent = JustifyContent.FLEX_END
+        binding.minireviewChipRV.layoutManager = flexboxLayoutManager
         return FavoriteListViewholder(context, binding)
     }
     override fun getItemCount(): Int {

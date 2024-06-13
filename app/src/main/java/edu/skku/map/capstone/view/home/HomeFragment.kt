@@ -152,6 +152,8 @@ class HomeFragment : Fragment() {
         binding.gpsBtn.setOnClickListener {
             moveCamera(User.latLng.value!!.latitude,User.latLng.value!!.longitude)
             binding.relocateBtn.visibility = View.INVISIBLE
+            viewModel.fetchCafes(User.latLng.value!!.latitude, User.latLng.value!!.longitude, viewModel.radius)
+            updateCafeLabels()
         }
         binding.relocateBtn.setOnClickListener {
             val newPos = kakaoMap.cameraPosition?.position
@@ -369,7 +371,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeFilter() {
-
         val layoutList = listOf(
             binding.capacityBtn,
             binding.brightBtn,

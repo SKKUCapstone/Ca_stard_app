@@ -8,6 +8,7 @@ import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.util.ReviewDTO
 import okhttp3.ResponseBody
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,8 +31,38 @@ class MyReviewManager private constructor() {
     var reviews = MutableLiveData<ArrayList<Review>>()
 
 
-    fun getReview(cafeId: String): ArrayList<Review> {
-        // TODO
+    fun getUserReview() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://43.201.119.249:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(RetrofitService::class.java)
+
+        service
+            .getUserReviews(User.id)
+            .enqueue(object : Callback<ResponseBody> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    val body = response.body()!!
+                    val jsonArray = JSONArray(body.string())
+                    val reviewList = arrayListOf<Review>()
+                    for(i in 0..<jsonArray.length()) {
+                        reviewList.add(Review(jsonArray.getJSONObject(i)))
+                    }
+                    Log.d("@@@review", reviewList.toString())
+                    reviews.postValue(reviewList)
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("@@@myreview", "failed to delete review: ${t.localizedMessage}")
+                }
+            })
+    }
+
+    fun getCafeReview(): ArrayList<Review> {
+        //TODO
         return arrayListOf()
     }
 
@@ -89,12 +120,12 @@ class MyReviewManager private constructor() {
             })
     }
 
-    fun deleteReview(reviewId: Long) {
-        val newReviews = reviews.value!!.filter {
-            it.reviewId != reviewId
-        }
-        reviews.postValue(newReviews as ArrayList<Review>)
-    }
+//    fun deleteReview(reviewId: Long) {
+//        val newReviews = reviews.value!!.filter {
+//            it.reviewId != reviewId
+//        }
+//        reviews.postValue(newReviews as ArrayList<Review>)
+//    }
 
     fun onDeleteReview(
         userId:Long,
