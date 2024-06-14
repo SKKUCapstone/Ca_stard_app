@@ -152,9 +152,9 @@ class MyCafeFragment : Fragment() {
 
     private fun initPieChart(){
         binding.pieChart.setUsePercentValues(true)
-        val dummyCafes = generateExtremeDummyCafes()
-        val counts = anaylzeFavorites(dummyCafes)
-//        val counts = anaylzeFavorites(User.favorites)
+//        val dummyCafes = generateExtremeDummyCafes()
+//        val counts = anaylzeFavorites(dummyCafes)
+        val counts = anaylzeFavorites(User.favorites)
         val pieEntries = mutableListOf<PieEntry>()
 
         counts.forEach { (key, value) ->
