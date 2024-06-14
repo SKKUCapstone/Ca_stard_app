@@ -152,8 +152,9 @@ class MyCafeFragment : Fragment() {
 
     private fun initPieChart(){
         binding.pieChart.setUsePercentValues(true)
-//        val dummyCafes = generateExtremeDummyCafes()
-        val counts = anaylzeFavorites(User.favorites)
+        val dummyCafes = generateExtremeDummyCafes()
+        val counts = anaylzeFavorites(dummyCafes)
+//        val counts = anaylzeFavorites(User.favorites)
         val pieEntries = mutableListOf<PieEntry>()
 
         counts.forEach { (key, value) ->
@@ -233,7 +234,7 @@ class MyCafeFragment : Fragment() {
         binding.myCafeContent1.setText("통계에 따르면 ${User.username}님이 선호하시는 카페는")
         // 추천텍스트
         val categoryDescriptions = mapOf(
-            "powerSocket" to "충전이 가능하고",
+            "powerSocket" to "충전이 가능하고", // 8
             "capacity" to "넓고",
             "quiet" to "조용하고",
             "wifi" to "와이파이가 빠르고",
@@ -247,13 +248,19 @@ class MyCafeFragment : Fragment() {
             "powerSocket" to "충전 가능한",
             "capacity" to "넓은",
             "quiet" to "조용한",
-            "wifi" to "와이파이가 빠른",
+            "wifi" to "와이파이가 빠른", // 8
             "tables" to "편한",
             "toilet" to "화장실이 쾌적한",
             "bright" to "밝은",
             "clean" to "깨끗한"
         )
-        binding.myCafeContent2.setText("${categoryDescriptions[topCategories[0].key]}, ${categoryAdjectives[topCategories[1].key]} 카페에요")
+        val originalText = "${categoryDescriptions[topCategories[0].key]}, ${categoryAdjectives[topCategories[1].key]} 카페에요"
+        val processedText = if (originalText.length > 20) {
+            originalText.replace(",", ",\n")
+        } else {
+            originalText
+        }
+        binding.preferCafeTxt.setText(processedText)
     }
 
 

@@ -111,12 +111,13 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/myCafe_content2"
+                android:id="@+id/preferCafeTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:text="조용하고, 충전 가능한 카페에요"
+                android:gravity="center"
                 android:textColor="@color/green"
                 android:textSize="24sp"
                 android:textStyle="bold" />
