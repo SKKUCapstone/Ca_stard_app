@@ -205,8 +205,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkLoginStatus() {
         if(AuthApiClient.instance.hasToken()) {
+            Log.d("login","token 있음")
             // 로그인 정보 확인
             UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+                Log.d("login","token 정보: ${tokenInfo}")
                 // 로그인 필요
                 if (error != null) {
                     Toast.makeText(this, "토큰 실패", Toast.LENGTH_SHORT).show()
@@ -218,7 +220,7 @@ class MainActivity : AppCompatActivity() {
                 else if (tokenInfo != null) {
                     // 백엔드 Login Post
                       LoginViewModel.fetchUserData()
-//                    Log.d("login","token:"+tokenInfo.toString())
+                    Log.d("login","token:"+tokenInfo.toString())
 //                    Toast.makeText(this, "${User.username}님, 안녕하세요!", Toast.LENGTH_SHORT).show()
                 }
             }
