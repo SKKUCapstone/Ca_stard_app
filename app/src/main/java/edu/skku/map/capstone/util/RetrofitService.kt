@@ -48,7 +48,15 @@ interface RetrofitService {
         @Query("searchText") searchText: String?,
     ): Call<ResponseBody>
 
+    //Recommend Cafes
+    @GET("cafes/recommend")
+    fun getRecommendCafes(
+        @Query("longitude") longitude: Double,
+        @Query("latitude") latitude: Double,
+        @Query("userId") userId: Long,
+    ): Call<ResponseBody>
     //reviews
+
     @GET("/review/user/byuserId")
     fun getUserReviews(
         @Query("userId") userId: Long

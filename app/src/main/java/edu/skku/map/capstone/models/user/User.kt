@@ -28,7 +28,7 @@ class User private constructor() {
             Log.d("@@@myreviews",reviews[0].reviewId.toString())
 
             MyReviewManager.getInstance().reviews.postValue(reviews)
-
+            Log.d("로그인저장", "id: ${jsonObject.getLong("id")}")
             return instance ?: synchronized(this) {
                 instance ?: User().also {
                     id = jsonObject.getLong("id")

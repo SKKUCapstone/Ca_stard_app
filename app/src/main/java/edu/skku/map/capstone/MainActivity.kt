@@ -226,7 +226,7 @@ class MainActivity : AppCompatActivity() {
         // 로그인 필요
             else {
                 //  화면 넘어가기
-                Log.e(TAG, "카카오톡으로 로그인 실패")
+                Log.d("login", "카카오톡으로 로그인 실패")
 
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
