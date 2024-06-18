@@ -1,10 +1,11 @@
 package edu.skku.map.capstone.models.cafe
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firestore.v1.Document
 import edu.skku.map.capstone.models.review.Review
 import edu.skku.map.capstone.models.user.User
-import org.json.JSONArray
-import org.json.JSONObject
 import kotlin.math.roundToInt
 
 val threshold = 3.5
@@ -35,33 +36,38 @@ class Cafe(
     val reviews:ArrayList<Review> = arrayListOf(),
     var isFavorite: Boolean = false
 ){
-    constructor(jsonObject: JSONObject) : this(
-        cafeId = jsonObject.getLong("id"),
-        cafeName = jsonObject.getString("cafe_name"),
-        roadAddressName = jsonObject.getString("road_address_name"),
-        phone = jsonObject.getString("phone"),
-        latitude = jsonObject.getString("latitude").toDouble(),
-        longitude = jsonObject.getString("longitude").toDouble(),
-        placeURL = jsonObject.getString("place_url"),
-        capacity = jsonObject.getDouble("capacity"),
-        powerSocket = jsonObject.getDouble("power_socket"),
-        quiet = jsonObject.getDouble("quiet"),
-        wifi = jsonObject.getDouble("wifi"),
-        tables = jsonObject.getDouble("tables"),
-        toilet = jsonObject.getDouble("toilet"),
-        bright = jsonObject.getDouble("bright"),
-        clean = jsonObject.getDouble("clean"),
-        capacityCnt = jsonObject.getInt("capacity_cnt"),
-        powerSocketCnt = jsonObject.getInt("power_socket_cnt"),
-        quietCnt = jsonObject.getInt("quiet_cnt"),
-        wifiCnt = jsonObject.getInt("wifi_cnt"),
-        tablesCnt = jsonObject.getInt("tables_cnt"),
-        toiletCnt = jsonObject.getInt("toilet_cnt"),
-        brightCnt = jsonObject.getInt("bright_cnt"),
-        cleanCnt = jsonObject.getInt("clean_cnt"),
-        reviews = jsonObject.optJSONArray("reviews")?.let { parseReview(it) } ?: arrayListOf(),  // 리뷰가 없으면 빈 리스트
+
+    constructor(doc: DocumentSnapshot): this(
+        cafeId = doc.get("cafeId") as Long,
+        cafeName = doc.get("cafe_name") as String,
+        roadAddressName = doc.get("road_address_name") as String,
+        phone = doc.get("phone") as String,
+        latitude = doc.get("latitude") as Double,
+        longitude = doc.get("longitude") as Double,
+        placeURL = doc.get("place_url") as String,
+        capacity = doc.get("capacity") as Double,
+        powerSocket = doc.get("power_socket") as Double,
+        quiet = doc.get("quiet") as Double,
+        wifi = doc.get("wifi") as Double,
+        tables = doc.get("tables") as Double,
+        toilet = doc.get("toilet") as Double,
+        bright = doc.get("bright") as Double,
+        clean = doc.get("clean") as Double,
+        capacityCnt = doc.get("capacity_cnt") as Int,
+        powerSocketCnt = doc.get("power_socket_cnt") as Int,
+        quietCnt = doc.get("quiet_cnt") as Int,
+        wifiCnt = doc.get("wifi_cnt") as Int,
+        tablesCnt = doc.get("tables_cnt") as Int,
+        toiletCnt = doc.get("toilet_cnt") as Int,
+        brightCnt = doc.get("bright_cnt") as Int,
+        cleanCnt = doc.get("clean_cnt") as Int,
+        reviews = arrayListOf(),  // 리뷰가 없으면 빈 리스트
+        isFavorite = doc.get("isFavorite") as Boolean  // isFavorite가 없으면 false
     ) {
-        isFavorite = User.getInstance().favorites.any { it.cafeId == this.cafeId }
+        val reviewArray = doc.get("reviews") as ArrayList<Map<String, Any>>
+        for(reviewMap in reviewArray) {
+            this.reviews.add(Review(reviewMap))
+        }
     }
 
     constructor(cafe: Cafe, reviews:ArrayList<Review>) : this(
@@ -151,17 +157,16 @@ class Cafe(
     }
 
     companion object {
-        fun parseReview(jsonArray: JSONArray):ArrayList<Review> {
-            val reviewArray: ArrayList<Review> = arrayListOf()
-            for (i in 0 until jsonArray.length()) {
-                val reviewJsonObject = jsonArray.getJSONObject(i)
-                val review = Review(reviewJsonObject)
-                reviewArray.add(review)
-            }
-            return reviewArray
-        }
+//        fun parseReview(jsonArray: JSONArray):ArrayList<Review> {
+//            val reviewArray: ArrayList<Review> = arrayListOf()
+//            for (i in 0 until jsonArray.length()) {
+//                val reviewJsonObject = jsonArray.getJSONObject(i)
+//                val review = Review(reviewJsonObject)
+//                reviewArray.add(review)
+//            }
+//            return reviewArray
+//        }
     }
-    
     fun getTotalCnt():Int {
         return capacityCnt + brightCnt + cleanCnt + quietCnt + wifiCnt + tablesCnt + powerSocketCnt + toiletCnt
     }

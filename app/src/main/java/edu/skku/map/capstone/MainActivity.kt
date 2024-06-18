@@ -1,7 +1,6 @@
 package edu.skku.map.capstone
 
 import android.content.Intent
-import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -13,8 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import com.kakao.sdk.auth.AuthApiClient
-import com.kakao.sdk.user.UserApiClient
+import com.google.firebase.FirebaseApp
 import com.kakao.vectormap.KakaoMapSdk
 import edu.skku.map.capstone.databinding.ActivityMainBinding
 import edu.skku.map.capstone.view.dialog.review.category.ReviewDialogCategory
@@ -26,8 +24,6 @@ import edu.skku.map.capstone.view.mycafe.MyCafeFragment
 import edu.skku.map.capstone.view.mypage.MyPageFragment
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.view.dialog.review.ReviewViewModel
-import edu.skku.map.capstone.view.login.LoginActivity
-import edu.skku.map.capstone.view.login.LoginViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -47,8 +43,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        checkLoginStatus()
         KakaoMapSdk.init(this, "09e7ce580fee2dc13ec5d24c66cd8238")
+        FirebaseApp.initializeApp(this)
+        Log.d("firebase", "firebase initialized")
         setActivityResultLauncher()
         resolvePermission(permissions)
         setNavActions()
@@ -193,35 +190,4 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 
-    private fun checkLoginStatus() {
-        if(AuthApiClient.instance.hasToken()) {
-            Log.d("login","token 있음")
-            // 로그인 정보 확인
-            UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-                Log.d("login","token 정보: ${tokenInfo}")
-                // 로그인 필요
-                if (error != null) {
-                    Toast.makeText(this, "토큰 실패", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                    finish()
-                }
-                // 토큰 유효성 체크 성공 (필요 시 토큰 갱신됨)
-                else if (tokenInfo != null) {
-                    // 백엔드 Login Post
-                      LoginViewModel.fetchUserData()
-                    Log.d("login","token:"+tokenInfo.toString())
-//                    Toast.makeText(this, "${User.username}님, 안녕하세요!", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-        // 로그인 필요
-            else {
-                //  화면 넘어가기
-                Log.d("login", "카카오톡으로 로그인 실패")
-
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            }
-    }
 }

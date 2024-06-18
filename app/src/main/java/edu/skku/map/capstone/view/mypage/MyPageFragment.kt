@@ -9,10 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.kakao.sdk.user.UserApiClient
 import edu.skku.map.capstone.databinding.FragmentMyPageBinding
 import edu.skku.map.capstone.models.user.User
-import edu.skku.map.capstone.view.login.LoginActivity
 import edu.skku.map.capstone.view.myreviews.MyReviewsActivity
 
 class MyPageFragment : Fragment() {
@@ -47,27 +45,11 @@ class MyPageFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.logoutCV.setOnClickListener {
-            logOut()
-        }
-
         binding.myReviewsCV.setOnClickListener {
             startActivity(Intent(requireActivity(), MyReviewsActivity::class.java))
 
         }
     }
 
-    private fun logOut() {
-        UserApiClient.instance.logout { error ->
-            if (error != null) {
-                Log.e(ContentValues.TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
-            }
-            else {
-                Log.i(ContentValues.TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
-            }
-        }
-        val intent = Intent (activity, LoginActivity::class.java)
-        activity?.startActivity(intent)
-    }
 
 }

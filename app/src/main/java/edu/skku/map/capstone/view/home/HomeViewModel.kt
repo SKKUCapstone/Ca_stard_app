@@ -13,19 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.kakao.vectormap.LatLng
-import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.user.User
-//import kotlinx.coroutines.DefaultExecutor.enqueue
-import okhttp3.ResponseBody
-import org.json.JSONArray
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class HomeViewModel() {
     private val DEFAULT_LAT = 37.402005
@@ -45,62 +38,84 @@ class HomeViewModel() {
     private lateinit var locationListener: LocationListener
     lateinit var activity: Activity
 
+
     init {
         _liveCafeList.value = arrayListOf()
         lastSearchedLat = DEFAULT_LAT
         lastSearchedLng = DEFAULT_LNG
     }
 
+
     fun fetchCafes(lat: Double?, lng: Double?, radius: Int) {
-        setLocation(lat ?: User.getInstance().latLng.value?.latitude ?: DEFAULT_LAT, lng ?: User.getInstance().latLng.value?.longitude ?:DEFAULT_LNG)
-        val filter: String? = filterCategory.value?.joinToString(separator = ",")
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://43.201.119.249:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(RetrofitService::class.java)
-
-        Log.d(
-            "cafe",
-            "fetching cafes from (${lat?.toString() ?: DEFAULT_LNG.toString()},${lng?.toString() ?: DEFAULT_LAT.toString()})"
-        )
-
-        service
-            .getCafes(
-                (lng ?: DEFAULT_LNG),
-                (lat ?: DEFAULT_LAT),
-                radius,
-                filter,
-                searchText.value?.trim()
-            )
-            .enqueue(object : Callback<ResponseBody> {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    val newCafeList = mutableListOf<Cafe>()
-                    val body = response.body()!!
-
-                    val jsonArray = JSONArray(body.string())
-                    Log.d("cafe", "cafeData ${jsonArray}")
-                    for (i in 0 until jsonArray.length()) {
-                        val cafeJsonObject = jsonArray.getJSONObject(i)
-                        Log.d("cafe", cafeJsonObject.toString())
-                        val cafe = Cafe(cafeJsonObject)
-                        newCafeList.add(cafe)
-                    }
-                    Log.d(
-                        "cafe",
-                        "total ${newCafeList.size} cafe fetched:" + newCafeList.toString()
-                    )
-                    _liveCafeList.value = newCafeList as ArrayList<Cafe>
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
-                }
-            })
+//        val db = Firebase.firestore
+//        db.collection("cafe")
+//            .get()
+//            .addOnSuccessListener { documents ->
+//                val allCafes = arrayListOf<Cafe>()
+//                for (document in documents) {
+//                    allCafes.add(Cafe(document))
+//                }
+//                val retrofit = Retrofit.Builder()
+//                    .baseUrl("https://dapi.kakao.com/")
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build()
+//                val service = retrofit.create(RetrofitService::class.java)
+//
+//                Log.d(
+//                    "cafe",
+//                    "fetching cafes from (${lat?.toString() ?: DEFAULT_LNG.toString()},${lng?.toString() ?: DEFAULT_LAT.toString()})"
+//                )
+//
+//                service
+//                    .getCafes(
+//                        "KakaoAK f1c681d34107bd5d150c0bc5bd616975",
+//                        "CE7",
+//                        lat?.toString()?:DEFAULT_LNG.toString(),
+//                        lng?.toString()?:DEFAULT_LAT.toString(),
+//                        radius
+//                    )
+//                    .enqueue(object : Callback<ResponseBody> {
+//                        @SuppressLint("NotifyDataSetChanged")
+//                        override fun onResponse(
+//                            call: Call<ResponseBody>,
+//                            response: Response<ResponseBody>
+//                        ) {
+//                            val newCafeList = mutableListOf<Cafe>()
+//                            val body = response.body()!!
+//
+//                            val jsonArray = JSONArray(body.string())
+//                            Log.d("cafe", "cafeData ${jsonArray}")
+//                            for (i in 0 until jsonArray.length()) {
+//                                val cafeJsonObject = jsonArray.getJSONObject(i)
+//                                Log.d("cafe", cafeJsonObject.toString())
+//                                val cafe = Cafe(cafeJsonObject)
+//
+//                                val matchedCafeData = allCafes.find {
+//                                    it.cafeId == cafe.cafeId
+//                                }
+//                                if(matchedCafeData == null){
+//                                    newCafeList.add(cafe)
+//                                }
+//                                else{
+//                                    newCafeList.add(matchedCafeData)
+//                                }
+//
+//                            }
+//                            Log.d(
+//                                "cafe",
+//                                "total ${newCafeList.size} cafe fetched:" + newCafeList.toString()
+//                            )
+//                            _liveCafeList.value = newCafeList
+//                        }
+//
+//                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                            Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
+//                        }
+//                    })
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.w("firebase", "Error getting documents: ", exception)
+//            }
     }
 
     fun fetchCurrentLocation() {
@@ -136,6 +151,7 @@ class HomeViewModel() {
                     val newLng = DEFAULT_LNG
                     Log.d("@@@gps", "lat: $newLat, lng: $newLng")
                     User.getInstance().latLng.postValue(LatLng.from(newLat,newLng))
+
                 }
                 override fun onProviderEnabled(provider: String) {}
                 override fun onProviderDisabled(provider: String) {}

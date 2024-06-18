@@ -40,28 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.login.LoginActivity"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
-            android:exported="false" /> <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
-        <activity
-            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
-                <data
-                    android:host="oauth"
-                    android:scheme="kakao09e7ce580fee2dc13ec5d24c66cd8238" />
-            </intent-filter>
+            android:exported="false">
         </activity>
     </application>
-
 </manifest>

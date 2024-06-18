@@ -49,6 +49,7 @@ class RecommendFragment : Fragment() {
     }
 
     private fun fetchRecommendation(lat: Double?, lng: Double?, userId: Long) {
+<<<<<<< HEAD
         val retrofit = Retrofit.Builder()
 //            .baseUrl("https://dapi.kakao.com/")
             .baseUrl("http://43.201.119.249:8080/")
@@ -103,6 +104,8 @@ class RecommendFragment : Fragment() {
                     recommendCafeList.postValue(emptyList()) // 실패 시 빈 리스트를 포스트하여 NullPointerException 방지
                 }
             })
+=======
+>>>>>>> 5a54798 (🎉 Docs: removing unnessesaries)
 
     }
 

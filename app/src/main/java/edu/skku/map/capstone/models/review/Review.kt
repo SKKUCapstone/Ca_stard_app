@@ -49,6 +49,23 @@ class Review(
 //    val timeStamp:LocalDateTime,
     val comment:String?
 ){
+
+    constructor(map: Map<String,Any>): this(
+        reviewId = map["reviewId"] as Long,
+        userId = map["userId"] as Long,
+        cafeId = map["cafeId"] as Long,
+        cafeName = map["cafeName"] as String,
+        powerSocket = map["powerSocket"] as Int,
+        capacity = map["capacity"] as Int,
+        quiet = map["quiet"] as Int,
+        wifi = map["wifi"] as Int,
+        tables = map["tables"] as Int,
+        toilet = map["toilet"] as Int,
+        bright = map["bright"] as Int,
+        clean = map["clean"] as Int,
+        comment = map["comment"] as String
+    )
+
     constructor(jsonObject: JSONObject): this(
         reviewId=jsonObject.getLong("id"),
         cafeId=Cafe_(jsonObject.getJSONObject("cafe")).cafeId,

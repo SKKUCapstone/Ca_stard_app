@@ -32,6 +32,7 @@ class MyReviewListAdapter(val context: Context): RecyclerView.Adapter<MyReviewLi
         holder.bind(review)
         holder.binding.deleteBtn.setOnClickListener {
             Log.d("@@@myreview", "delete request on user ${User.getInstance().id} and review ${review.reviewId}")
+
             MyReviewManager.getInstance().onDeleteReview(review.reviewId)
         }
     }
@@ -49,6 +50,9 @@ class MyReviewListAdapter(val context: Context): RecyclerView.Adapter<MyReviewLi
         this.notifyDataSetChanged()
     }
 
+    private fun onDeleteReview(reviewId: Long) {
+        MyReviewManager.getInstance().onDeleteReview(reviewId)
+    }
 
 
 }

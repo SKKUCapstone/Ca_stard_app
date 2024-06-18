@@ -62,9 +62,6 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
             } else {
                 slider.trackActiveTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green))
             }
-
         }
-
     }
-
 }

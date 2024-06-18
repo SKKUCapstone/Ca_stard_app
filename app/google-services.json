@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "178475774526",
+    "project_id": "castard-dc057",
+    "storage_bucket": "castard-dc057.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178475774526:android:1a3624b00c0e552acb176f",
+        "android_client_info": {
+          "package_name": "edu.skku.cs.castard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvjn8pZkv4yEWIL6Z3WGHpPRBXPeJ_d3E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
