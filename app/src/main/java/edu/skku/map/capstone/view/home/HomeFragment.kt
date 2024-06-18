@@ -213,9 +213,18 @@ class HomeFragment : Fragment() {
                     Log.d("camera", position.position.toString())
                     binding.relocateBtn.visibility = View.VISIBLE
                 }
+                else{
+                    binding.relocateBtn.visibility = View.INVISIBLE
+                }
             }
             else if(gestureType == GestureType.Zoom) {
                 Log.d("camera", "zoomLevel: "+kakaoMap.zoomLevel)
+                if(kakaoMap.zoomLevel >= 17) viewModel.radius = 50
+                else if(kakaoMap.zoomLevel == 16) viewModel.radius = 200
+                else if(kakaoMap.zoomLevel == 15) viewModel.radius = 500
+                else if(kakaoMap.zoomLevel == 14) viewModel.radius = 800
+                else if(kakaoMap.zoomLevel == 13) viewModel.radius = 1100
+                else if(kakaoMap.zoomLevel == 12) viewModel.radius = 1400
             }
         }
     }

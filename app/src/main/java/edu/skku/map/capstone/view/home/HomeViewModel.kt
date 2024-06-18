@@ -41,8 +41,7 @@ class HomeViewModel() {
     val liveCafeList: LiveData<List<Cafe>> get() = _liveCafeList //뷰모델 밖에서 수정
     val filterCategory = MutableLiveData<ArrayList<String>>(arrayListOf())
     val searchText = MutableLiveData("")
-    val zoomLevel = MutableLiveData(1)
-    var radius = 500
+    var radius = 400
     lateinit var cafeListFragment: CafeListFragment
     var cafeDetailFragment: CafeDetailFragment? = null
     var prevCafeDetailFragment: CafeDetailFragment? = null
