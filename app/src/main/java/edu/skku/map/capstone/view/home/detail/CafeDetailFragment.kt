@@ -15,6 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.MainActivity
+import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentCafeDetailBinding
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.review.Review
@@ -39,7 +40,6 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
         handleClickListeners()
 //        observeFavorite()
         Log.d("cafeDetailFragment", "cafe reviews: ${cafe.reviews}")
-
 
         return binding.root
     }
@@ -128,8 +128,14 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
         binding.reviewListRV.adapter = cafeDetailReviewListAdapter
         cafeDetailReviewListAdapter.updateCafeList(cafe.reviews)
 
+        //Cafe image
+        val cafeImage:Int
+        if(cafe.cafeName!!.startsWith("스타벅스")) cafeImage = R.drawable.starbucks
+        else if(cafe.cafeName!!.startsWith("투썸플레이스")) cafeImage = R.drawable.twosome
+        //add more cafe images..
+        else cafeImage = R.drawable.defaultcafe1
+        binding.detailCafeIV.setImageResource(cafeImage)
     }
-
 
     private fun handleClickListeners() {
         binding.backBtn.setOnClickListener {
@@ -138,7 +144,6 @@ class CafeDetailFragment(private val cafe: Cafe, private val reviewingCafe: Muta
             (activity as MainActivity).reviewingCafe.postValue(null)
         }
         binding.detailReviewBtn.setOnClickListener {
-//            Log.d("dialog", "reviewBtn clicked")
             reviewingCafe.postValue(cafe)
             phase.postValue(1)
         }

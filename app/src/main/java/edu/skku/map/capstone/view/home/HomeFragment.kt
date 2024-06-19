@@ -39,6 +39,8 @@ import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.view.home.detail.CafeDetailFragment
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.models.user.DEFAULT_LAT
+import edu.skku.map.capstone.models.user.DEFAULT_LNG
 import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.calculateDistance
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -70,6 +72,8 @@ class HomeFragment : Fragment() {
     private lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var lodLabels: Array<LodLabel>
     val pullDownBottemSheet = MutableLiveData(false)
+    private var cameraLat: Double = User.latLng.value?.latitude ?: DEFAULT_LAT
+    private var cameraLng: Double = User.latLng.value?.longitude?: DEFAULT_LNG
 
     private val categoryList = arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet")
     private var myCoroutineJob: Job = Job()
@@ -105,7 +109,7 @@ class HomeFragment : Fragment() {
         observeBottomSheet()
         listenEditText()
         observeFilter()
-        viewModel.observeSearchText()
+        observeSearchText()
         return binding.root
     }
 
@@ -209,13 +213,15 @@ class HomeFragment : Fragment() {
             if(gestureType == GestureType.Pan) {
                 val dist =
                     calculateDistance(position.position, User.latLng.value!!)
-                if (dist >= 1.0) {
+                if (dist >= 0.1) {
                     Log.d("camera", position.position.toString())
                     binding.relocateBtn.visibility = View.VISIBLE
                 }
                 else{
                     binding.relocateBtn.visibility = View.INVISIBLE
                 }
+                cameraLat = position.position.latitude
+                cameraLng = position.position.longitude
             }
             else if(gestureType == GestureType.Zoom) {
                 Log.d("camera", "zoomLevel: "+kakaoMap.zoomLevel)
@@ -242,9 +248,6 @@ class HomeFragment : Fragment() {
         if(!::kakaoMap.isInitialized) {
             Log.d("label", "kakaomap not initialized")
             return
-        } else if(viewModel.liveCafeList.value!!.isEmpty()){
-            Log.d("label","cafe list is empty")
-            return
         }
         val layer = kakaoMap.labelManager!!.lodLayer
         layer?.removeAll()
@@ -253,12 +256,12 @@ class HomeFragment : Fragment() {
 
         val options = viewModel.liveCafeList.value!!
             .map { LabelOptions
-                .from(LatLng.from(it.latitude!!, it.longitude!!))
+                .from(LatLng.from(it.latitude, it.longitude))
                 .setStyles(if(clickedCafe != it) lodLabelStyleIDDefault else lodLabelStyleIDClicked)
                 .setTexts(it.cafeName)
                 .setTag(it.cafeId)
             }
-        lodLabels = layer!!.addLodLabels(options)
+        if(viewModel.liveCafeList.value!!.isNotEmpty()) lodLabels = layer!!.addLodLabels(options)
     }
     private fun setLabelClickListener(){
         kakaoMap.setOnLabelClickListener(
@@ -341,7 +344,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun EditText.textChangesToFlow(): Flow<CharSequence?> {
+    private fun EditText.textChangesToFlow(): Flow<CharSequence?> {
         return callbackFlow {
             val listener = object: TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
@@ -367,13 +370,21 @@ class HomeFragment : Fragment() {
             val editTextFlow = binding.searchET.textChangesToFlow()
             editTextFlow
                 .debounce(700)
-                .filter { it?.trim()?.isNotEmpty()!! }
+//                .filter { it?.trim()?.isNotEmpty()!! }
                 .onEach {
                     viewModel.searchText.postValue(it.toString().trim())
                 }
                 .launchIn(this)
         }
     }
+
+    private fun observeSearchText() {
+        viewModel.searchText.observe(activity as LifecycleOwner) {
+            viewModel.fetchCafes(null, null, viewModel.radius)
+            updateCafeLabels()
+        }
+    }
+
     override fun onDestroy() {
         myCoroutineContext.cancel()
         super.onDestroy()
@@ -411,6 +422,8 @@ class HomeFragment : Fragment() {
                     iconList[idx].alpha = 0.3F
                 }
             }
+            viewModel.fetchCafes(cameraLat,cameraLng, viewModel.radius)
+            updateCafeLabels()
         }
     }
 

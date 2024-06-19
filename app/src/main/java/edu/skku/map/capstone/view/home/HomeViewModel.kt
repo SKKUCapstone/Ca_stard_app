@@ -57,7 +57,6 @@ class HomeViewModel() {
 
         val filter: String? = filterCategory.value?.joinToString(separator = ",")
         val retrofit = Retrofit.Builder()
-//            .baseUrl("https://dapi.kakao.com/")
             .baseUrl("http://43.201.119.249:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -104,12 +103,6 @@ class HomeViewModel() {
                     Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
                 }
             })
-    }
-
-    fun observeSearchText() {
-        searchText.observe(activity as LifecycleOwner) {
-            fetchCafes(null, null, radius)
-        }
     }
 
     fun fetchCurrentLocation() {
