@@ -1,4 +1,4 @@
-package edu.skku.map.capstone.view.home.detail
+package edu.skku.map.capstone.view.detail
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.skku.map.capstone.databinding.ItemReviewDetailBinding
 import edu.skku.map.capstone.models.review.Review
 
-class CafeDetailReviewAdapter(val context: Context, private val onCafeClick: MutableLiveData<Review>): RecyclerView.Adapter<CafeDetailReviewViewHolder>() {
+class CafeDetailReviewAdapter(val context: Context): RecyclerView.Adapter<CafeDetailReviewViewHolder>() {
     private var reviewList: List<Review> = listOf()
 
     @SuppressLint("NotifyDataSetChanged")

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.transition.VisibilityPropagation
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.FragmentCafeListBinding
+import edu.skku.map.capstone.manager.CafeDetailManager
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.view.home.HomeFragment
 import edu.skku.map.capstone.view.home.HomeViewModel
@@ -26,7 +27,6 @@ class CafeListFragment() : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel : HomeViewModel
     private lateinit var cafeListAdapter: CafeListAdapter
-    private val onCafeClick = MutableLiveData<Cafe>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +46,7 @@ class CafeListFragment() : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initUI() {
-        cafeListAdapter = CafeListAdapter(requireParentFragment().requireContext(), onCafeClick)
+        cafeListAdapter = CafeListAdapter(requireParentFragment().requireContext())
         Log.d("cafe", "default cafe list:" + viewModel.liveCafeList.value.toString())
         binding.cafeListRV.adapter = cafeListAdapter
     }
@@ -66,11 +66,21 @@ class CafeListFragment() : Fragment() {
         }
     }
     private fun observeCafeClick() {
-        onCafeClick.observe(viewLifecycleOwner) {
-            Log.d("cafe click", it.toString())
-            (parentFragment as HomeFragment).onCafeDetailOpen(it)
-            ((parentFragment as HomeFragment).activity as MainActivity).reviewingCafe.postValue(it)
+        CafeDetailManager.getInstance().currentViewingCafe.observe(viewLifecycleOwner) {
+            val originalCafeList = viewModel.liveCafeList.value!!
+            cafeListAdapter.updateCafeList(listWhenCafeClicked(originalCafeList))
         }
+    }
+
+    private fun listWhenCafeClicked(cafeList: ArrayList<Cafe>):ArrayList<Cafe> {
+        val cafe = CafeDetailManager.getInstance().currentViewingCafe.value
+        val modifiedList:ArrayList<Cafe> = arrayListOf()
+        modifiedList.addAll(cafeList)
+        if(cafe != null) {
+            modifiedList.remove(cafe)
+            modifiedList.add(0,cafe)
+        }
+        return modifiedList
     }
 
 }

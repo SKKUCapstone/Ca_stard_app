@@ -37,8 +37,8 @@ class HomeViewModel() {
 
     private val DEFAULT_LAT = 37.402005
     private val DEFAULT_LNG = 127.108621
-    private val _liveCafeList: MutableLiveData<List<Cafe>> = MutableLiveData<List<Cafe>>()
-    val liveCafeList: LiveData<List<Cafe>> get() = _liveCafeList //뷰모델 밖에서 수정
+    private val _liveCafeList: MutableLiveData<ArrayList<Cafe>> = MutableLiveData<ArrayList<Cafe>>()
+    val liveCafeList: LiveData<ArrayList<Cafe>> get() = _liveCafeList //뷰모델 밖에서 수정
     val filterCategory = MutableLiveData<ArrayList<String>>(arrayListOf())
     val searchText = MutableLiveData("")
     var radius = 400
@@ -50,7 +50,7 @@ class HomeViewModel() {
     lateinit var activity: Activity
 
     init {
-        _liveCafeList.value = listOf()
+        _liveCafeList.value = arrayListOf()
     }
 
     fun fetchCafes(lat: Double?, lng: Double?, radius: Int) {
@@ -96,7 +96,7 @@ class HomeViewModel() {
                         "cafe",
                         "total ${newCafeList.size} cafe fetched:" + newCafeList.toString()
                     )
-                    _liveCafeList.value = newCafeList
+                    _liveCafeList.value = newCafeList as ArrayList<Cafe>
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

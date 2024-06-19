@@ -21,6 +21,9 @@
         android:windowSoftInputMode="adjustNothing"
         tools:targetApi="31">
         <activity
+            android:name=".view.detail.DetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.myreviews.MyReviewsActivity"
             android:exported="false" />
 

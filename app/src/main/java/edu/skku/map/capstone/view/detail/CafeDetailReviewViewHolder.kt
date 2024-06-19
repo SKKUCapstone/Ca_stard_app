@@ -1,4 +1,4 @@
-package edu.skku.map.capstone.view.home.detail
+package edu.skku.map.capstone.view.detail
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView

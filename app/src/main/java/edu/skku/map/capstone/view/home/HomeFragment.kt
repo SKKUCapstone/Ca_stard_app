@@ -1,4 +1,5 @@
 package edu.skku.map.capstone.view.home
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -36,13 +37,14 @@ import com.kakao.vectormap.label.Transition
 import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
-import edu.skku.map.capstone.view.home.detail.CafeDetailFragment
+import edu.skku.map.capstone.manager.CafeDetailManager
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.user.DEFAULT_LAT
 import edu.skku.map.capstone.models.user.DEFAULT_LNG
 import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.calculateDistance
+import edu.skku.map.capstone.view.detail.DetailActivity
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -53,7 +55,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -105,7 +106,7 @@ class HomeFragment : Fragment() {
         initKakaoMap()
         viewModel.fetchCurrentLocation()
         viewModel.fetchCafes(null,null, viewModel.radius)
-        observeReviewingCafe()
+        observeViewingCafe()
         observeBottomSheet()
         listenEditText()
         observeFilter()
@@ -235,7 +236,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun createMyLabel(lat: Double, lng: Double): Label {
         val pos:LatLng = LatLng.from(lat, lng)
         val labelStyle: LabelStyle = LabelStyle.from(R.drawable.mypin)
@@ -252,7 +252,8 @@ class HomeFragment : Fragment() {
         val layer = kakaoMap.labelManager!!.lodLayer
         layer?.removeAll()
 
-        val clickedCafe = (requireActivity() as MainActivity).reviewingCafe.value
+//        val clickedCafe = (requireActivity() as MainActivity).reviewingCafe.value
+        val clickedCafe = CafeDetailManager.getInstance().currentViewingCafe.value
 
         val options = viewModel.liveCafeList.value!!
             .map { LabelOptions
@@ -272,38 +273,40 @@ class HomeFragment : Fragment() {
         kakaoMap.setOnLodLabelClickListener(
             fun (kakaoMap: KakaoMap, layer: LodLabelLayer, label: LodLabel){
                 val clickedCafe = getCafeByLabelId(label.labelId)
-                val reviewingCafe = (requireActivity() as MainActivity).reviewingCafe
-                if(clickedCafe == reviewingCafe.value) return
-                reviewingCafe.postValue(clickedCafe)
-                onCafeDetailOpen(clickedCafe)
+//                val reviewingCafe = (requireActivity() as MainActivity).reviewingCafe
+//                if(clickedCafe == reviewingCafe.value) return
+//                reviewingCafe.postValue(clickedCafe)
+//                onCafeDetailOpen(clickedCafe)
+                CafeDetailManager.getInstance().viewCafe(clickedCafe)
             }
         )
     }
 
     fun onCafeDetailOpen(cafe: Cafe){
-        onCafeDetailClosed() //remove possibly existing detailFragment
-        val activity = (requireActivity() as MainActivity)
-        viewModel.cafeDetailFragment = CafeDetailFragment(cafe,activity.reviewingCafe, activity.reviewPhase,User.latLng.value!!, pullDownBottemSheet)
-
-        childFragmentManager.beginTransaction().apply {
-            add(binding.childFL.id, viewModel.cafeDetailFragment as Fragment).commit()
-        }
-        viewModel.prevCafeDetailFragment = viewModel.cafeDetailFragment
-        if(behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-            behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-        }
+//        onCafeDetailClosed() //remove possibly existing detailFragment
+//        val activity = (requireActivity() as MainActivity)
+//        viewModel.cafeDetailFragment = CafeDetailFragment(cafe,activity.reviewingCafe, activity.reviewPhase, pullDownBottemSheet)
+//
+//        childFragmentManager.beginTransaction().apply {
+//            add(binding.childFL.id, viewModel.cafeDetailFragment as Fragment).commit()
+//        }
+//        viewModel.prevCafeDetailFragment = viewModel.cafeDetailFragment
+//        if(behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+//            behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+//        }
+        CafeDetailManager.getInstance().viewCafe(cafe)
+        startActivity(Intent(requireActivity(), DetailActivity::class.java))
     }
-    fun onCafeDetailClosed() {
-        //there was no detailfragment
-        if(viewModel.prevCafeDetailFragment == null) {
-            return
-        }
-        childFragmentManager.beginTransaction().apply {
-            remove(viewModel.prevCafeDetailFragment as Fragment).commit()
-        }
-        viewModel.prevCafeDetailFragment = null
-
-    }
+//    fun onCafeDetailClosed() {
+//        //there was no detailfragment
+//        if(viewModel.prevCafeDetailFragment == null) {
+//            return
+//        }
+//        childFragmentManager.beginTransaction().apply {
+//            remove(viewModel.prevCafeDetailFragment as Fragment).commit()
+//        }
+//        viewModel.prevCafeDetailFragment = null
+//    }
 
     private fun getCafeByLabelId(labelId: String): Cafe {
         val targetLodLabel = lodLabels.find {
@@ -329,8 +332,8 @@ class HomeFragment : Fragment() {
         moveCamera(lat,lng)
     }
 
-    private fun observeReviewingCafe() {
-        (requireActivity() as MainActivity).reviewingCafe.observe(context as LifecycleOwner) {
+    private fun observeViewingCafe() {
+        CafeDetailManager.getInstance().currentViewingCafe.observe(context as LifecycleOwner) {
             updateCafeLabels()
             if (it !== null) moveCamera(it.latitude!!,it.longitude!!)
         }
