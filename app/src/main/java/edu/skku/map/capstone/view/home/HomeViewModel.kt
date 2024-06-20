@@ -35,7 +35,6 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 class HomeViewModel() {
-
     private val DEFAULT_LAT = 37.402005
     private val DEFAULT_LNG = 127.108621
     private val _liveCafeList: MutableLiveData<ArrayList<Cafe>> = MutableLiveData<ArrayList<Cafe>>()
@@ -136,9 +135,7 @@ class HomeViewModel() {
                     val newLng = DEFAULT_LNG
                     Log.d("gps", "lat: $newLat, lng: $newLng")
                     User.getInstance().latLng.postValue(LatLng.from(newLat,newLng))
-
                 }
-
                 override fun onProviderEnabled(provider: String) {}
                 override fun onProviderDisabled(provider: String) {}
             }

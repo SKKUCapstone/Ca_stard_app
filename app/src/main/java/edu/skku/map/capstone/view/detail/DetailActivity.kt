@@ -35,7 +35,8 @@ import kotlin.math.roundToInt
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
-    private val reviews = MutableLiveData<ArrayList<Review>>()
+    private val cafe = MutableLiveData<Cafe>()
+//    private val reviews = MutableLiveData<ArrayList<Review>>()
     private lateinit var cafeDetailReviewListAdapter: CafeDetailReviewAdapter
     private var dialogCategory: ReviewDialogCategory? = null
     private var dialogRating: ReviewDialogRating? = null
@@ -46,7 +47,6 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        reviews.postValue(CafeDetailManager.getInstance().currentViewingCafe.value!!.reviews)
         setUI()
         setClickListeners()
         observeReviewPhase()
@@ -55,7 +55,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setUI() {
-        val cafe = CafeDetailManager.getInstance().currentViewingCafe.value!!
+        val cafe = cafe.value ?: CafeDetailManager.getInstance().currentViewingCafe.value!!
         supportActionBar?.hide()
         binding.detailCafeNameTV.text = cafe.cafeName
         binding.detailCafeName2TV.text = cafe.cafeName
@@ -80,7 +80,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun updateRatings() {
-        val cafe = CafeDetailManager.getInstance().currentViewingCafe.value!!
+        val cafe = cafe.value ?: CafeDetailManager.getInstance().currentViewingCafe.value!!
+
+        cafe.printCafeDetails()
         binding.detailRatingTV.text = if(cafe.getTotalRating() == null) "별점 정보 없음" else cafe.getTotalRating().toString()
 
         val ratingCVs = listOf(
@@ -136,23 +138,27 @@ class DetailActivity : AppCompatActivity() {
             binding.tablesNoRatingTV,
             binding.powerSocketNoRatingTV,
             binding.toiletNoRatingTV
-
-
         )
-
         if(cafe.getTotalCnt() == 0) {
             binding.ratingListRV.visibility = View.INVISIBLE
             binding.noDataView.visibility = View.VISIBLE
         }
+        else{
+            binding.ratingListRV.visibility = View.VISIBLE
+            binding.noDataView.visibility = View.INVISIBLE
+        }
+
         for(i in 0..7) {
             //rating bar is not visible if there is no review.
             if(ratingCnts[i] != 0) {
                 noRatingTVs[i].visibility = View.GONE
+            } else {
+                noRatingTVs[i].visibility = View.VISIBLE
                 continue
             }
 
             //style of each ratingbar
-            ratingTVs[i].text = ((ratings[i] * 10).roundToInt().toDouble() / 10).toString()
+            ratingTVs[i].text = ((ratings[i] * 100).roundToInt().toDouble() / 100).toString()
             val layoutParams = ratingCVs[i].layoutParams as ViewGroup.LayoutParams
             layoutParams.width = ratingBarLength(ratings[i])
             Log.d("cafe","width: ${ratings[i]} -> ${ratingBarLength(ratings[i])}")
@@ -175,7 +181,6 @@ class DetailActivity : AppCompatActivity() {
             reviewPhase.postValue(1)
         }
 //
-
 //        binding.detailFavBtn.setOnClickListener {
 //            val res = viewModel.onAddFavorite(cafe.cafeId)
 //            cafe.updateIsFavorite(res) //synchronize data
@@ -240,21 +245,28 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
+    //observe that user updated reviews
     private fun observeReviewUpdate() {
         MyReviewManager.getInstance().reviews.observe(this) {
             fetchReviews()
         }
     }
 
+    //observe that this cafe review has updated
     private fun observeFetchReview() {
-        reviews.observe(this as LifecycleOwner) {
+        cafe.observe(this as LifecycleOwner) {
+            Log.d("@@@review", "observe fetch review, review: ${it.reviews.toString()}")
             updateRatings()
-            if(reviews.value != null && ::cafeDetailReviewListAdapter.isInitialized) cafeDetailReviewListAdapter.updateCafeList(reviews.value!!)
+            if(::cafeDetailReviewListAdapter.isInitialized) {
+                cafeDetailReviewListAdapter.updateCafeList(it.reviews)
+                Log.d("@@@review", "adapter updated")
+
+            }
         }
     }
 
     private fun fetchReviews() {
-        val cafe = CafeDetailManager.getInstance().currentViewingCafe.value!!
+        val thisCafe = cafe.value ?: CafeDetailManager.getInstance().currentViewingCafe.value!!
         val retrofit = Retrofit.Builder()
             .baseUrl("http://43.201.119.249:8080/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -262,7 +274,7 @@ class DetailActivity : AppCompatActivity() {
         val service = retrofit.create(RetrofitService::class.java)
 
         service
-            .getCafeReviews(cafe.cafeId)
+            .getCafeReviews(thisCafe.cafeId)
             .enqueue(object : Callback<ResponseBody> {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(
@@ -283,10 +295,8 @@ class DetailActivity : AppCompatActivity() {
                         "@@@review",
                         "total ${newReviewList.size} review fetched:" + newReviewList.toString()
                     )
-                    val updatedReviews = cafe.reviews
-                    updatedReviews.clear()
-                    updatedReviews.addAll(newReviewList)
-                    reviews.postValue(updatedReviews)
+                    val updatedCafe = Cafe(thisCafe, newReviewList)
+                    cafe.postValue(updatedCafe)
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

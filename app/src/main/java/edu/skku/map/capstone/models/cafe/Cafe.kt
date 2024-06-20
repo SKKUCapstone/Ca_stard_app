@@ -4,6 +4,7 @@ import edu.skku.map.capstone.models.review.Review
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.roundToInt
+import android.util.Log
 
 val threshold = 3.5
 class Cafe(
@@ -14,22 +15,22 @@ class Cafe(
     val latitude:Double,
     val longitude:Double,
     val placeURL:String? = null,
-    val powerSocket:Double = 0.0,
-    val capacity:Double = 0.0,
-    val quiet:Double = 0.0,
-    val wifi:Double = 0.0,
-    val tables:Double = 0.0,
-    val toilet:Double = 0.0,
-    val bright:Double = 0.0,
-    val clean:Double = 0.0,
-    val powerSocketCnt:Int = 0,
-    val capacityCnt:Int = 0,
-    val quietCnt:Int = 0,
-    val wifiCnt:Int = 0,
-    val tablesCnt:Int = 0,
-    val toiletCnt:Int = 0,
-    val brightCnt:Int = 0,
-    val cleanCnt:Int = 0,
+    var powerSocket:Double = 0.0,
+    var capacity:Double = 0.0,
+    var quiet:Double = 0.0,
+    var wifi:Double = 0.0,
+    var tables:Double = 0.0,
+    var toilet:Double = 0.0,
+    var bright:Double = 0.0,
+    var clean:Double = 0.0,
+    var powerSocketCnt:Int = 0,
+    var capacityCnt:Int = 0,
+    var quietCnt:Int = 0,
+    var wifiCnt:Int = 0,
+    var tablesCnt:Int = 0,
+    var toiletCnt:Int = 0,
+    var brightCnt:Int = 0,
+    var cleanCnt:Int = 0,
     val reviews:ArrayList<Review> = arrayListOf(),
     var isFavorite: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
 ){
@@ -60,6 +61,92 @@ class Cafe(
         reviews = jsonObject.optJSONArray("reviews")?.let { parseReview(it) } ?: arrayListOf(),  // 리뷰가 없으면 빈 리스트
         isFavorite = MutableLiveData(jsonObject.optBoolean("isFavorite", false))  // isFavorite가 없으면 false
     ) {}
+
+    constructor(cafe: Cafe, reviews:ArrayList<Review>) : this(
+        cafeId = cafe.cafeId,
+        cafeName = cafe.cafeName,
+        roadAddressName = cafe.roadAddressName,
+        phone = cafe.phone,
+        latitude = cafe.latitude,
+        longitude = cafe.longitude,
+        placeURL = cafe.placeURL,
+        reviews = reviews,
+        isFavorite = MutableLiveData(cafe.isFavorite.value)
+    ){
+        // Initialize sums and counts
+        var totalCapacity = 0.0
+        var totalPowerSocket = 0.0
+        var totalQuiet = 0.0
+        var totalWifi = 0.0
+        var totalTables = 0.0
+        var totalToilet = 0.0
+        var totalBright = 0.0
+        var totalClean = 0.0
+
+        var countCapacity = 0
+        var countPowerSocket = 0
+        var countQuiet = 0
+        var countWifi = 0
+        var countTables = 0
+        var countToilet = 0
+        var countBright = 0
+        var countClean = 0
+
+        // Sum up the ratings and counts
+        for (review in reviews) {
+            if (review.capacity > 0) {
+                totalCapacity += review.capacity
+                countCapacity++
+            }
+            if (review.powerSocket > 0) {
+                totalPowerSocket += review.powerSocket
+                countPowerSocket++
+            }
+            if (review.quiet > 0) {
+                totalQuiet += review.quiet
+                countQuiet++
+            }
+            if (review.wifi > 0) {
+                totalWifi += review.wifi
+                countWifi++
+            }
+            if (review.tables > 0) {
+                totalTables += review.tables
+                countTables++
+            }
+            if (review.toilet > 0) {
+                totalToilet += review.toilet
+                countToilet++
+            }
+            if (review.bright > 0) {
+                totalBright += review.bright
+                countBright++
+            }
+            if (review.clean > 0) {
+                totalClean += review.clean
+                countClean++
+            }
+        }
+
+        // Update the averages and counts
+        capacity = if (countCapacity > 0) totalCapacity / countCapacity else 0.0
+        powerSocket = if (countPowerSocket > 0) totalPowerSocket / countPowerSocket else 0.0
+        quiet = if (countQuiet > 0) totalQuiet / countQuiet else 0.0
+        wifi = if (countWifi > 0) totalWifi / countWifi else 0.0
+        tables = if (countTables > 0) totalTables / countTables else 0.0
+        toilet = if (countToilet > 0) totalToilet / countToilet else 0.0
+        bright = if (countBright > 0) totalBright / countBright else 0.0
+        clean = if (countClean > 0) totalClean / countClean else 0.0
+
+        capacityCnt = countCapacity
+        powerSocketCnt = countPowerSocket
+        quietCnt = countQuiet
+        wifiCnt = countWifi
+        tablesCnt = countTables
+        toiletCnt = countToilet
+        brightCnt = countBright
+        cleanCnt = countClean
+    }
 
     companion object {
         fun parseReview(jsonArray: JSONArray):ArrayList<Review> {
@@ -176,4 +263,30 @@ class Cafe(
             .map { it.key }
         return ratings as ArrayList<String>
     }
+
+    fun printCafeDetails() {
+        Log.d("review", "Cafe Details:")
+        Log.d("review", "ID: $cafeId")
+        Log.d("review", "Name: ${cafeName ?: "N/A"}")
+        Log.d("review", "Address: ${roadAddressName ?: "N/A"}")
+        Log.d("review", "Phone: ${phone ?: "N/A"}")
+        Log.d("review", "Latitude: $latitude")
+        Log.d("review", "Longitude: $longitude")
+        Log.d("review", "Place URL: ${placeURL ?: "N/A"}")
+        Log.d("review", "Ratings:")
+        Log.d("review", "  - Power Socket: $powerSocket (Count: $powerSocketCnt)")
+        Log.d("review", "  - Capacity: $capacity (Count: $capacityCnt)")
+        Log.d("review", "  - Quiet: $quiet (Count: $quietCnt)")
+        Log.d("review", "  - Wifi: $wifi (Count: $wifiCnt)")
+        Log.d("review", "  - Tables: $tables (Count: $tablesCnt)")
+        Log.d("review", "  - Toilet: $toilet (Count: $toiletCnt)")
+        Log.d("review", "  - Bright: $bright (Count: $brightCnt)")
+        Log.d("review", "  - Clean: $clean (Count: $cleanCnt)")
+        Log.d("review", "Reviews: ${reviews.size}")
+        reviews.forEach { review ->
+            Log.d("review", "  - Review ID: ${review.reviewId}, User ID: ${review.userId}, Comment: ${review.comment ?: "No Comment"}")
+        }
+        Log.d("review", "Is Favorite: ${isFavorite.value ?: false}")
+    }
+
 }
