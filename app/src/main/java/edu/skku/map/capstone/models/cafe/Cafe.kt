@@ -1,6 +1,8 @@
 package edu.skku.map.capstone.models.cafe
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.models.review.Review
+import edu.skku.map.capstone.models.user.User
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.roundToInt
@@ -58,8 +60,10 @@ class Cafe(
         brightCnt = jsonObject.getInt("bright_cnt"),
         cleanCnt = jsonObject.getInt("clean_cnt"),
         reviews = jsonObject.optJSONArray("reviews")?.let { parseReview(it) } ?: arrayListOf(),  // 리뷰가 없으면 빈 리스트
-        isFavorite = MutableLiveData(jsonObject.optBoolean("isFavorite", false))  // isFavorite가 없으면 false
-    ) {}
+    ) {
+        this.isFavorite.value = User.getInstance().favorites.any { it.cafeId == this.cafeId }
+        Log.d("Cafe", "Cafe created from JSONObject with isFavorite: ${isFavorite.value}")
+    }
 
     companion object {
         fun parseReview(jsonArray: JSONArray):ArrayList<Review> {

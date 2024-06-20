@@ -66,6 +66,12 @@ class DetailActivity : AppCompatActivity() {
         binding.detailUrlTV.text = if(cafe.placeURL == null) "웹사이트 정보 없음" else cafe.placeURL
         binding.detailPhoneTV.text = if(cafe.phone == "") "정보 없음" else cafe.phone
         binding.detailDistanceTV.text = getCafeDistance(User.getInstance().latLng.value!!, LatLng.from(cafe.latitude, cafe.longitude)) +"m"
+
+        // 즐겨찾기
+        cafe.isFavorite.observe(this) { isFavorite ->
+            val favoriteIcon = if (isFavorite) R.drawable.icon_like_filled else R.drawable.icon_like
+            binding.detailFavIconIV.setImageResource(favoriteIcon)
+        }
         updateRatings()
 
         // Review List
@@ -80,6 +86,8 @@ class DetailActivity : AppCompatActivity() {
         //add more cafe images..
         else cafeImage = R.drawable.defaultcafe1
         binding.detailCafeIV.setImageResource(cafeImage)
+
+
     }
 
     private fun updateRatings() {
@@ -335,7 +343,7 @@ class DetailActivity : AppCompatActivity() {
                         Log.d("즐겨찾기 추가", "정상적으로 추가됨")
                     } else {
                         callback(false)
-                        Log.d("즐겨찾기 추가", "에러 발생")
+                        Log.d("즐겨찾기 추가", "에러 발생, err:${response}")
                     }
                 }
 

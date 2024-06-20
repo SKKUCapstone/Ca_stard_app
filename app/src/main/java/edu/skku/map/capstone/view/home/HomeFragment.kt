@@ -106,6 +106,8 @@ class HomeFragment : Fragment() {
         initKakaoMap()
         viewModel.fetchCurrentLocation()
         viewModel.fetchCafes(null,null, viewModel.radius)
+//        viewModel.fetchCafes(viewModel.radius)
+
         observeViewingCafe()
         observeBottomSheet()
         listenEditText()
@@ -158,12 +160,16 @@ class HomeFragment : Fragment() {
             moveCamera(User.getInstance().latLng.value!!.latitude,User.getInstance().latLng.value!!.longitude)
             binding.relocateBtn.visibility = View.INVISIBLE
             viewModel.fetchCafes(User.getInstance().latLng.value!!.latitude, User.getInstance().latLng.value!!.longitude, viewModel.radius)
+//            viewModel.fetchCafes(viewModel.radius)
             updateCafeLabels()
         }
         binding.relocateBtn.setOnClickListener {
             val newPos = kakaoMap.cameraPosition?.position
             if(newPos != null) {
+                viewModel.setLocation(newPos.latitude, newPos.longitude)
+//                viewModel.fetchCafes(viewModel.radius)
                 viewModel.fetchCafes(newPos.latitude, newPos.longitude, viewModel.radius)
+
                 updateCafeLabels()
                 binding.relocateBtn.visibility = View.INVISIBLE
             }
@@ -358,6 +364,8 @@ class HomeFragment : Fragment() {
     private fun observeSearchText() {
         viewModel.searchText.observe(activity as LifecycleOwner) {
             viewModel.fetchCafes(null, null, viewModel.radius)
+//            viewModel.fetchCafes(viewModel.radius)
+
             updateCafeLabels()
         }
     }
@@ -399,6 +407,7 @@ class HomeFragment : Fragment() {
                     iconList[idx].alpha = 0.3F
                 }
             }
+//            viewModel.fetchCafes(viewModel.radius)
             viewModel.fetchCafes(cameraLat,cameraLng, viewModel.radius)
             updateCafeLabels()
         }

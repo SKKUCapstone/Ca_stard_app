@@ -34,6 +34,14 @@ class CafeListFragment() : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Fragment가 화면에 보일 때마다 fetchCafes 호출
+        viewModel.fetchCafes(viewModel.LAT.value,viewModel.LNG.value,viewModel.radius)
+        Log.d("CafeListFragment", "fetched cafes ")
+
+    }
+
     private fun initViewModel() {
         viewModel = (parentFragment as HomeFragment).viewModel
     }
