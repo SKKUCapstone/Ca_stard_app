@@ -32,9 +32,15 @@ class CafeDetailViewModel {
 //                    val body = response.body()!!
                     Log.d("favorite", response.body().toString())
                     //TODO return boolean depending on response
-                    isFavorite = true
+                    if (response.isSuccessful) {
+                        // 응답 번호가 200일 때
+                        isFavorite = true
+                        Log.d("즐겨찾기 추가", "정상적으로 추가됨")
+                    } else {
+                        isFavorite = false
+                        Log.d("즐겨찾기 추가", "에러 발생")
+                    }
                 }
-
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.d("favorite", "failed to add favorite: ${t.localizedMessage}")
                 }
