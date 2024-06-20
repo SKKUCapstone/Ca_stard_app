@@ -18,12 +18,14 @@ import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.review.Review
 import edu.skku.map.capstone.models.user.User
+import edu.skku.map.capstone.util.FavoriteDTO
 import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.util.getCafeDistance
 import edu.skku.map.capstone.view.dialog.review.ReviewViewModel
 import edu.skku.map.capstone.view.dialog.review.category.ReviewDialogCategory
 import edu.skku.map.capstone.view.dialog.review.comment.ReviewDialogComment
 import edu.skku.map.capstone.view.dialog.review.rating.ReviewDialogRating
+import edu.skku.map.capstone.view.home.HomeViewModel
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import retrofit2.Call
@@ -31,18 +33,19 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val cafe = MutableLiveData<Cafe>()
-//    private val reviews = MutableLiveData<ArrayList<Review>>()
     private lateinit var cafeDetailReviewListAdapter: CafeDetailReviewAdapter
     private var dialogCategory: ReviewDialogCategory? = null
     private var dialogRating: ReviewDialogRating? = null
     private var dialogComment: ReviewDialogComment? = null
     private var reviewViewModel: ReviewViewModel? = null
     private val reviewPhase = MutableLiveData(0)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -59,9 +62,9 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.hide()
         binding.detailCafeNameTV.text = cafe.cafeName
         binding.detailCafeName2TV.text = cafe.cafeName
-        binding.detailAddressTV.text = if(cafe.roadAddressName == "") "정보 없음" else cafe.roadAddressName
+        binding.detailAddressTV.text = if(cafe.roadAddressName == "") "주소 정보 없음" else cafe.roadAddressName
         binding.detailUrlTV.text = if(cafe.placeURL == null) "웹사이트 정보 없음" else cafe.placeURL
-        binding.detailPhoneTV.text = if(cafe.phone == "") "정보 없음" else cafe.phone
+        binding.detailPhoneTV.text = if(cafe.phone == "") "연락처 정보 없음" else cafe.phone
         binding.detailDistanceTV.text = getCafeDistance(User.getInstance().latLng.value!!, LatLng.from(cafe.latitude, cafe.longitude)) +"m"
         updateRatings()
 
@@ -158,7 +161,7 @@ class DetailActivity : AppCompatActivity() {
             }
 
             //style of each ratingbar
-            ratingTVs[i].text = ((ratings[i] * 100).roundToInt().toDouble() / 100).toString()
+            ratingTVs[i].text = (round(ratings[i]*10)/10).toString()
             val layoutParams = ratingCVs[i].layoutParams as ViewGroup.LayoutParams
             layoutParams.width = ratingBarLength(ratings[i])
             Log.d("cafe","width: ${ratings[i]} -> ${ratingBarLength(ratings[i])}")
@@ -180,11 +183,24 @@ class DetailActivity : AppCompatActivity() {
         binding.detailReviewBtn2.setOnClickListener {
             reviewPhase.postValue(1)
         }
-//
-//        binding.detailFavBtn.setOnClickListener {
-//            val res = viewModel.onAddFavorite(cafe.cafeId)
-//            cafe.updateIsFavorite(res) //synchronize data
-//        }
+
+        binding.detailFavBtn.setOnClickListener {
+            val isFavorite = cafe.isFavorite.value ?: false  // 현재 즐겨찾기 상태를 가져옴, 기본값은 false
+            if(isFavorite) {
+                deleteFavorite(cafe.cafeId) { response ->
+                    // Todo: 일단은 Response가 뭐든 간에 채워넣음
+                    cafe.isFavorite.postValue(false)
+                    binding.detailFavIconIV.setImageResource(R.drawable.icon_like) // 채워진 하트 이미지로 변경
+                }
+            }
+            else {
+                addFavorite(cafe.cafeId) { response ->
+                    // Todo: 일단은 Response가 뭐든 간에 채워넣음
+                    cafe.isFavorite.postValue(true)
+                    binding.detailFavIconIV.setImageResource(R.drawable.icon_like_filled) // 채워진 하트 이미지로 변경
+                }
+            }
+        }
 
         binding.detailURLBtn.setOnClickListener {
             // Intent를 사용하여 웹 브라우저 열기
@@ -303,6 +319,72 @@ class DetailActivity : AppCompatActivity() {
                     Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
                 }
 
+            })
+    }
+
+    
+    // 즐겨찾기
+    private fun addFavorite(cafeId: Long, callback: (Boolean) -> Unit) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://43.201.119.249:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(RetrofitService::class.java)
+
+        service
+            .addFavorite(FavoriteDTO(User.getInstance().id, cafeId))
+            .enqueue(object : Callback<ResponseBody> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    Log.d("favorite", response.body().toString())
+                    if (response.isSuccessful) {
+                        callback(true)
+                        Log.d("즐겨찾기 추가", "정상적으로 추가됨")
+                    } else {
+                        callback(false)
+                        Log.d("즐겨찾기 추가", "에러 발생")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("favorite", "failed to add favorite: ${t.localizedMessage}")
+                    callback(false)
+                }
+            })
+    }
+
+    private fun deleteFavorite(cafeId: Long, callback: (Boolean) -> Unit) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://43.201.119.249:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(RetrofitService::class.java)
+
+        service
+            .deleteFavorite(User.getInstance().id, cafeId)
+            .enqueue(object : Callback<ResponseBody> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    Log.d("favorite", response.body().toString())
+                    if (response.isSuccessful) {
+                        callback(true)
+                        Log.d("즐겨찾기 삭제", "정상적으로 삭제")
+                    } else {
+                        callback(false)
+                        Log.d("즐겨찾기 삭제", "에러 발생")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("favorite", "failed to add favorite: ${t.localizedMessage}")
+                    callback(false)
+                }
             })
     }
 

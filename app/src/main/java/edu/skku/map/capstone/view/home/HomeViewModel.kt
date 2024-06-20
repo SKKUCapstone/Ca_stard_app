@@ -10,29 +10,20 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.util.Log
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.LatLng
-import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.util.RetrofitService
-import edu.skku.map.capstone.view.home.detail.CafeDetailFragment
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.user.User
 import okhttp3.ResponseBody
 import org.json.JSONArray
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.sin
-import kotlin.math.sqrt
 
 class HomeViewModel() {
     private val DEFAULT_LAT = 37.402005
@@ -40,7 +31,9 @@ class HomeViewModel() {
     private val _liveCafeList: MutableLiveData<ArrayList<Cafe>> = MutableLiveData<ArrayList<Cafe>>()
     val liveCafeList: LiveData<ArrayList<Cafe>> get() = _liveCafeList //뷰모델 밖에서 수정
     val filterCategory = MutableLiveData<ArrayList<String>>(arrayListOf())
-    val searchText = MutableLiveData("")
+    var isFilterCategoryInitialized = false
+    val searchText: MutableLiveData<String> = MutableLiveData("")
+    var isSearchTextInitialized = false
     var radius = 400
     lateinit var cafeListFragment: CafeListFragment
     private lateinit var locationManager: LocationManager
@@ -70,7 +63,7 @@ class HomeViewModel() {
                 (lat ?: DEFAULT_LAT),
                 radius,
                 filter,
-                if (searchText.value!!.trim() == "") null else searchText.value,
+                searchText.value?.trim()
             )
             .enqueue(object : Callback<ResponseBody> {
                 @SuppressLint("NotifyDataSetChanged")
@@ -141,15 +134,5 @@ class HomeViewModel() {
             }
         }
     }
-    //update views on my review write/delete
-//    fun observeReviewWrite() {
-//        MyReviewManager.getInstance().reviews.observe(activity as LifecycleOwner) {
-//            if(MyReviewManager.getInstance().newReview!=null) { //review write
-//
-//            }
-//            else if(MyReviewManager.getInstance().deletedReviewId!=null){
-//
-//            }
-//        }
-//    }
+
 }

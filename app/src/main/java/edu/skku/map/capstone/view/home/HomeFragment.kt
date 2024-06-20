@@ -1,5 +1,4 @@
 package edu.skku.map.capstone.view.home
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -34,7 +33,6 @@ import com.kakao.vectormap.label.LabelTransition
 import com.kakao.vectormap.label.LodLabel
 import com.kakao.vectormap.label.LodLabelLayer
 import com.kakao.vectormap.label.Transition
-import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.manager.CafeDetailManager
@@ -44,7 +42,6 @@ import edu.skku.map.capstone.models.user.DEFAULT_LAT
 import edu.skku.map.capstone.models.user.DEFAULT_LNG
 import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.calculateDistance
-import edu.skku.map.capstone.view.detail.DetailActivity
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -61,7 +58,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -75,7 +71,6 @@ class HomeFragment : Fragment() {
     val pullDownBottemSheet = MutableLiveData(false)
     private var cameraLat: Double = User.getInstance().latLng.value?.latitude ?: DEFAULT_LAT
     private var cameraLng: Double = User.getInstance().latLng.value?.longitude?: DEFAULT_LNG
-
     private val categoryList = arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet")
     private var myCoroutineJob: Job = Job()
     private val myCoroutineContext: CoroutineContext
@@ -105,6 +100,7 @@ class HomeFragment : Fragment() {
         setClickListener()
         initKakaoMap()
         viewModel.fetchCurrentLocation()
+        Log.d("@@@cafefetch", "initial cafe fetch")
         viewModel.fetchCafes(null,null, viewModel.radius)
         observeViewingCafe()
         observeBottomSheet()
@@ -149,7 +145,6 @@ class HomeFragment : Fragment() {
         val prevList = viewModel.filterCategory.value!!
         if(prevList.contains(category)) prevList.remove(category)
         else prevList.add(category)
-
         viewModel.filterCategory.postValue(prevList)
     }
 
@@ -157,12 +152,14 @@ class HomeFragment : Fragment() {
         binding.gpsBtn.setOnClickListener {
             moveCamera(User.getInstance().latLng.value!!.latitude,User.getInstance().latLng.value!!.longitude)
             binding.relocateBtn.visibility = View.INVISIBLE
+            Log.d("@@@cafefetch", "cameramove out cafe fetch")
             viewModel.fetchCafes(User.getInstance().latLng.value!!.latitude, User.getInstance().latLng.value!!.longitude, viewModel.radius)
             updateCafeLabels()
         }
         binding.relocateBtn.setOnClickListener {
             val newPos = kakaoMap.cameraPosition?.position
             if(newPos != null) {
+                Log.d("@@@cafefetch", "cameramove in fetch")
                 viewModel.fetchCafes(newPos.latitude, newPos.longitude, viewModel.radius)
                 updateCafeLabels()
                 binding.relocateBtn.visibility = View.INVISIBLE
@@ -253,7 +250,6 @@ class HomeFragment : Fragment() {
         val layer = kakaoMap.labelManager!!.lodLayer
         layer?.removeAll()
 
-//        val clickedCafe = (requireActivity() as MainActivity).reviewingCafe.value
         val clickedCafe = CafeDetailManager.getInstance().currentViewingCafe.value
 
         val options = viewModel.liveCafeList.value!!
@@ -357,8 +353,14 @@ class HomeFragment : Fragment() {
 
     private fun observeSearchText() {
         viewModel.searchText.observe(activity as LifecycleOwner) {
-            viewModel.fetchCafes(null, null, viewModel.radius)
-            updateCafeLabels()
+            if(!viewModel.isSearchTextInitialized){
+                viewModel.isSearchTextInitialized = true
+            }
+            else {
+                Log.d("@@@cafefetch", "searchtext fetch")
+                viewModel.fetchCafes(null, null, viewModel.radius)
+                updateCafeLabels()
+            }
         }
     }
 
@@ -399,8 +401,14 @@ class HomeFragment : Fragment() {
                     iconList[idx].alpha = 0.3F
                 }
             }
-            viewModel.fetchCafes(cameraLat,cameraLng, viewModel.radius)
-            updateCafeLabels()
+            if(!viewModel.isFilterCategoryInitialized){
+                viewModel.isFilterCategoryInitialized = true
+            }
+            else {
+                Log.d("@@@cafefetch", "filter change fetch")
+                viewModel.fetchCafes(cameraLat, cameraLng, viewModel.radius)
+                updateCafeLabels()
+            }
         }
     }
 

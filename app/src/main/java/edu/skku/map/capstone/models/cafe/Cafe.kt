@@ -284,7 +284,7 @@ class Cafe(
         Log.d("review", "  - Clean: $clean (Count: $cleanCnt)")
         Log.d("review", "Reviews: ${reviews.size}")
         reviews.forEach { review ->
-            Log.d("review", "  - Review ID: ${review.reviewId}, User ID: ${review.userId}, Comment: ${review.comment ?: "No Comment"}")
+            Log.d("review", "  - Review ID: ${review.reviewId}, User ID: ${review.userId}, User Name: ${review.userName} Comment: ${review.comment ?: "No Comment"}")
         }
         Log.d("review", "Is Favorite: ${isFavorite.value ?: false}")
     }

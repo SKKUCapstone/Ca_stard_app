@@ -1,7 +1,15 @@
 package edu.skku.map.capstone.models.review
+import android.annotation.SuppressLint
 import android.util.Log
+import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.util.ReviewDTO
+import okhttp3.ResponseBody
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
 
 data class Cafe_(
@@ -15,16 +23,19 @@ data class Cafe_(
 }
 
 data class User_(
-    val userId: Long
+    val userId: Long,
+    val userName: String
 ){
     constructor(jsonObject: JSONObject): this(
-        userId = jsonObject.getLong("id")
+        userId = jsonObject.getLong("id"),
+        userName = jsonObject.getString("userName")
     )
 }
 
 class Review(
     val reviewId:Long,
     val userId:Long,
+    var userName:String,
     val cafeId:Long,
     val cafeName:String,
     val powerSocket:Int=0,
@@ -42,6 +53,7 @@ class Review(
         reviewId=jsonObject.getLong("id"),
         cafeId=Cafe_(jsonObject.getJSONObject("cafe")).cafeId,
         userId=User_(jsonObject.getJSONObject("user")).userId,
+        userName=User_(jsonObject.getJSONObject("user")).userName,
         cafeName=Cafe_(jsonObject.getJSONObject("cafe")).cafeName,
         powerSocket= jsonObject.getInt("power_socket"),
         capacity=jsonObject.getInt("capacity"),
@@ -54,6 +66,5 @@ class Review(
 //        timeStamp= LocalDateTime(),
         comment=if(jsonObject.isNull("comment") || !jsonObject.isNull("comment")&&jsonObject.getString("comment").trim() == "" ) null
                 else jsonObject.getString("comment").trim()
-    )
-
+    ){}
 }

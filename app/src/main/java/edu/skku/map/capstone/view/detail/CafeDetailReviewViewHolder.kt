@@ -10,7 +10,7 @@ class CafeDetailReviewViewHolder(val context: Context, var binding: ItemReviewDe
 
     fun bind(review: Review){
         // reviewID 토대로 review 이름 불러와야함
-        binding.reviewUserName.text = "정환"
+        binding.reviewUserName.text = if(review.userName == "null") "(알 수 없음)" else review.userName
         // timestamp 저장 로직 필요
         binding.reviewDate.text = "2023.12.10"
         binding.commentTV.text = review.comment

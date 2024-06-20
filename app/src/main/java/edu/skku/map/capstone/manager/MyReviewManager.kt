@@ -150,6 +150,7 @@ class MyReviewManager private constructor() {
                     newReview = Review(
                         reviewId = reviewId,
                         userId = User.getInstance().id,
+                        userName=User.getInstance().userName,
                         cafeId = cafe.cafeId,
                         cafeName = cafe.cafeName ?: "",
                         capacity = capacity ?: 0,

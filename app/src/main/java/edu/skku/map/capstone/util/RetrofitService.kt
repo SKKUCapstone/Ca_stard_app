@@ -85,9 +85,19 @@ interface RetrofitService {
         @Body body: FavoriteDTO
     ):Call<ResponseBody>
 
+    @DELETE("/favorite/delete")
+    fun deleteFavorite(
+        @Query("userId") userId: Long,
+        @Query("cafeId") cafeId: Long
+    ): Call<ResponseBody>
     //user
     @POST("/user/login")
     fun login(
         @Body body: LoginRequest
+    ):Call<ResponseBody>
+
+    @GET("/user")
+    fun getUserInfo(
+        @Query("userId") userId: Long
     ):Call<ResponseBody>
 }
