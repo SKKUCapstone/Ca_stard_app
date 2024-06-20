@@ -2,6 +2,7 @@ package edu.skku.map.capstone.view.mycafe
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
@@ -12,10 +13,12 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import edu.skku.map.capstone.databinding.ItemCafeFavoriteListBinding
 import edu.skku.map.capstone.databinding.ItemCafePreviewBinding
+import edu.skku.map.capstone.manager.CafeDetailManager
 import edu.skku.map.capstone.models.cafe.Cafe
+import edu.skku.map.capstone.view.detail.DetailActivity
 import edu.skku.map.capstone.view.home.cafelist.CafeListViewholder
 
-class FavoriteListAdapter(val context: Context, private val onCafeClick: MutableLiveData<Cafe>): RecyclerView.Adapter<FavoriteListViewholder>() {
+class FavoriteListAdapter(val context: Context): RecyclerView.Adapter<FavoriteListViewholder>() {
     private var cafeList: List<Cafe> = listOf()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -39,9 +42,10 @@ class FavoriteListAdapter(val context: Context, private val onCafeClick: Mutable
     override fun onBindViewHolder(holder: FavoriteListViewholder, position: Int) {
         val cafe = cafeList[position]
         holder.bind(cafe)
-//        holder.binding.previewBodyCL.setOnClickListener {
-//            onCafeClick.postValue(cafe)
-//        }
+        holder.binding.cafeItemLL.setOnClickListener {
+            CafeDetailManager.getInstance().viewCafe(cafe)
+            context.startActivity(Intent(context, DetailActivity::class.java))
+        }
     }
 }
 

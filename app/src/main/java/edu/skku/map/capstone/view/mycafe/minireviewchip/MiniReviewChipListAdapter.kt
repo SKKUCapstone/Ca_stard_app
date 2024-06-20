@@ -14,11 +14,6 @@ class MiniReviewChipListAdapter(val context: Context, private val reviewList: Li
     RecyclerView.Adapter<MiniReviewChipListViewholder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MiniReviewChipListViewholder {
         val binding = ItemMiniCategorychipBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-//        val flexboxLayoutManager = FlexboxLayoutManager(context)
-//        flexboxLayoutManager.flexDirection = FlexDirection.ROW
-//        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
-//        flexboxLayoutManager.justifyContent = JustifyContent.FLEX_START
-//        binding..layoutManager = flexboxLayoutManager
         return MiniReviewChipListViewholder(context, binding)
     }
 

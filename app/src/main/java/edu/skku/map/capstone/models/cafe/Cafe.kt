@@ -1,15 +1,16 @@
 package edu.skku.map.capstone.models.cafe
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import edu.skku.map.capstone.models.review.Review
+import edu.skku.map.capstone.models.user.User
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.roundToInt
-import android.util.Log
 
 val threshold = 3.5
 class Cafe(
     val cafeId:Long,
-    val cafeName:String? = null,
+    val cafeName:String,
     val roadAddressName:String? = null,
     val phone:String? = null,
     val latitude:Double,
@@ -32,7 +33,7 @@ class Cafe(
     var brightCnt:Int = 0,
     var cleanCnt:Int = 0,
     val reviews:ArrayList<Review> = arrayListOf(),
-    var isFavorite: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
+    var isFavorite: Boolean = false
 ){
     constructor(jsonObject: JSONObject) : this(
         cafeId = jsonObject.getLong("id"),
@@ -59,8 +60,9 @@ class Cafe(
         brightCnt = jsonObject.getInt("bright_cnt"),
         cleanCnt = jsonObject.getInt("clean_cnt"),
         reviews = jsonObject.optJSONArray("reviews")?.let { parseReview(it) } ?: arrayListOf(),  // 리뷰가 없으면 빈 리스트
-        isFavorite = MutableLiveData(jsonObject.optBoolean("isFavorite", false))  // isFavorite가 없으면 false
-    ) {}
+    ) {
+        isFavorite = User.getInstance().favorites.any { it.cafeId == this.cafeId }
+    }
 
     constructor(cafe: Cafe, reviews:ArrayList<Review>) : this(
         cafeId = cafe.cafeId,
@@ -71,7 +73,7 @@ class Cafe(
         longitude = cafe.longitude,
         placeURL = cafe.placeURL,
         reviews = reviews,
-        isFavorite = MutableLiveData(cafe.isFavorite.value)
+        isFavorite = cafe.isFavorite
     ){
         // Initialize sums and counts
         var totalCapacity = 0.0
@@ -244,7 +246,7 @@ class Cafe(
     }
 
     fun updateIsFavorite(value: Boolean) {
-        isFavorite.postValue(value)
+        isFavorite = value
     }
 
     fun getTopCategories(): ArrayList<String> {
@@ -286,7 +288,7 @@ class Cafe(
         reviews.forEach { review ->
             Log.d("review", "  - Review ID: ${review.reviewId}, User ID: ${review.userId}, User Name: ${review.userName} Comment: ${review.comment ?: "No Comment"}")
         }
-        Log.d("review", "Is Favorite: ${isFavorite.value ?: false}")
+        Log.d("review", "Is Favorite: ${isFavorite}")
     }
 
 }

@@ -25,9 +25,9 @@ import edu.skku.map.capstone.view.dialog.review.ReviewViewModel
 import edu.skku.map.capstone.view.dialog.review.category.ReviewDialogCategory
 import edu.skku.map.capstone.view.dialog.review.comment.ReviewDialogComment
 import edu.skku.map.capstone.view.dialog.review.rating.ReviewDialogRating
-import edu.skku.map.capstone.view.home.HomeViewModel
 import okhttp3.ResponseBody
 import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -66,6 +66,11 @@ class DetailActivity : AppCompatActivity() {
         binding.detailUrlTV.text = if(cafe.placeURL == null) "웹사이트 정보 없음" else cafe.placeURL
         binding.detailPhoneTV.text = if(cafe.phone == "") "연락처 정보 없음" else cafe.phone
         binding.detailDistanceTV.text = getCafeDistance(User.getInstance().latLng.value!!, LatLng.from(cafe.latitude, cafe.longitude)) +"m"
+
+        // favorite
+        val favoriteIcon = if (cafe.isFavorite) R.drawable.icon_like_filled else R.drawable.icon_like
+        binding.detailFavIconIV.setImageResource(favoriteIcon)
+
         updateRatings()
 
         // Review List
@@ -161,11 +166,18 @@ class DetailActivity : AppCompatActivity() {
             }
 
             //style of each ratingbar
-            ratingTVs[i].text = (round(ratings[i]*10)/10).toString()
+            val rating = (round(ratings[i]*10)/10)
+            ratingTVs[i].text = rating.toString()
             val layoutParams = ratingCVs[i].layoutParams as ViewGroup.LayoutParams
             layoutParams.width = ratingBarLength(ratings[i])
-            Log.d("cafe","width: ${ratings[i]} -> ${ratingBarLength(ratings[i])}")
+//            Log.d("cafe","width: ${ratings[i]} -> ${ratingBarLength(ratings[i])}")
             ratingCVs[i].layoutParams = layoutParams
+            when{
+                rating < 1.5 -> ratingCVs[i].setCardBackgroundColor(getColor(R.color.red))
+                rating < 3 -> ratingCVs[i].setCardBackgroundColor(getColor(R.color.yellow))
+                else -> {}
+            }
+
         }
     }
 
@@ -185,19 +197,21 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.detailFavBtn.setOnClickListener {
-            val isFavorite = cafe.isFavorite.value ?: false  // 현재 즐겨찾기 상태를 가져옴, 기본값은 false
+            val isFavorite = cafe.isFavorite ?: false  // 현재 즐겨찾기 상태를 가져옴, 기본값은 false
             if(isFavorite) {
                 deleteFavorite(cafe.cafeId) { response ->
                     // Todo: 일단은 Response가 뭐든 간에 채워넣음
-                    cafe.isFavorite.postValue(false)
+                    cafe.isFavorite = false
                     binding.detailFavIconIV.setImageResource(R.drawable.icon_like) // 채워진 하트 이미지로 변경
+                    User.refresh()
                 }
             }
             else {
-                addFavorite(cafe.cafeId) { response ->
+                addFavorite(cafe) { response ->
                     // Todo: 일단은 Response가 뭐든 간에 채워넣음
-                    cafe.isFavorite.postValue(true)
+                    cafe.isFavorite = true
                     binding.detailFavIconIV.setImageResource(R.drawable.icon_like_filled) // 채워진 하트 이미지로 변경
+                    User.refresh()
                 }
             }
         }
@@ -324,7 +338,7 @@ class DetailActivity : AppCompatActivity() {
 
     
     // 즐겨찾기
-    private fun addFavorite(cafeId: Long, callback: (Boolean) -> Unit) {
+    private fun addFavorite(cafe:Cafe, callback: (Boolean) -> Unit) {
         val retrofit = Retrofit.Builder()
             .baseUrl("http://43.201.119.249:8080/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -332,7 +346,16 @@ class DetailActivity : AppCompatActivity() {
         val service = retrofit.create(RetrofitService::class.java)
 
         service
-            .addFavorite(FavoriteDTO(User.getInstance().id, cafeId))
+            .addFavorite(
+                FavoriteDTO(
+                    userId = User.getInstance().id,
+                    cafeId = cafe.cafeId,
+                    cafeName = cafe.cafeName,
+                    address = cafe.roadAddressName ?: "",
+                    phone = cafe.phone ?: "",
+                    latitude = cafe.latitude,
+                    longitude = cafe.longitude
+                    ))
             .enqueue(object : Callback<ResponseBody> {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(
@@ -342,10 +365,10 @@ class DetailActivity : AppCompatActivity() {
                     Log.d("favorite", response.body().toString())
                     if (response.isSuccessful) {
                         callback(true)
-                        Log.d("즐겨찾기 추가", "정상적으로 추가됨")
+                        Log.d("favorite", JSONObject(response.body()!!.string()).getString("message"))
                     } else {
                         callback(false)
-                        Log.d("즐겨찾기 추가", "에러 발생")
+                        Log.d("favorite", "에러 발생, err:${response}")
                     }
                 }
 
@@ -374,10 +397,10 @@ class DetailActivity : AppCompatActivity() {
                     Log.d("favorite", response.body().toString())
                     if (response.isSuccessful) {
                         callback(true)
-                        Log.d("즐겨찾기 삭제", "정상적으로 삭제")
+                        Log.d("favorite", JSONObject(response.body()!!.string()).getString("message"))
                     } else {
                         callback(false)
-                        Log.d("즐겨찾기 삭제", "에러 발생")
+                        Log.d("favorite", "에러 발생")
                     }
                 }
 

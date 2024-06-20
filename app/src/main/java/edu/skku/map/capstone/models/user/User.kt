@@ -1,12 +1,21 @@
 package edu.skku.map.capstone.models.user
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.LatLng
 import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.review.Review
+import edu.skku.map.capstone.util.FavoriteDTO
+import edu.skku.map.capstone.util.RetrofitService
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import org.json.JSONArray
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 val DEFAULT_LAT = 37.402005
 val DEFAULT_LNG = 127.108621
@@ -28,6 +37,39 @@ class User private constructor() {
             this.instance!!.userName = jsonObject.getString("userName")
             this.instance!!.favorites = this.instance!!.parseFavorites(jsonObject.getJSONArray("favorites"))
             Log.d("login", "User initialized")
+        }
+
+        fun refresh() {
+            val retrofit = Retrofit.Builder()
+                .baseUrl("http://43.201.119.249:8080/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val service = retrofit.create(RetrofitService::class.java)
+
+            service
+                .getUserInfo(instance!!.id)
+                .enqueue(object : Callback<ResponseBody> {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        if (response.isSuccessful) {
+                            val body = response.body()!!
+                            val jsonObject = JSONObject(body.string())
+                            instance!!.id = jsonObject.getLong("id")
+                            instance!!.email = jsonObject.getString("email")
+                            instance!!.userName = jsonObject.getString("userName")
+                            instance!!.favorites = instance!!.parseFavorites(jsonObject.getJSONArray("favorites"))
+                        } else {
+                            Log.d("user", "error while refreshing, err:${response}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.d("error", "error while refreshing: ${t.localizedMessage}")
+                    }
+                })
         }
 
         fun getInstance():User {

@@ -29,9 +29,6 @@ class RecommendFragment : Fragment() {
     private val recommendCafeList = MutableLiveData<List<Cafe>>(listOf()) // 추천 카페
     // RecyclerView
     private lateinit var recommendCafeListAdapter: RecommendCafeListAdapter
-    // Todo: make OncafeClick Logic
-//    private val onCafeClick = MutableLiveData<Cafe>()
-    //Todo: fetch current location data
     private val DEFAULT_LAT = 37.402005
     private val DEFAULT_LNG = 127.108621
     override fun onCreateView(

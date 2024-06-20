@@ -303,10 +303,23 @@
                         android:layout_height="26dp"
                         android:layout_marginVertical="6dp"
                         android:orientation="horizontal">
-                        <ImageView
+
+                        <LinearLayout
                             android:layout_width="84dp"
-                            android:layout_height="26dp"
-                            android:src="@drawable/ratingchip_space" />
+                            android:layout_height="26dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_capacity_faded"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginStart="6dp"
+                                android:textStyle="bold"
+                                android:text="넓이"/>
+                        </LinearLayout>
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -377,10 +390,22 @@
                         android:layout_marginVertical="6dp"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <LinearLayout
                             android:layout_width="84dp"
-                            android:layout_height="26dp"
-                            android:src="@drawable/ratingchip_bright" />
+                            android:layout_height="26dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_bright_faded"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginStart="6dp"
+                                android:textStyle="bold"
+                                android:text="밝기"/>
+                        </LinearLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -455,10 +480,22 @@
                         android:layout_marginVertical="6dp"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <LinearLayout
                             android:layout_width="84dp"
-                            android:layout_height="26dp"
-                            android:src="@drawable/ratingchip_clean" />
+                            android:layout_height="26dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_clean_faded"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginStart="6dp"
+                                android:textStyle="bold"
+                                android:text="위생"/>
+                        </LinearLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -533,10 +570,22 @@
                         android:layout_marginVertical="6dp"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <LinearLayout
                             android:layout_width="84dp"
-                            android:layout_height="26dp"
-                            android:src="@drawable/ratingchip_wifi" />
+                            android:layout_height="26dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_wifi_faded"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginStart="6dp"
+                                android:textStyle="bold"
+                                android:text="와이파이"/>
+                        </LinearLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -608,10 +657,22 @@
                         android:layout_marginVertical="6dp"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <LinearLayout
                             android:layout_width="84dp"
-                            android:layout_height="26dp"
-                            android:src="@drawable/ratingchip_quiet" />
+                            android:layout_height="26dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_quiet_faded"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginStart="6dp"
+                                android:textStyle="bold"
+                                android:text="소음"/>
+                        </LinearLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -684,10 +745,22 @@
                         android:layout_marginVertical="6dp"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <LinearLayout
                             android:layout_width="84dp"
-                            android:layout_height="26dp"
-                            android:src="@drawable/ratingchip_tables" />
+                            android:layout_height="26dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_tables_faded"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginStart="6dp"
+                                android:textStyle="bold"
+                                android:text="책상"/>
+                        </LinearLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -760,10 +833,22 @@
                         android:layout_marginVertical="6dp"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <LinearLayout
                             android:layout_width="84dp"
-                            android:layout_height="26dp"
-                            android:src="@drawable/ratingchip_powersocket" />
+                            android:layout_height="26dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_powersocket_faded"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginStart="6dp"
+                                android:textStyle="bold"
+                                android:text="콘센트"/>
+                        </LinearLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -836,10 +921,22 @@
                         android:layout_marginVertical="6dp"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <LinearLayout
                             android:layout_width="84dp"
-                            android:layout_height="26dp"
-                            android:src="@drawable/ratingchip_toilet" />
+                            android:layout_height="26dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_toilet_faded"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginStart="6dp"
+                                android:textStyle="bold"
+                                android:text="화장실"/>
+                        </LinearLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"

@@ -32,7 +32,12 @@ class ReviewDTO(
 
 class FavoriteDTO(
     @SerializedName("userId") val userId: Long,
-    @SerializedName("cafeId") val cafeId: Long
+    @SerializedName("cafeId") val cafeId: Long,
+    @SerializedName("cafeName") val cafeName: String,
+    @SerializedName("address") val address: String,
+    @SerializedName("phone") val phone: String,
+    @SerializedName("longitude") val longitude: Double,
+    @SerializedName("latitude") val latitude: Double
 )
 
 interface RetrofitService {

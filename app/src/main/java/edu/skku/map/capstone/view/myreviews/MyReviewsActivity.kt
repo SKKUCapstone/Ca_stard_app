@@ -24,7 +24,6 @@ class MyReviewsActivity : AppCompatActivity() {
 
     private fun setUI() {
         supportActionBar?.hide()
-
         myReviewListAdapter = MyReviewListAdapter(this)
         binding.reviewRV.adapter = myReviewListAdapter
     }
@@ -41,6 +40,7 @@ class MyReviewsActivity : AppCompatActivity() {
             .getInstance()
             .reviews
             .observe(this) {
+                Log.d("@@@review", "total reviews: ${it.size}")
                 myReviewListAdapter.reloadData(it)
             }
     }

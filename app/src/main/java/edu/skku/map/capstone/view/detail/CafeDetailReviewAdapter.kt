@@ -9,6 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.skku.map.capstone.databinding.ItemReviewDetailBinding
 import edu.skku.map.capstone.models.review.Review
 import android.util.Log
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.FavoriteDTO
 import edu.skku.map.capstone.util.RetrofitService
@@ -32,11 +36,10 @@ class CafeDetailReviewAdapter(val context: Context): RecyclerView.Adapter<CafeDe
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CafeDetailReviewViewHolder {
         val binding = ItemReviewDetailBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-//        val flexboxLayoutManager = FlexboxLayoutManager(context)
-//        flexboxLayoutManager.flexDirection = FlexDirection.ROW
-//        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
-//        flexboxLayoutManager.justifyContent = JustifyContent.FLEX_END
-//        binding.minireviewChipRV.layoutManager = flexboxLayoutManager
+        val flexboxLayoutManager = FlexboxLayoutManager(context)
+        flexboxLayoutManager.flexDirection = FlexDirection.ROW
+        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
+        binding.miniReviewChipRV.layoutManager = flexboxLayoutManager
         return CafeDetailReviewViewHolder(context, binding)
     }
     override fun getItemCount(): Int {

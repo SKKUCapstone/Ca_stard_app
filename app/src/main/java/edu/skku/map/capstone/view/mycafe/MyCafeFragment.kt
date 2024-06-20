@@ -29,7 +29,6 @@ class MyCafeFragment : Fragment() {
     // #2. 즐겨찾기한 카페
     private lateinit var favoriteListAdapter: FavoriteListAdapter
     // #3. 이런곳은 어떤가요?
-    private val onCafeClick = MutableLiveData<Cafe>()
 
 
 
@@ -48,7 +47,7 @@ class MyCafeFragment : Fragment() {
 
     private fun initUI() {
         // #2. 즐겨찾기한 카페
-        favoriteListAdapter = FavoriteListAdapter(requireContext(), onCafeClick)
+        favoriteListAdapter = FavoriteListAdapter(requireContext())
         binding.favoriteCafeListRV.adapter = favoriteListAdapter
         initPieChart()
         setPieChartContents()
@@ -256,7 +255,7 @@ class MyCafeFragment : Fragment() {
         } else {
             originalText
         }
-        binding.preferCafeTxt.setText(processedText)
+        binding.preferCafeTxt.text = processedText
     }
 
 

@@ -100,8 +100,6 @@ class HomeFragment : Fragment() {
         setClickListener()
         initKakaoMap()
         viewModel.fetchCurrentLocation()
-        Log.d("@@@cafefetch", "initial cafe fetch")
-        viewModel.fetchCafes(null,null, viewModel.radius)
         observeViewingCafe()
         observeBottomSheet()
         listenEditText()
@@ -109,6 +107,11 @@ class HomeFragment : Fragment() {
         observeSearchText()
         return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        restoreHomeView()
+}
 
     private fun initViewModel() {
         viewModel.cafeListFragment = CafeListFragment()
@@ -155,11 +158,13 @@ class HomeFragment : Fragment() {
             Log.d("@@@cafefetch", "cameramove out cafe fetch")
             viewModel.fetchCafes(User.getInstance().latLng.value!!.latitude, User.getInstance().latLng.value!!.longitude, viewModel.radius)
             updateCafeLabels()
+            if(behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            }
         }
         binding.relocateBtn.setOnClickListener {
             val newPos = kakaoMap.cameraPosition?.position
             if(newPos != null) {
-                Log.d("@@@cafefetch", "cameramove in fetch")
                 viewModel.fetchCafes(newPos.latitude, newPos.longitude, viewModel.radius)
                 updateCafeLabels()
                 binding.relocateBtn.visibility = View.INVISIBLE
@@ -202,7 +207,14 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun moveCamera(lat: Double, lng: Double){
+    private fun moveCamera(lat: Double?, lng: Double?){
+        if(::kakaoMap.isInitialized.not()){
+            Log.d("@@@camera", "kakaomap is not initialized")
+            return
+        } else if(lat==null || lng==null) {
+            Log.d("@@@camera", "latlng is null")
+            return
+        }
         val cameraUpdate = CameraUpdateFactory.newCenterPosition(LatLng.from(lat, lng))
         kakaoMap.moveCamera(cameraUpdate, CameraAnimation.from(100, true, true))
     }
@@ -251,7 +263,7 @@ class HomeFragment : Fragment() {
         layer?.removeAll()
 
         val clickedCafe = CafeDetailManager.getInstance().currentViewingCafe.value
-
+        Log.d("@@@cafefetch", "currentViewingCafe: ${clickedCafe.toString()}")
         val options = viewModel.liveCafeList.value!!
             .map { LabelOptions
                 .from(LatLng.from(it.latitude, it.longitude))
@@ -355,8 +367,7 @@ class HomeFragment : Fragment() {
         viewModel.searchText.observe(activity as LifecycleOwner) {
             if(!viewModel.isSearchTextInitialized){
                 viewModel.isSearchTextInitialized = true
-            }
-            else {
+            } else {
                 Log.d("@@@cafefetch", "searchtext fetch")
                 viewModel.fetchCafes(null, null, viewModel.radius)
                 updateCafeLabels()
@@ -395,16 +406,14 @@ class HomeFragment : Fragment() {
                 if (list.contains(categoryList[idx])) {
                     layoutList[idx].background = ContextCompat.getDrawable(requireContext(), R.drawable.categorychip)
                     iconList[idx].alpha = 1.0F
-                }
-                else{
+                } else{
                     layoutList[idx].background = ContextCompat.getDrawable(requireContext(), R.drawable.categorychip_faded)
                     iconList[idx].alpha = 0.3F
                 }
             }
             if(!viewModel.isFilterCategoryInitialized){
                 viewModel.isFilterCategoryInitialized = true
-            }
-            else {
+            } else {
                 Log.d("@@@cafefetch", "filter change fetch")
                 viewModel.fetchCafes(cameraLat, cameraLng, viewModel.radius)
                 updateCafeLabels()
@@ -412,6 +421,18 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun restoreHomeView() {
+        //restore camera
+        moveCamera(
+            CafeDetailManager.getInstance().currentViewingCafe.value?.latitude,
+            CafeDetailManager.getInstance().currentViewingCafe.value?.longitude
+        )
+        //fetch cafes by same request
+        Log.d("@@@cafefetch", "onResume fetch")
+        viewModel.fetchCafes(viewModel.lastSearchedLat,viewModel.lastSearchedLng,viewModel.radius)
+//        updateCafeLabels()
+
+    }
 }
 
 

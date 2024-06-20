@@ -20,7 +20,7 @@ class MyReviewListAdapter(val context: Context): RecyclerView.Adapter<MyReviewLi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyReviewListViewholder {
         val binding = ItemReviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        initFlexboxLayout(binding.reviewChipRV)
+        initFlexboxLayout(binding.miniReviewChipRV)
         return MyReviewListViewholder(context, binding)
     }
     override fun getItemCount(): Int {

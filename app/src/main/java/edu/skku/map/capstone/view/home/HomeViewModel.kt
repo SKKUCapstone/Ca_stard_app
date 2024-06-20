@@ -17,6 +17,7 @@ import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.user.User
+//import kotlinx.coroutines.DefaultExecutor.enqueue
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import retrofit2.Call
@@ -29,6 +30,9 @@ class HomeViewModel() {
     private val DEFAULT_LAT = 37.402005
     private val DEFAULT_LNG = 127.108621
     private val _liveCafeList: MutableLiveData<ArrayList<Cafe>> = MutableLiveData<ArrayList<Cafe>>()
+    var lastSearchedLat: Double
+    var lastSearchedLng: Double
+
     val liveCafeList: LiveData<ArrayList<Cafe>> get() = _liveCafeList //뷰모델 밖에서 수정
     val filterCategory = MutableLiveData<ArrayList<String>>(arrayListOf())
     var isFilterCategoryInitialized = false
@@ -42,9 +46,12 @@ class HomeViewModel() {
 
     init {
         _liveCafeList.value = arrayListOf()
+        lastSearchedLat = DEFAULT_LAT
+        lastSearchedLng = DEFAULT_LNG
     }
 
     fun fetchCafes(lat: Double?, lng: Double?, radius: Int) {
+        setLocation(lat ?: DEFAULT_LAT, lng ?: DEFAULT_LNG)
         val filter: String? = filterCategory.value?.joinToString(separator = ",")
         val retrofit = Retrofit.Builder()
             .baseUrl("http://43.201.119.249:8080/")
@@ -127,12 +134,20 @@ class HomeViewModel() {
                     val newLat = DEFAULT_LAT
                     val newLng = DEFAULT_LNG
                     Log.d("gps", "lat: $newLat, lng: $newLng")
+                    Log.d("gps", "changed LAT: ${location.latitude}, changed LNG: ${location.longitude}")
                     User.getInstance().latLng.postValue(LatLng.from(newLat,newLng))
                 }
                 override fun onProviderEnabled(provider: String) {}
                 override fun onProviderDisabled(provider: String) {}
             }
         }
+    }
+
+    // 위치 업데이트 함수
+    fun setLocation(lat: Double, lng: Double) {
+        lastSearchedLat = lat
+        lastSearchedLng = lng
+        Log.d("homeviewmodel", "setLocation: lat:${lat} lng:${lng} ")
     }
 
 }

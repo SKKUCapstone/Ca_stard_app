@@ -4,6 +4,7 @@ import com.kakao.vectormap.LatLng
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.pow
+import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -26,6 +27,5 @@ fun calculateDistance(point1: LatLng, point2: LatLng): Double {
 }
 
 fun getCafeDistance(user: LatLng, cafe: LatLng):String {
-    val dist_ = calculateDistance(user, cafe)
-    return (dist_ * 1000).roundToInt().toString()
+    return  (round(calculateDistance(user, cafe)*100)/100).toString()
 }

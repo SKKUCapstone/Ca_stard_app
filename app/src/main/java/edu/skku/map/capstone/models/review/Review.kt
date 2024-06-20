@@ -67,4 +67,34 @@ class Review(
         comment=if(jsonObject.isNull("comment") || !jsonObject.isNull("comment")&&jsonObject.getString("comment").trim() == "" ) null
                 else jsonObject.getString("comment").trim()
     ){}
+
+    fun abstractReview():ArrayList<Pair<String,Int>> {
+        val review = this
+        val pairs = arrayListOf<Pair<String,Int>>()
+        if(review.capacity != 0) {
+            pairs.add(Pair("capacity", review.capacity))
+        }
+        if(review.quiet != 0) {
+            pairs.add(Pair("quiet", review.quiet))
+        }
+        if(review.toilet != 0) {
+            pairs.add(Pair("toilet", review.toilet))
+        }
+        if(review.wifi != 0) {
+            pairs.add(Pair("wiif", review.wifi))
+        }
+        if(review.bright != 0) {
+            pairs.add(Pair("bright", review.bright))
+        }
+        if(review.clean != 0) {
+            pairs.add(Pair("clean", review.clean))
+        }
+        if(review.powerSocket != 0) {
+            pairs.add(Pair("powerSocket", review.powerSocket))
+        }
+        if(review.tables != 0) {
+            pairs.add(Pair("tables", review.tables))
+        }
+        return pairs
+    }
 }

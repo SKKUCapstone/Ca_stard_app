@@ -18,7 +18,7 @@ class CafeListViewholder(val context: Context, var binding:ItemCafePreviewBindin
         val reviewChipListAdapter = ReviewChipListAdapter(context, cafe.getTopCategories())
         Log.d("cafelistviewholder", "Top Attributes: ${cafe.getTopCategories()}")
         binding.cafeNameTV.text = cafe.cafeName
-        binding.distanceTV.text = "${getCafeDistance(User.getInstance().latLng.value!!, LatLng.from(cafe.latitude,cafe.longitude))}m"
+        binding.distanceTV.text = "${getCafeDistance(User.getInstance().latLng.value!!, LatLng.from(cafe.latitude,cafe.longitude))}km"
         binding.ratingTV.text = if(cafe.getTotalCnt() == 0) "별점 정보 없음" else cafe.getTotalRating().toString()
         binding.reviewChipRV.adapter = reviewChipListAdapter
     }

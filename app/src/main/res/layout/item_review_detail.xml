@@ -57,12 +57,18 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/miniReviewChip_RV"
+    android:layout_marginTop="18dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+
     <TextView
         android:id="@+id/comment_TV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="넓이는 후기 텍스트 너비에 맞춰주세요 넓이는 후기 텍스트 너비에 맞춰주세요..."
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_marginTop="20dp"
         />
 
