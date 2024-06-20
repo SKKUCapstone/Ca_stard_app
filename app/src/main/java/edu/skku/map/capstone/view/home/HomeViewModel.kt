@@ -10,6 +10,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.LatLng
@@ -51,7 +52,7 @@ class HomeViewModel() {
     }
 
     fun fetchCafes(lat: Double?, lng: Double?, radius: Int) {
-        setLocation(lat ?: DEFAULT_LAT, lng ?: DEFAULT_LNG)
+        setLocation(lat ?: User.getInstance().latLng.value?.latitude ?: DEFAULT_LAT, lng ?: User.getInstance().latLng.value?.longitude ?:DEFAULT_LNG)
         val filter: String? = filterCategory.value?.joinToString(separator = ",")
         val retrofit = Retrofit.Builder()
             .baseUrl("http://43.201.119.249:8080/")
@@ -124,17 +125,16 @@ class HomeViewModel() {
         }
     }
 
-    fun listenLocation() {
+    fun listenLocationChange() {
         if (::locationManager.isInitialized.not()) {
             locationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             locationListener = object : LocationListener {
                 override fun onLocationChanged(location: Location) {
-//                    val newLat = location.latitude
-//                    val newLng = location.longitude
-                    val newLat = DEFAULT_LAT
-                    val newLng = DEFAULT_LNG
-                    Log.d("gps", "lat: $newLat, lng: $newLng")
-                    Log.d("gps", "changed LAT: ${location.latitude}, changed LNG: ${location.longitude}")
+                    val newLat = location.latitude
+                    val newLng = location.longitude
+//                    val newLat = DEFAULT_LAT
+//                    val newLng = DEFAULT_LNG
+                    Log.d("@@@gps", "lat: $newLat, lng: $newLng")
                     User.getInstance().latLng.postValue(LatLng.from(newLat,newLng))
                 }
                 override fun onProviderEnabled(provider: String) {}
@@ -143,7 +143,6 @@ class HomeViewModel() {
         }
     }
 
-    // 위치 업데이트 함수
     fun setLocation(lat: Double, lng: Double) {
         lastSearchedLat = lat
         lastSearchedLng = lng

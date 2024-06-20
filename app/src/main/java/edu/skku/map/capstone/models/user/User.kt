@@ -86,8 +86,6 @@ class User private constructor() {
     var favorites: ArrayList<Cafe> = arrayListOf()
     var latLng = MutableLiveData(LatLng.from(DEFAULT_LAT, DEFAULT_LNG))
 
-
-
     private fun parseFavorites(jsonArray: JSONArray): ArrayList<Cafe> {
         val favoriteList = ArrayList<Cafe>()
         for (i in 0 until jsonArray.length()) {

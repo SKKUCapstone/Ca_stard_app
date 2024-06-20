@@ -63,7 +63,7 @@ class DetailActivity : AppCompatActivity() {
         binding.detailCafeNameTV.text = cafe.cafeName
         binding.detailCafeName2TV.text = cafe.cafeName
         binding.detailAddressTV.text = if(cafe.roadAddressName == "") "주소 정보 없음" else cafe.roadAddressName
-        binding.detailUrlTV.text = if(cafe.placeURL == null) "웹사이트 정보 없음" else cafe.placeURL
+        binding.detailUrlTV.text = if(cafe.placeURL == null || cafe.placeURL == "null") "웹사이트 정보 없음" else cafe.placeURL
         binding.detailPhoneTV.text = if(cafe.phone == "") "연락처 정보 없음" else cafe.phone
         binding.detailDistanceTV.text = getCafeDistance(User.getInstance().latLng.value!!, LatLng.from(cafe.latitude, cafe.longitude)) +"m"
 

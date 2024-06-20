@@ -83,81 +83,81 @@ class ReviewDialogRating(private val viewModel: ReviewViewModel, context: Contex
         viewModel.setSliderListeners(
             "capacity",binding.capacitySlider, binding.capacityTV, arrayOf(
                 "",
-                "공간이 협소해요",
-                "살짝 좁아요",
-                "아주 적당해요",
-                "적당히 넓어요",
+                "매우 좁아요",
+                "다소 좁아요",
+                "보통이애요",
+                "넓어요",
                 "아주 넓어요",
             )
         )
         viewModel.setSliderListeners(
             "bright", binding.brightSlider, binding.brightTV, arrayOf(
                 "",
-                "공간이 협소해요",
-                "살짝 좁아요",
-                "아주 적당해요",
-                "적당히 넓어요",
-                "아주 넓어요",
+                "매우 어두워요",
+                "다소 어두워요",
+                "보통이애요",
+                "밝아요",
+                "아주 밝아요",
             )
         )
         viewModel.setSliderListeners(
             "clean", binding.cleanSlider, binding.cleanTV, arrayOf(
                 "",
-                "공간이 협소해요",
-                "살짝 좁아요",
-                "아주 적당해요",
-                "적당히 넓어요",
-                "아주 넓어요",
+                "매우 불청결해요",
+                "다소 불청결해요",
+                "보통이애요",
+                "청결해요",
+                "아주 청결해요",
             )
         )
         viewModel.setSliderListeners(
             "wifi", binding.wifiSlider, binding.wifiTV, arrayOf(
                 "",
-                "공간이 협소해요",
-                "살짝 좁아요",
-                "아주 적당해요",
-                "적당히 넓어요",
-                "아주 넓어요",
+                "매우 느려요",
+                "다소 느려요",
+                "보통이애요",
+                "빨라요",
+                "아주 빨라요",
             )
         )
         viewModel.setSliderListeners(
             "quiet", binding.quietSlider, binding.quietTV, arrayOf(
                 "",
-                "공간이 협소해요",
-                "살짝 좁아요",
-                "아주 적당해요",
-                "적당히 넓어요",
-                "아주 넓어요",
+                "매우 시끄러워요",
+                "다소 시끄러워요",
+                "보통이애요",
+                "조용해요",
+                "아주 조용해요",
             )
         )
         viewModel.setSliderListeners(
             "tables", binding.tablesSlider, binding.tablesTV, arrayOf(
                 "",
-                "공간이 협소해요",
-                "살짝 좁아요",
-                "아주 적당해요",
-                "적당히 넓어요",
+                "매우 좁아요",
+                "다소 좁아요",
+                "보통이애요",
+                "넓어요",
                 "아주 넓어요",
             )
         )
         viewModel.setSliderListeners(
             "toilet", binding.toiletSlider, binding.toiletTV, arrayOf(
                 "",
-                "공간이 협소해요",
-                "살짝 좁아요",
-                "아주 적당해요",
-                "적당히 넓어요",
-                "아주 넓어요",
+                "매우 불청결해요",
+                "다소 불청결해요",
+                "보통이애요",
+                "청결해요",
+                "아주 청결해요",
             )
         )
         viewModel.setSliderListeners(
             "powerSocket", binding.powerSocketSlider, binding.powerSocketTV, arrayOf(
                 "",
-                "공간이 협소해요",
-                "살짝 좁아요",
+                "없어요",
+                "매우 적어요",
+                "다소 적어요",
+                "보통이에요",
                 "아주 적당해요",
-                "적당히 넓어요",
-                "아주 넓어요",
             )
         )
 

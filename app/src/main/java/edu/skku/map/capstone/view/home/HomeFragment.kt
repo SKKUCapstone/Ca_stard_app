@@ -94,7 +94,7 @@ class HomeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         initViewModel()
-        viewModel.listenLocation()
+        viewModel.listenLocationChange()
         initUI()
         listenBottomSheetEvent()
         setClickListener()
@@ -199,8 +199,8 @@ class HomeFragment : Fragment() {
                 labelManager.lodLayer!!.zOrder = 10001
                 camera = kakaoMap.cameraPosition!!
 
-                observeCafeList()
                 observeLocation()
+                observeCafeList()
                 setLabelClickListener()
                 listenCamera()
             }
@@ -305,14 +305,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeLocation() {
-        val lat = User.getInstance().latLng.value!!.latitude
-        val lng = User.getInstance().latLng.value!!.longitude
-        if (currentLabel == null) {
-            currentLabel = createMyLabel(lat,lng)
-        } else {
-            currentLabel!!.moveTo(LatLng.from(lat,lng))
+        User.getInstance().latLng.observe(context as LifecycleOwner) {
+            val lat = User.getInstance().latLng.value!!.latitude
+            val lng = User.getInstance().latLng.value!!.longitude
+            if (currentLabel == null) {
+                currentLabel = createMyLabel(lat, lng)
+            } else {
+                currentLabel!!.moveTo(LatLng.from(lat, lng))
+            }
+            viewModel.fetchCafes(lat,lng, viewModel.radius)
+            updateCafeLabels()
+            moveCamera(lat, lng)
         }
-        moveCamera(lat,lng)
+
     }
 
     private fun observeViewingCafe() {
