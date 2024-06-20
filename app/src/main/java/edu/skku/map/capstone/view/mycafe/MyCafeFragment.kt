@@ -2,22 +2,18 @@ package edu.skku.map.capstone.view.mycafe
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat.animate
 import androidx.lifecycle.MutableLiveData
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import edu.skku.map.capstone.R
-import edu.skku.map.capstone.view.home.cafelist.CafeListAdapter
 import edu.skku.map.capstone.databinding.FragmentMyCafeBinding
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.models.review.Review
 import edu.skku.map.capstone.models.user.User
 import org.json.JSONArray
 import org.json.JSONObject
@@ -154,7 +150,7 @@ class MyCafeFragment : Fragment() {
         binding.pieChart.setUsePercentValues(true)
 //        val dummyCafes = generateExtremeDummyCafes()
 //        val counts = anaylzeFavorites(dummyCafes)
-        val counts = anaylzeFavorites(User.favorites)
+        val counts = anaylzeFavorites(User.getInstance().favorites)
         val pieEntries = mutableListOf<PieEntry>()
 
         counts.forEach { (key, value) ->
@@ -231,7 +227,7 @@ class MyCafeFragment : Fragment() {
         binding.analyzeText.setText(categoryText)
         binding.analyzeCnt.setText("$count 개")
         binding.anaylzeImage.setImageResource(categoryImageRes)
-        binding.myCafeContent1.setText("통계에 따르면 ${User.username}님이 선호하시는 카페는")
+        binding.myCafeContent1.setText("통계에 따르면 ${User.getInstance().userName}님이 선호하시는 카페는")
         // 추천텍스트
         val categoryDescriptions = mapOf(
             "powerSocket" to "충전이 가능하고", // 8

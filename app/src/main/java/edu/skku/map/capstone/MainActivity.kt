@@ -38,16 +38,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var myCafeFragment: MyCafeFragment
     private lateinit var myPageFragment: MyPageFragment
 
-    private var dialogCategory: ReviewDialogCategory? = null
-    private var dialogRating: ReviewDialogRating? = null
-    private var dialogComment: ReviewDialogComment? = null
-
-    var favoriteCafeList = MutableLiveData<ArrayList<Cafe>>(arrayListOf<Cafe>())
-    private var reviewViewModel: ReviewViewModel? = null
-
-    var reviewingCafe = MutableLiveData<Cafe>(null)
-    val reviewPhase = MutableLiveData(0)
-
     private val permissions = arrayOf(
         android.Manifest.permission.ACCESS_FINE_LOCATION,
         android.Manifest.permission.ACCESS_COARSE_LOCATION
@@ -63,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         resolvePermission(permissions)
         setNavActions()
         setUI()
-        observeReviewPhase()
+//        observeReviewPhase()
     }
     private fun setUI(){
         supportActionBar?.hide()
@@ -153,55 +143,55 @@ class MainActivity : AppCompatActivity() {
                 activityResultLauncher.launch(permissions)
             }
         }
-        private fun initReviewViewModel() {
-            reviewViewModel = ReviewViewModel(this, reviewingCafe.value!!)
-        }
-
-        private fun initCategoryDialog() {
-            dialogCategory = ReviewDialogCategory(reviewViewModel!!,this,  reviewPhase)
-        }
-
-        private fun initRatingDialog() {
-            dialogRating = ReviewDialogRating(reviewViewModel!!,this, reviewPhase)
-        }
-
-        private fun initCommentDialog() {
-            dialogComment = ReviewDialogComment(reviewViewModel!!,this, reviewPhase)
-        }
-
-        private fun observeReviewPhase() {
-            reviewPhase.observe(this as LifecycleOwner) {
-                Log.d("dialog","phase is $it")
-                if(it == 0) {
-                    Log.d("dialog","phase : 0")
-                    dialogCategory?.dismiss()
-                    dialogRating?.dismiss()
-                    dialogComment?.dismiss()
-                    dialogRating = null
-                    dialogComment = null
-                    dialogCategory = null
-                    reviewingCafe.postValue(null)
-                }
-                if(it == 1) {
-                    initReviewViewModel()
-                    initCategoryDialog()
-                    Log.d("dialog","phase : 1")
-                    dialogCategory!!.show()
-                }
-                if(it == 2) {
-                    Log.d("dialog","phase : 2")
-                    initRatingDialog()
-                    dialogRating!!.show()
-                    dialogCategory!!.dismiss()
-                }
-                if(it == 3) {
-                    Log.d("dialog","phase : 3")
-                    initCommentDialog()
-                    dialogComment!!.show()
-                    dialogRating!!.dismiss()
-                }
-            }
-        }
+//        private fun initReviewViewModel() {
+//            reviewViewModel = ReviewViewModel(this, reviewingCafe.value!!)
+//        }
+//
+//        private fun initCategoryDialog() {
+//            dialogCategory = ReviewDialogCategory(reviewViewModel!!,this,  reviewPhase)
+//        }
+//
+//        private fun initRatingDialog() {
+//            dialogRating = ReviewDialogRating(reviewViewModel!!,this, reviewPhase)
+//        }
+//
+//        private fun initCommentDialog() {
+//            dialogComment = ReviewDialogComment(reviewViewModel!!,this, reviewPhase)
+//        }
+//
+//        private fun observeReviewPhase() {
+//            reviewPhase.observe(this as LifecycleOwner) {
+//                Log.d("dialog","phase is $it")
+//                if(it == 0) {
+//                    Log.d("dialog","phase : 0")
+//                    dialogCategory?.dismiss()
+//                    dialogRating?.dismiss()
+//                    dialogComment?.dismiss()
+//                    dialogRating = null
+//                    dialogComment = null
+//                    dialogCategory = null
+//                    reviewingCafe.postValue(null)
+//                }
+//                if(it == 1) {
+//                    initReviewViewModel()
+//                    initCategoryDialog()
+//                    Log.d("dialog","phase : 1")
+//                    dialogCategory!!.show()
+//                }
+//                if(it == 2) {
+//                    Log.d("dialog","phase : 2")
+//                    initRatingDialog()
+//                    dialogRating!!.show()
+//                    dialogCategory!!.dismiss()
+//                }
+//                if(it == 3) {
+//                    Log.d("dialog","phase : 3")
+//                    initCommentDialog()
+//                    dialogComment!!.show()
+//                    dialogRating!!.dismiss()
+//                }
+//            }
+//        }
 
     private fun checkLoginStatus() {
         if(AuthApiClient.instance.hasToken()) {

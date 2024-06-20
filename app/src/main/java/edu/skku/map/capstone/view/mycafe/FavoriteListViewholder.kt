@@ -20,10 +20,9 @@
         fun bind(cafe: Cafe){
             binding.cafeNameTV.text = cafe.cafeName
 
-            val minireviewChipListAdapter = MiniReviewChipListAdapter(context, cafe.filterTop())
+            val minireviewChipListAdapter = MiniReviewChipListAdapter(context, cafe.getTopCategories())
             binding.minireviewChipRV.adapter = minireviewChipListAdapter
-            // Debugging log to ensure the correct number of icons
-            Log.d("favlistviewholder", "Cafe: ${cafe.cafeName}, Top Attributes: ${cafe.filterTop()}")
+            Log.d("favlistviewholder", "Cafe: ${cafe.cafeName}, Top Attributes: ${cafe.getTopCategories()}")
     //        setClickListener()
         }
 

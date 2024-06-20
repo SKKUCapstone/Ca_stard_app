@@ -22,7 +22,7 @@ class CafeDetailViewModel {
         val service = retrofit.create(RetrofitService::class.java)
 
         service
-            .addFavorite(FavoriteDTO(User.id, cafeId))
+            .addFavorite(FavoriteDTO(User.getInstance().id, cafeId))
             .enqueue(object : Callback<ResponseBody> {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(

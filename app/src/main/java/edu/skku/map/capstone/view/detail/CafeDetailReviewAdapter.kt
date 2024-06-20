@@ -8,12 +8,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import edu.skku.map.capstone.databinding.ItemReviewDetailBinding
 import edu.skku.map.capstone.models.review.Review
+import android.util.Log
 
 class CafeDetailReviewAdapter(val context: Context): RecyclerView.Adapter<CafeDetailReviewViewHolder>() {
-    private var reviewList: List<Review> = listOf()
+    private var reviewList: ArrayList<Review> = arrayListOf()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateCafeList(newList: List<Review>) {
+    fun updateCafeList(newList: ArrayList<Review>) {
+        Log.d("@@@review", newList.toString())
         reviewList = newList
         notifyDataSetChanged()
     }
@@ -33,8 +35,5 @@ class CafeDetailReviewAdapter(val context: Context): RecyclerView.Adapter<CafeDe
     override fun onBindViewHolder(holder: CafeDetailReviewViewHolder, position: Int) {
         val cafe = reviewList[position]
         holder.bind(cafe)
-//        holder.binding.previewBodyCL.setOnClickListener {
-//            onCafeClick.postValue(cafe)
-//        }
     }
 }

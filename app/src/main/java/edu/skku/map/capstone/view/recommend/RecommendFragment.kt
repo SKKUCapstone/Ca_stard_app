@@ -40,7 +40,7 @@ class RecommendFragment : Fragment() {
     ): View? {
         _binding = FragmentRecommendBinding.inflate(inflater, container, false)
         initUI()
-        fetchRecommendation(DEFAULT_LAT, DEFAULT_LNG, User.id)
+        fetchRecommendation(DEFAULT_LAT, DEFAULT_LNG, User.getInstance().id)
         observeRecommendList()
         return binding.root
     }
@@ -61,7 +61,7 @@ class RecommendFragment : Fragment() {
 
         Log.d(
             "cafe",
-            "fetching recommend cafes from (${DEFAULT_LAT?.toString() ?: DEFAULT_LNG.toString()},${DEFAULT_LNG?.toString() ?: DEFAULT_LAT.toString()}, , UserID: ${User.id})"
+            "fetching recommend cafes from (${DEFAULT_LAT?.toString() ?: DEFAULT_LNG.toString()},${DEFAULT_LNG?.toString() ?: DEFAULT_LAT.toString()}, , UserID: ${User.getInstance().id})"
         )
 
         service

@@ -5,6 +5,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.roundToInt
 
+val threshold = 3.5
 class Cafe(
     val cafeId:Long,
     val cafeName:String? = null,
@@ -71,9 +72,7 @@ class Cafe(
             return reviewArray
         }
     }
-
-
-
+    
     fun getTotalCnt():Int {
         return capacityCnt + brightCnt + cleanCnt + quietCnt + wifiCnt + tablesCnt + powerSocketCnt + toiletCnt
     }
@@ -95,48 +94,64 @@ class Cafe(
             return (average * 10).roundToInt().toDouble() / 10
         }
     }
-    fun getTopCategories():List<String> {
-        val ratings = mapOf(
-            "powerSocket" to powerSocket,
-            "capacity" to capacity,
-            "quiet" to quiet,
-            "wifi" to wifi,
-            "tables" to tables,
-            "toilet" to toilet,
-            "bright" to bright,
-            "clean" to clean
-        ).entries.sortedBy { it.value }
-        return ratings.take(3).map { it.key }
-
-    }
 
     fun filterTopReviews():ArrayList<String> {
         val filteredList = arrayListOf<String>()
-        val size = reviews.size
         var sum = 0
-        for(review in reviews){ sum += review.bright }
-        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("bright")
+        var size = 0
+        for(review in reviews){
+            sum += review.bright
+            size += if(review.bright == 0) 0 else 1
+        }
+        if(size != 0 && sum.toDouble()/size.toDouble() > threshold ) filteredList.add("bright")
         sum = 0
-        for(review in reviews){ sum += review.clean }
-        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("clean")
+        size = 0
+        for(review in reviews){
+            sum += review.clean
+            size += if(review.clean == 0) 0 else 1
+        }
+        if(size != 0 && sum.toDouble()/size.toDouble() > threshold ) filteredList.add("clean")
         sum = 0
-        for(review in reviews){ sum += review.quiet }
-        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("quiet")
+        size = 0
+        for(review in reviews){
+            sum += review.quiet
+            size += if(review.quiet == 0) 0 else 1
+        }
+        if(size != 0 && sum.toDouble()/size.toDouble() > threshold ) filteredList.add("quiet")
         sum = 0
-        for(review in reviews){ sum += review.capacity }
-        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("capacity")
+        size = 0
+        for(review in reviews){
+            sum += review.capacity
+            size += if(review.capacity == 0) 0 else 1
+        }
+        if(size != 0 && sum.toDouble()/size.toDouble() > threshold ) filteredList.add("capacity")
         sum = 0
-        for(review in reviews){ sum += review.powerSocket }
-        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("powerSocket")
+        size = 0
+        for(review in reviews){
+            sum += review.powerSocket
+            size += if(review.powerSocket == 0) 0 else 1
+        }
+        if(size != 0 && sum.toDouble()/size.toDouble() > threshold ) filteredList.add("powerSocket")
         sum = 0
-        for(review in reviews){ sum += review.wifi }
-        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("wifi")
+        size = 0
+        for(review in reviews){
+            sum += review.wifi
+            size += if(review.wifi == 0) 0 else 1
+        }
+        if(size != 0 && sum.toDouble()/size.toDouble() > threshold ) filteredList.add("wifi")
         sum = 0
-        for(review in reviews){ sum += review.tables }
-        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("table")
+        size = 0
+        for(review in reviews){
+            sum += review.tables
+            size += if(review.tables == 0) 0 else 1}
+        if(size != 0 && sum.toDouble()/size.toDouble() > threshold ) filteredList.add("table")
         sum = 0
-        for(review in reviews){ sum += review.toilet }
-        if(sum.toDouble()/size.toDouble() > 3.5 ) filteredList.add("toilet")
+        size = 0
+        for(review in reviews){
+            sum += review.toilet
+            size += if(review.toilet == 0) 0 else 1
+        }
+        if(size != 0 && sum.toDouble()/size.toDouble() > threshold ) filteredList.add("toilet")
 
         return filteredList
     }
@@ -145,7 +160,7 @@ class Cafe(
         isFavorite.postValue(value)
     }
 
-    fun filterTop(): List<String> {
+    fun getTopCategories(): ArrayList<String> {
         val ratings = mapOf(
             "bright" to bright,
             "clean" to clean,
@@ -155,11 +170,10 @@ class Cafe(
             "wifi" to wifi,
             "tables" to tables,
             "toilet" to toilet
-        ).filter { it.value > 3.5 }
+        ).filter { it.value > threshold }
             .entries
             .sortedByDescending { it.value }
             .map { it.key }
-
-        return ratings
+        return ratings as ArrayList<String>
     }
 }

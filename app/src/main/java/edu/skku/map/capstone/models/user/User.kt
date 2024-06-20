@@ -11,55 +11,61 @@ import org.json.JSONArray
 val DEFAULT_LAT = 37.402005
 val DEFAULT_LNG = 127.108621
 class User private constructor() {
-
     companion object {
         private var instance: User? = null
-        var id: Long = 0
-        lateinit var email: String
-        lateinit var username: String
-        lateinit var favorites: ArrayList<Cafe>
-//        lateinit var reviews: ArrayList<Review>
-        var latLng = MutableLiveData(LatLng.from(DEFAULT_LAT, DEFAULT_LNG))
 
-        fun getInstance(jsonObject: JSONObject): User {
+        fun initUser(jsonObject: JSONObject) {
             //initialize myReviewManager
-            val reviews = parseReviews(jsonObject.getJSONArray("reviews"))
+            if(instance == null) instance = User()
 
-            Log.d("@@@myreviews",reviews[0].reviewId.toString())
-
+            val reviews = this.instance!!.parseReviews(jsonObject.getJSONArray("reviews"))
+//            Log.d("@@@myreviews",reviews[0].reviewId.toString())
             MyReviewManager.getInstance().reviews.postValue(reviews)
             Log.d("로그인저장", "id: ${jsonObject.getLong("id")}")
-            return instance ?: synchronized(this) {
-                instance ?: User().also {
-                    id = jsonObject.getLong("id")
-                    email = jsonObject.getString("email")
-                    username = jsonObject.getString("userName")
-                    favorites = parseFavorites(jsonObject.getJSONArray("favorites"))
-                    instance = it
-                }
-            }
+
+            this.instance!!.id = jsonObject.getLong("id")
+            this.instance!!.email = jsonObject.getString("email")
+            this.instance!!.userName = jsonObject.getString("userName")
+            this.instance!!.favorites = this.instance!!.parseFavorites(jsonObject.getJSONArray("favorites"))
+            Log.d("login", "User initialized")
         }
 
-        private fun parseFavorites(jsonArray: JSONArray): ArrayList<Cafe> {
-            val favoriteList = ArrayList<Cafe>()
-            for (i in 0 until jsonArray.length()) {
-                val cafeJson = jsonArray.getJSONObject(i).getJSONObject("cafe")
-                val cafe = Cafe(cafeJson)
-                favoriteList.add(cafe)
+        fun getInstance():User {
+            if(instance == null) {
+                instance =  User()
+                return instance!!
             }
-            return favoriteList
-        }
-
-        private fun parseReviews(jsonArray: JSONArray): ArrayList<Review> {
-            val reviewList = ArrayList<Review>()
-            for (i in 0..<jsonArray.length()){
-                val reviewJson = jsonArray.getJSONObject(i)
-                val review = Review(reviewJson)
-                reviewList.add(review)
-            }
-            return reviewList
+            return this.instance!!
         }
     }
+    var id: Long = 0
+    var email = "userEmail"
+    var userName = "userName"
+    var favorites: ArrayList<Cafe> = arrayListOf()
+    var latLng = MutableLiveData(LatLng.from(DEFAULT_LAT, DEFAULT_LNG))
+
+
+
+    private fun parseFavorites(jsonArray: JSONArray): ArrayList<Cafe> {
+        val favoriteList = ArrayList<Cafe>()
+        for (i in 0 until jsonArray.length()) {
+            val cafeJson = jsonArray.getJSONObject(i).getJSONObject("cafe")
+            val cafe = Cafe(cafeJson)
+            favoriteList.add(cafe)
+        }
+        return favoriteList
+    }
+
+    private fun parseReviews(jsonArray: JSONArray): ArrayList<Review> {
+        val reviewList = ArrayList<Review>()
+        for (i in 0..<jsonArray.length()){
+            val reviewJson = jsonArray.getJSONObject(i)
+            val review = Review(reviewJson)
+            reviewList.add(review)
+        }
+        return reviewList
+    }
+
 }
 
 // 로그인 관련

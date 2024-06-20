@@ -3,7 +3,6 @@ package edu.skku.map.capstone.view.login
 import android.annotation.SuppressLint
 import android.util.Log
 import com.kakao.sdk.user.UserApiClient
-import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.models.user.LoginRequest
 import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.RetrofitService
@@ -26,7 +25,6 @@ class LoginViewModel {
                     val email = user.kakaoAccount?.email ?: ""
                     val username = user.kakaoAccount?.profile?.nickname ?: ""
                     val baseUrl = "http://43.201.119.249:8080/"
-//                    val baseUrl = R.string.base_url.toString()
                     Log.i(
                         "login", "사용자 정보 요청 성공" +
                                 "\n이메일: ${email}" +
@@ -55,12 +53,12 @@ class LoginViewModel {
                                 if (response.isSuccessful) {
                                     val body = response.body()!!
                                     val jsonObject = JSONObject(body.string())
-                                    User.getInstance(jsonObject)
+                                    User.initUser(jsonObject)
                                     Log.d(
                                         "login",
-                                        "ID: ${User.id}, Email: ${User.email}, Username: ${User.username}"                                        ,
+                                        "ID: ${User.getInstance().id}, Email: ${User.getInstance().email}, Username: ${User.getInstance().userName}"                                        ,
                                     )
-                                    User.favorites.forEach { cafe ->
+                                    User.getInstance().favorites.forEach { cafe ->
                                         Log.d("login", "Cafe ID: ${cafe.cafeId}, Cafe Name: ${cafe.cafeName}, Address: ${cafe.roadAddressName}, Phone: ${cafe.phone}, Latitude: ${cafe.latitude}, Longitude: ${cafe.longitude}")
                                     }
 

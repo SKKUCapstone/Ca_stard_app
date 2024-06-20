@@ -2,19 +2,13 @@ package edu.skku.map.capstone.view.home.cafelist
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.transition.Visibility
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import androidx.transition.VisibilityPropagation
-import edu.skku.map.capstone.MainActivity
 import edu.skku.map.capstone.databinding.FragmentCafeListBinding
 import edu.skku.map.capstone.manager.CafeDetailManager
 import edu.skku.map.capstone.models.cafe.Cafe

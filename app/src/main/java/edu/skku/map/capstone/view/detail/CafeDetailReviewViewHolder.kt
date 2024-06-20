@@ -13,6 +13,7 @@ class CafeDetailReviewViewHolder(val context: Context, var binding: ItemReviewDe
         binding.reviewUserName.text = "정환"
         // timestamp 저장 로직 필요
         binding.reviewDate.text = "2023.12.10"
+        binding.commentTV.text = review.comment
 
 //        Log.d("favlistviewholder", "Cafe: ${cafe.cafeName}, Top Attributes: ${cafe.filterTop()}")
         //        setClickListener()

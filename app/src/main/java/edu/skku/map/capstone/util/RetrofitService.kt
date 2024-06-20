@@ -12,29 +12,27 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 class ReviewDTO(
-    @SerializedName("userId") private val userId: Long,
-    @SerializedName("cafeId") private val cafeId: Long,
-    @SerializedName("cafeName") private val cafeName: String,
-    @SerializedName("address") private val address: String,
-    @SerializedName("phone") private val phone: String,
-    @SerializedName("longitude") private val longitude: Double,
-    @SerializedName("latitude") private val latitude: Double,
-    @SerializedName("powerSocket") private val powerSocket: Int?,
-    @SerializedName("capacity") private val capacity: Int?,
-    @SerializedName("quiet") private val quiet: Int?,
-    @SerializedName("wifi") private val wifi: Int?,
-    @SerializedName("tables") private val tables: Int?,
-    @SerializedName("toilet") private val toilet: Int?,
-    @SerializedName("bright") private val bright: Int?,
-    @SerializedName("clean") private val clean: Int?,
-    @SerializedName("comment") private val comment: String?
-){
-
-}
+    @SerializedName("userId") val userId: Long,
+    @SerializedName("cafeId") val cafeId: Long,
+    @SerializedName("cafeName") val cafeName: String,
+    @SerializedName("address") val address: String,
+    @SerializedName("phone") val phone: String,
+    @SerializedName("longitude") val longitude: Double,
+    @SerializedName("latitude") val latitude: Double,
+    @SerializedName("powerSocket") val powerSocket: Int?,
+    @SerializedName("capacity") val capacity: Int?,
+    @SerializedName("quiet") val quiet: Int?,
+    @SerializedName("wifi") val wifi: Int?,
+    @SerializedName("tables") val tables: Int?,
+    @SerializedName("toilet") val toilet: Int?,
+    @SerializedName("bright") val bright: Int?,
+    @SerializedName("clean") val clean: Int?,
+    @SerializedName("comment") val comment: String?
+)
 
 class FavoriteDTO(
-    @SerializedName("userId") private val userId: Long,
-    @SerializedName("cafeId") private val cafeId: Long
+    @SerializedName("userId") val userId: Long,
+    @SerializedName("cafeId") val cafeId: Long
 )
 
 interface RetrofitService {
@@ -57,21 +55,24 @@ interface RetrofitService {
     ): Call<ResponseBody>
     //reviews
 
-    @GET("/review/user/byuserId")
+    @GET("/review/user")
     fun getUserReviews(
         @Query("userId") userId: Long
     ):Call<ResponseBody>
 
-    @GET("/review/cafe/bycafeId")
+    //get all cafe reviews by cafeId
+    @GET("/review/cafe")
     fun getCafeReviews(
         @Query("cafeId") cafeId: Long
     ):Call<ResponseBody>
 
+    //post review
     @POST("/review/post")
     fun postReview(
         @Body body: ReviewDTO
     ):Call<ResponseBody>
 
+    //delete review
     @DELETE("/review/delete")
     fun deleteReview(
         @Query("userId") userId: Long,
@@ -83,7 +84,6 @@ interface RetrofitService {
     fun addFavorite(
         @Body body: FavoriteDTO
     ):Call<ResponseBody>
-
 
     //user
     @POST("/user/login")

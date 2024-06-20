@@ -38,7 +38,6 @@ class CafeListAdapter(val context: Context): RecyclerView.Adapter<CafeListViewho
         val cafe = cafeList[position]
         holder.bind(cafe)
         holder.binding.previewBodyV.setOnClickListener {
-//            onCafeClick.postValue(cafe)
             CafeDetailManager.getInstance().viewCafe(cafe)
             context.startActivity(Intent(context,DetailActivity::class.java))
         }

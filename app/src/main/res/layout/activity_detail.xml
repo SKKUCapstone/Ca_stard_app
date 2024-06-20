@@ -218,7 +218,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:padding="6dp"
-                    android:src="@drawable/icon_clock"
+                    android:src="@drawable/icon_link"
                     android:layout_gravity="start"/>
                 <LinearLayout
                     android:id="@+id/detailURLBtn"
@@ -297,7 +297,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:orientation="vertical">
-
                     <LinearLayout
                         android:id="@+id/rating_capacityLL"
                         android:layout_width="match_parent"
@@ -309,41 +308,66 @@
                             android:layout_height="26dp"
                             android:src="@drawable/ratingchip_space" />
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_capacity_baseCV"
-                                android:layout_width="220dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#F6F4F1"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/constraintLayout2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/rating_capacityTV"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_capacity_baseCV"
+                                    android:layout_width="220dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#F6F4F1"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_capacity_scoreCV"
+                                    android:layout_width="120dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#2E6E59"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/ratingbar_capacity_baseCV"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/rating_capacityTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="3.5"
+                                android:textSize="16sp"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/capacity_noRating_TV"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="별점 정보 없음"
+                                android:background="@color/white"
+                                android:gravity="center_vertical"
+                                android:paddingStart="16dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_capacity_scoreCV"
-                                android:layout_width="120dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#2E6E59"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="@id/ratingbar_capacity_baseCV"
-                                app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <TextView
-                            android:id="@+id/rating_capacityTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="3.5"
-                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -359,41 +383,69 @@
                             android:src="@drawable/ratingchip_bright" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_bright_baseCV"
-                                android:layout_width="220dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#F6F4F1"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/constraintLayout3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/rating_brightTV"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_bright_baseCV"
+                                    android:layout_width="220dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#F6F4F1"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_bright_scoreCV"
+                                    android:layout_width="120dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#2E6E59"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/ratingbar_bright_baseCV"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/rating_brightTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="3.5"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/bright_noRating_TV"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="별점 정보 없음"
+                                android:background="@color/white"
+                                android:gravity="center_vertical"
+                                android:paddingStart="16dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_bright_scoreCV"
-                                android:layout_width="120dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#2E6E59"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="@id/ratingbar_bright_baseCV"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <TextView
-                            android:id="@+id/rating_brightTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="3.5"
-                            android:textSize="16sp" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -409,41 +461,69 @@
                             android:src="@drawable/ratingchip_clean" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_clean_baseCV"
-                                android:layout_width="220dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#F6F4F1"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/constraintLayout4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/rating_cleanTV"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_clean_baseCV"
+                                    android:layout_width="220dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#F6F4F1"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_clean_scoreCV"
+                                    android:layout_width="120dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#2E6E59"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/ratingbar_clean_baseCV"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/rating_cleanTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="3.5"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/clean_noRating_TV"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="별점 정보 없음"
+                                android:background="@color/white"
+                                android:gravity="center_vertical"
+                                android:paddingStart="16dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_clean_scoreCV"
-                                android:layout_width="120dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#2E6E59"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="@id/ratingbar_clean_baseCV"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <TextView
-                            android:id="@+id/rating_cleanTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="3.5"
-                            android:textSize="16sp" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -459,41 +539,66 @@
                             android:src="@drawable/ratingchip_wifi" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_wifi_baseCV"
-                                android:layout_width="220dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#F6F4F1"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/rating_wifiTV"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_wifi_baseCV"
+                                    android:layout_width="220dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#F6F4F1"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_wifi_scoreCV"
+                                    android:layout_width="120dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#2E6E59"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/ratingbar_wifi_baseCV"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/rating_wifiTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="3.5"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/wifi_noRating_TV"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="별점 정보 없음"
+                                android:background="@color/white"
+                                android:gravity="center_vertical"
+                                android:paddingStart="16dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_wifi_scoreCV"
-                                android:layout_width="120dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#2E6E59"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="@id/ratingbar_wifi_baseCV"
-                                app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <TextView
-                            android:id="@+id/rating_wifiTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="3.5"
-                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -509,41 +614,67 @@
                             android:src="@drawable/ratingchip_quiet" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_quiet_baseCV"
-                                android:layout_width="220dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#F6F4F1"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/constraintLayout5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/rating_quietTV"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_quiet_baseCV"
+                                    android:layout_width="220dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#F6F4F1"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_quiet_scoreCV"
+                                    android:layout_width="120dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#2E6E59"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/ratingbar_quiet_baseCV"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/rating_quietTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="3.5"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/quiet_noRating_TV"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="별점 정보 없음"
+                                android:background="@color/white"
+                                android:gravity="center_vertical"
+                                android:paddingStart="16dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_quiet_scoreCV"
-                                android:layout_width="120dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#2E6E59"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="@id/ratingbar_quiet_baseCV"
-                                app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <TextView
-                            android:id="@+id/rating_quietTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="3.5"
-                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -559,42 +690,67 @@
                             android:src="@drawable/ratingchip_tables" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_tables_baseCV"
-                                android:layout_width="220dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#F6F4F1"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/constraintLayout6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/rating_tablesTV"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_tables_baseCV"
+                                    android:layout_width="220dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#F6F4F1"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_tables_scoreCV"
+                                    android:layout_width="120dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#2E6E59"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/ratingbar_tables_baseCV"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/rating_tablesTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="3.5"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tables_noRating_TV"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="별점 정보 없음"
+                                android:background="@color/white"
+                                android:gravity="center_vertical"
+                                android:paddingStart="16dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_tables_scoreCV"
-                                android:layout_width="120dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#2E6E59"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="@id/ratingbar_tables_baseCV"
-                                app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <TextView
-                            android:id="@+id/rating_tablesTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-
-                            android:text="3.5"
-                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -610,41 +766,67 @@
                             android:src="@drawable/ratingchip_powersocket" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_powersocket_baseCV"
-                                android:layout_width="220dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#F6F4F1"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/constraintLayout7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/rating_powersocketTV"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_powersocket_baseCV"
+                                    android:layout_width="220dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#F6F4F1"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_powersocket_scoreCV"
+                                    android:layout_width="120dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#2E6E59"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/ratingbar_powersocket_baseCV"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/rating_powersocketTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="3.5"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/powerSocket_noRating_TV"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="별점 정보 없음"
+                                android:background="@color/white"
+                                android:gravity="center_vertical"
+                                android:paddingStart="16dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_powersocket_scoreCV"
-                                android:layout_width="120dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#2E6E59"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="@id/ratingbar_powersocket_baseCV"
-                                app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <TextView
-                            android:id="@+id/rating_powersocketTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="3.5"
-                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -660,46 +842,72 @@
                             android:src="@drawable/ratingchip_toilet" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_toilet_baseCV"
-                                android:layout_width="220dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#F6F4F1"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/constraintLayout8"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/rating_toiletTV"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_toilet_baseCV"
+                                    android:layout_width="220dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#F6F4F1"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/ratingbar_toilet_scoreCV"
+                                    android:layout_width="120dp"
+                                    android:layout_height="8dp"
+                                    app:cardBackgroundColor="#2E6E59"
+                                    app:cardCornerRadius="5dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/ratingbar_toilet_baseCV"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/rating_toiletTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="3.5"
+                                android:textSize="16sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/ratingbar_toilet_scoreCV"
-                                android:layout_width="120dp"
-                                android:layout_height="8dp"
-                                app:cardBackgroundColor="#2E6E59"
-                                app:cardCornerRadius="5dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="@id/ratingbar_toilet_baseCV"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
                         <TextView
-                            android:id="@+id/rating_toiletTV"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/toilet_noRating_TV"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="3.5"
-                            android:textSize="16sp" />
+                            android:text="별점 정보 없음"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
+
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/noDataView"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginTop="30dp"

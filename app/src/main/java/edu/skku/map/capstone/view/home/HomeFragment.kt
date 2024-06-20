@@ -73,8 +73,8 @@ class HomeFragment : Fragment() {
     private lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var lodLabels: Array<LodLabel>
     val pullDownBottemSheet = MutableLiveData(false)
-    private var cameraLat: Double = User.latLng.value?.latitude ?: DEFAULT_LAT
-    private var cameraLng: Double = User.latLng.value?.longitude?: DEFAULT_LNG
+    private var cameraLat: Double = User.getInstance().latLng.value?.latitude ?: DEFAULT_LAT
+    private var cameraLng: Double = User.getInstance().latLng.value?.longitude?: DEFAULT_LNG
 
     private val categoryList = arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet")
     private var myCoroutineJob: Job = Job()
@@ -155,9 +155,9 @@ class HomeFragment : Fragment() {
 
     private fun setClickListener() {
         binding.gpsBtn.setOnClickListener {
-            moveCamera(User.latLng.value!!.latitude,User.latLng.value!!.longitude)
+            moveCamera(User.getInstance().latLng.value!!.latitude,User.getInstance().latLng.value!!.longitude)
             binding.relocateBtn.visibility = View.INVISIBLE
-            viewModel.fetchCafes(User.latLng.value!!.latitude, User.latLng.value!!.longitude, viewModel.radius)
+            viewModel.fetchCafes(User.getInstance().latLng.value!!.latitude, User.getInstance().latLng.value!!.longitude, viewModel.radius)
             updateCafeLabels()
         }
         binding.relocateBtn.setOnClickListener {
@@ -165,6 +165,7 @@ class HomeFragment : Fragment() {
             if(newPos != null) {
                 viewModel.fetchCafes(newPos.latitude, newPos.longitude, viewModel.radius)
                 updateCafeLabels()
+                binding.relocateBtn.visibility = View.INVISIBLE
             }
         }
         val btnList = arrayListOf(
@@ -213,7 +214,7 @@ class HomeFragment : Fragment() {
         kakaoMap.setOnCameraMoveEndListener { kakaoMap, position, gestureType ->
             if(gestureType == GestureType.Pan) {
                 val dist =
-                    calculateDistance(position.position, User.latLng.value!!)
+                    calculateDistance(position.position, User.getInstance().latLng.value!!)
                 if (dist >= 0.1) {
                     Log.d("camera", position.position.toString())
                     binding.relocateBtn.visibility = View.VISIBLE
@@ -273,40 +274,14 @@ class HomeFragment : Fragment() {
         kakaoMap.setOnLodLabelClickListener(
             fun (kakaoMap: KakaoMap, layer: LodLabelLayer, label: LodLabel){
                 val clickedCafe = getCafeByLabelId(label.labelId)
-//                val reviewingCafe = (requireActivity() as MainActivity).reviewingCafe
-//                if(clickedCafe == reviewingCafe.value) return
-//                reviewingCafe.postValue(clickedCafe)
-//                onCafeDetailOpen(clickedCafe)
+
                 CafeDetailManager.getInstance().viewCafe(clickedCafe)
+                if(behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                }
             }
         )
     }
-
-    fun onCafeDetailOpen(cafe: Cafe){
-//        onCafeDetailClosed() //remove possibly existing detailFragment
-//        val activity = (requireActivity() as MainActivity)
-//        viewModel.cafeDetailFragment = CafeDetailFragment(cafe,activity.reviewingCafe, activity.reviewPhase, pullDownBottemSheet)
-//
-//        childFragmentManager.beginTransaction().apply {
-//            add(binding.childFL.id, viewModel.cafeDetailFragment as Fragment).commit()
-//        }
-//        viewModel.prevCafeDetailFragment = viewModel.cafeDetailFragment
-//        if(behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-//            behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-//        }
-        CafeDetailManager.getInstance().viewCafe(cafe)
-        startActivity(Intent(requireActivity(), DetailActivity::class.java))
-    }
-//    fun onCafeDetailClosed() {
-//        //there was no detailfragment
-//        if(viewModel.prevCafeDetailFragment == null) {
-//            return
-//        }
-//        childFragmentManager.beginTransaction().apply {
-//            remove(viewModel.prevCafeDetailFragment as Fragment).commit()
-//        }
-//        viewModel.prevCafeDetailFragment = null
-//    }
 
     private fun getCafeByLabelId(labelId: String): Cafe {
         val targetLodLabel = lodLabels.find {
@@ -322,8 +297,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeLocation() {
-        val lat = User.latLng.value!!.latitude
-        val lng = User.latLng.value!!.longitude
+        val lat = User.getInstance().latLng.value!!.latitude
+        val lng = User.getInstance().latLng.value!!.longitude
         if (currentLabel == null) {
             currentLabel = createMyLabel(lat,lng)
         } else {
@@ -373,7 +348,6 @@ class HomeFragment : Fragment() {
             val editTextFlow = binding.searchET.textChangesToFlow()
             editTextFlow
                 .debounce(700)
-//                .filter { it?.trim()?.isNotEmpty()!! }
                 .onEach {
                     viewModel.searchText.postValue(it.toString().trim())
                 }

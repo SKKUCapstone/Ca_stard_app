@@ -14,7 +14,6 @@ import edu.skku.map.capstone.databinding.FragmentMyPageBinding
 import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.view.login.LoginActivity
 import edu.skku.map.capstone.view.myreviews.MyReviewsActivity
-import kotlinx.coroutines.Dispatchers.Main
 
 class MyPageFragment : Fragment() {
     private var _binding: FragmentMyPageBinding? = null
@@ -31,8 +30,8 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setUI(){
-        binding.userName.text = User.username
-        binding.userEmail.text = User.email
+        binding.userName.text = User.getInstance().userName
+        binding.userEmail.text = User.getInstance().email
     }
     private fun setPolicyClickListeners() {
         binding.personalInfoAgreementCV.setOnClickListener {

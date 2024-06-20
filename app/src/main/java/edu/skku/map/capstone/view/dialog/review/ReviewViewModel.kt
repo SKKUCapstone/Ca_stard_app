@@ -10,16 +10,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.slider.Slider
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.models.user.User
-import edu.skku.map.capstone.util.RetrofitService
-import edu.skku.map.capstone.util.ReviewDTO
-import okhttp3.ResponseBody
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
 
@@ -27,20 +17,18 @@ class ReviewViewModel(private val context: Context ,val cafe: Cafe) {
     val categorySelect = MutableLiveData(arrayListOf("wifi","quiet","tables","powerSocket"))
 
     //rating phase
-    var capacityRating = 0
-    var brightRating = 0
-    var cleanRating = 0
-    var wifiRating = 0
-    var quietRating = 0
-    var tablesRating = 0
-    var powerSocketRating = 0
-    var toiletRating = 0
+    var capacityRating = 3
+    var brightRating = 3
+    var cleanRating = 3
+    var wifiRating = 3
+    var quietRating = 3
+    var tablesRating = 3
+    var powerSocketRating = 3
+    var toiletRating = 3
     var textReview = ""
 
-
-
     @SuppressLint("ResourceAsColor")
-    fun initSliderListeners(id: String, slider: Slider, textView: TextView, textState: Array<String>) {
+    fun setSliderListeners(id: String, slider: Slider, textView: TextView, textState: Array<String>) {
 
         slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {

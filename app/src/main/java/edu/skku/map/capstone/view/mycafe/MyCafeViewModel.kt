@@ -20,7 +20,7 @@ class MyCafeViewModel() {
 //        _visitedCafeList.value = listOf()
     }
     fun updateFavoriteCafeList() {
-        _favoriteCafeList.value = User.favorites
+        _favoriteCafeList.value = User.getInstance().favorites
     }
     // 백엔드로부터 받으면, 없어도 되는 데이터
     private val DEFAULT_LAT = 37.402005

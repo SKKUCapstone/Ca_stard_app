@@ -447,56 +447,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/rating_wifiLL"
-                    android:layout_width="match_parent"
-                    android:layout_height="26dp"
-                    android:layout_marginVertical="6dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="84dp"
-                        android:layout_height="26dp"
-                        android:src="@drawable/ratingchip_wifi" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/ratingbar_wifi_baseCV"
-                            android:layout_width="220dp"
-                            android:layout_height="8dp"
-                            app:cardBackgroundColor="#F6F4F1"
-                            app:cardCornerRadius="5dp"
-                            app:cardElevation="0dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/ratingbar_wifi_scoreCV"
-                            android:layout_width="120dp"
-                            android:layout_height="8dp"
-                            app:cardBackgroundColor="#2E6E59"
-                            app:cardCornerRadius="5dp"
-                            app:cardElevation="0dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@id/ratingbar_wifi_baseCV"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <TextView
-                        android:id="@+id/rating_wifiTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="3.5"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/rating_quiet_LL"
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
@@ -545,6 +495,56 @@
                         android:text="3.5"
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/rating_wifiLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="26dp"
+                        android:layout_marginVertical="6dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="84dp"
+                            android:layout_height="26dp"
+                            android:src="@drawable/ratingchip_wifi" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/ratingbar_wifi_baseCV"
+                                android:layout_width="220dp"
+                                android:layout_height="8dp"
+                                app:cardBackgroundColor="#F6F4F1"
+                                app:cardCornerRadius="5dp"
+                                app:cardElevation="0dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/ratingbar_wifi_scoreCV"
+                                android:layout_width="120dp"
+                                android:layout_height="8dp"
+                                app:cardBackgroundColor="#2E6E59"
+                                app:cardCornerRadius="5dp"
+                                app:cardElevation="0dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="@id/ratingbar_wifi_baseCV"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:id="@+id/rating_wifiTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="3.5"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/rating_tables_LL"

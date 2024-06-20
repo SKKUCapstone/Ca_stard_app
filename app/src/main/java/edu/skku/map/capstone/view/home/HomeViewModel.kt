@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kakao.vectormap.LatLng
+import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.view.home.detail.CafeDetailFragment
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
@@ -43,8 +44,6 @@ class HomeViewModel() {
     val searchText = MutableLiveData("")
     var radius = 400
     lateinit var cafeListFragment: CafeListFragment
-    var cafeDetailFragment: CafeDetailFragment? = null
-    var prevCafeDetailFragment: CafeDetailFragment? = null
     private lateinit var locationManager: LocationManager
     private lateinit var locationListener: LocationListener
     lateinit var activity: Activity
@@ -54,7 +53,6 @@ class HomeViewModel() {
     }
 
     fun fetchCafes(lat: Double?, lng: Double?, radius: Int) {
-
         val filter: String? = filterCategory.value?.joinToString(separator = ",")
         val retrofit = Retrofit.Builder()
             .baseUrl("http://43.201.119.249:8080/")
@@ -137,7 +135,7 @@ class HomeViewModel() {
                     val newLat = DEFAULT_LAT
                     val newLng = DEFAULT_LNG
                     Log.d("gps", "lat: $newLat, lng: $newLng")
-                    User.latLng.postValue(LatLng.from(newLat,newLng))
+                    User.getInstance().latLng.postValue(LatLng.from(newLat,newLng))
 
                 }
 
@@ -146,4 +144,15 @@ class HomeViewModel() {
             }
         }
     }
+    //update views on my review write/delete
+//    fun observeReviewWrite() {
+//        MyReviewManager.getInstance().reviews.observe(activity as LifecycleOwner) {
+//            if(MyReviewManager.getInstance().newReview!=null) { //review write
+//
+//            }
+//            else if(MyReviewManager.getInstance().deletedReviewId!=null){
+//
+//            }
+//        }
+//    }
 }
