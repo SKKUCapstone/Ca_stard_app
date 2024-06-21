@@ -565,7 +565,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@drawable/green_r8"
-        android:text="다음으로"
+        android:text="다음으로 (2/3)"
         android:textColor="@color/white" />
 
 

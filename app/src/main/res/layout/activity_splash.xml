@@ -133,7 +133,7 @@
             android:id="@+id/Logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="50dp"
             android:ems="10"
             android:inputType="text"
             android:text="Castard"

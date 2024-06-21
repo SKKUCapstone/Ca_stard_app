@@ -40,8 +40,6 @@ class MyCafeFragment : Fragment() {
         viewModel.updateFavoriteCafeList()
         initUI()
         observeDataList()
-
-
         return binding.root
     }
 
@@ -58,13 +56,7 @@ class MyCafeFragment : Fragment() {
         viewModel.favoriteCafeList.observe(viewLifecycleOwner) { favoriteCafeList ->
             favoriteListAdapter.updateCafeList(favoriteCafeList)
         }
-        // #3. 이런곳은 어떤가요?
-//        viewModel.recommendCafeList.observe(viewLifecycleOwner) { recommendCafeList ->
-//            cafeListAdapter.updateCafeList(recommendCafeList)
-//        }
-//        viewModel.visitedCafeList.observe(viewLifecycleOwner) { visitedCafeList ->
-//            cafeListAdapter.updateCafeList(visitedCafeList)
-//        }
+
     }
     private fun generateExtremeDummyCafes(): ArrayList<Cafe> {
         val dummyCafes = ArrayList<Cafe>()

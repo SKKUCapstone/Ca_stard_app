@@ -130,10 +130,10 @@ class HomeViewModel() {
             locationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             locationListener = object : LocationListener {
                 override fun onLocationChanged(location: Location) {
-                    val newLat = location.latitude
-                    val newLng = location.longitude
-//                    val newLat = DEFAULT_LAT
-//                    val newLng = DEFAULT_LNG
+//                    val newLat = location.latitude
+//                    val newLng = location.longitude
+                    val newLat = DEFAULT_LAT
+                    val newLng = DEFAULT_LNG
                     Log.d("@@@gps", "lat: $newLat, lng: $newLng")
                     User.getInstance().latLng.postValue(LatLng.from(newLat,newLng))
                 }

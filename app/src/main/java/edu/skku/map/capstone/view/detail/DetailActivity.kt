@@ -366,6 +366,7 @@ class DetailActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         callback(true)
                         Log.d("favorite", JSONObject(response.body()!!.string()).getString("message"))
+                        User.refresh()
                     } else {
                         callback(false)
                         Log.d("favorite", "에러 발생, err:${response}")

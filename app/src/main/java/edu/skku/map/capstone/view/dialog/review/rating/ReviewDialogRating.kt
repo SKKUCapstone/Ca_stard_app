@@ -85,7 +85,7 @@ class ReviewDialogRating(private val viewModel: ReviewViewModel, context: Contex
                 "",
                 "매우 좁아요",
                 "다소 좁아요",
-                "보통이애요",
+                "보통이에요",
                 "넓어요",
                 "아주 넓어요",
             )
@@ -95,7 +95,7 @@ class ReviewDialogRating(private val viewModel: ReviewViewModel, context: Contex
                 "",
                 "매우 어두워요",
                 "다소 어두워요",
-                "보통이애요",
+                "보통이에요",
                 "밝아요",
                 "아주 밝아요",
             )
@@ -105,7 +105,7 @@ class ReviewDialogRating(private val viewModel: ReviewViewModel, context: Contex
                 "",
                 "매우 불청결해요",
                 "다소 불청결해요",
-                "보통이애요",
+                "보통이에요",
                 "청결해요",
                 "아주 청결해요",
             )
@@ -115,7 +115,7 @@ class ReviewDialogRating(private val viewModel: ReviewViewModel, context: Contex
                 "",
                 "매우 느려요",
                 "다소 느려요",
-                "보통이애요",
+                "보통이에요",
                 "빨라요",
                 "아주 빨라요",
             )
@@ -125,7 +125,7 @@ class ReviewDialogRating(private val viewModel: ReviewViewModel, context: Contex
                 "",
                 "매우 시끄러워요",
                 "다소 시끄러워요",
-                "보통이애요",
+                "보통이에요",
                 "조용해요",
                 "아주 조용해요",
             )
@@ -135,7 +135,7 @@ class ReviewDialogRating(private val viewModel: ReviewViewModel, context: Contex
                 "",
                 "매우 좁아요",
                 "다소 좁아요",
-                "보통이애요",
+                "보통이에요",
                 "넓어요",
                 "아주 넓어요",
             )
@@ -145,7 +145,7 @@ class ReviewDialogRating(private val viewModel: ReviewViewModel, context: Contex
                 "",
                 "매우 불청결해요",
                 "다소 불청결해요",
-                "보통이애요",
+                "보통이에요",
                 "청결해요",
                 "아주 청결해요",
             )
