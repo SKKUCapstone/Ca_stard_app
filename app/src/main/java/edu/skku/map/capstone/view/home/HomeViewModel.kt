@@ -16,9 +16,9 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.kakao.vectormap.LatLng
+import edu.skku.map.capstone.manager.MyLocationManager
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.models.user.User
 
 class HomeViewModel() {
     private val DEFAULT_LAT = 37.402005
@@ -150,7 +150,7 @@ class HomeViewModel() {
                     val newLat = DEFAULT_LAT
                     val newLng = DEFAULT_LNG
                     Log.d("@@@gps", "lat: $newLat, lng: $newLng")
-                    User.getInstance().latLng.postValue(LatLng.from(newLat,newLng))
+                    MyLocationManager.getInstance().latLng.postValue(LatLng.from(newLat,newLng))
 
                 }
                 override fun onProviderEnabled(provider: String) {}

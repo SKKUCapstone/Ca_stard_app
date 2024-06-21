@@ -7,10 +7,6 @@
     import edu.skku.map.capstone.databinding.ItemCafeFavoriteListBinding
     import edu.skku.map.capstone.databinding.ItemCafePreviewBinding
     import edu.skku.map.capstone.models.cafe.Cafe
-    import edu.skku.map.capstone.models.review.Review
-    import edu.skku.map.capstone.models.user.User
-    import edu.skku.map.capstone.util.getCafeDistance
-    import edu.skku.map.capstone.view.home.cafelist.reviewchip.ReviewChipListAdapter
     import edu.skku.map.capstone.view.mycafe.minireviewchip.MiniReviewChipListAdapter
 
     class FavoriteListViewholder(val context: Context, var binding: ItemCafeFavoriteListBinding):

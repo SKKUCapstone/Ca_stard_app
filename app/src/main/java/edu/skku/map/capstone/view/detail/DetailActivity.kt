@@ -17,9 +17,6 @@ import edu.skku.map.capstone.manager.CafeDetailManager
 import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.review.Review
-import edu.skku.map.capstone.models.user.User
-import edu.skku.map.capstone.util.FavoriteDTO
-import edu.skku.map.capstone.util.RetrofitService
 import edu.skku.map.capstone.util.getCafeDistance
 import edu.skku.map.capstone.view.dialog.review.ReviewViewModel
 import edu.skku.map.capstone.view.dialog.review.category.ReviewDialogCategory
@@ -64,7 +61,8 @@ class DetailActivity : AppCompatActivity() {
         binding.detailCafeName2TV.text = cafe.cafeName
         binding.detailUrlTV.text = if(cafe.placeURL == null || cafe.placeURL == "null") "웹사이트 정보 없음" else cafe.placeURL
         binding.detailPhoneTV.text = if(cafe.phone == "") "연락처 정보 없음" else cafe.phone
-        binding.detailDistanceTV.text = getCafeDistance(User.getInstance().latLng.value!!, LatLng.from(cafe.latitude, cafe.longitude)) +"m"
+//        binding.detailDistanceTV.text = getCafeDistance(User.getInstance().latLng.value!!, LatLng.from(cafe.latitude, cafe.longitude)) +"m"
+        //TODO
 
         // favorite
         val favoriteIcon = if (cafe.isFavorite) R.drawable.icon_like_filled else R.drawable.icon_like
@@ -202,7 +200,7 @@ class DetailActivity : AppCompatActivity() {
                     // Todo: 일단은 Response가 뭐든 간에 채워넣음
                     cafe.isFavorite = false
                     binding.detailFavIconIV.setImageResource(R.drawable.icon_like) // 채워진 하트 이미지로 변경
-                    User.refresh()
+//                    User.refresh()
                 }
             }
             else {
@@ -210,7 +208,7 @@ class DetailActivity : AppCompatActivity() {
                     // Todo: 일단은 Response가 뭐든 간에 채워넣음
                     cafe.isFavorite = true
                     binding.detailFavIconIV.setImageResource(R.drawable.icon_like_filled) // 채워진 하트 이미지로 변경
-                    User.refresh()
+//                    User.refresh()
                 }
             }
         }
@@ -295,119 +293,119 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun fetchReviews() {
-        val thisCafe = cafe.value ?: CafeDetailManager.getInstance().currentViewingCafe.value!!
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://43.201.119.249:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(RetrofitService::class.java)
-
-        service
-            .getCafeReviews(thisCafe.cafeId)
-            .enqueue(object : Callback<ResponseBody> {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    val body = response.body()!!
-                    val jsonArray = JSONArray(body.string())
-                    val newReviewList = arrayListOf<Review>()
-//                    Log.d("@@@review", "reviews: ${jsonArray}")
-                    for (i in 0 until jsonArray.length()) {
-                        val reviewJsonObject = jsonArray.getJSONObject(i)
-                        Log.d("review", reviewJsonObject.toString())
-                        val review = Review(reviewJsonObject)
-                        newReviewList.add(review)
-                    }
-                    Log.d(
-                        "@@@review",
-                        "total ${newReviewList.size} review fetched:" + newReviewList.toString()
-                    )
-                    val updatedCafe = Cafe(thisCafe, newReviewList)
-                    cafe.postValue(updatedCafe)
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
-                }
-
-            })
+//        val thisCafe = cafe.value ?: CafeDetailManager.getInstance().currentViewingCafe.value!!
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("http://43.201.119.249:8080/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//        val service = retrofit.create(RetrofitService::class.java)
+//
+//        service
+//            .getCafeReviews(thisCafe.cafeId)
+//            .enqueue(object : Callback<ResponseBody> {
+//                @SuppressLint("NotifyDataSetChanged")
+//                override fun onResponse(
+//                    call: Call<ResponseBody>,
+//                    response: Response<ResponseBody>
+//                ) {
+//                    val body = response.body()!!
+//                    val jsonArray = JSONArray(body.string())
+//                    val newReviewList = arrayListOf<Review>()
+////                    Log.d("@@@review", "reviews: ${jsonArray}")
+//                    for (i in 0 until jsonArray.length()) {
+//                        val reviewJsonObject = jsonArray.getJSONObject(i)
+//                        Log.d("review", reviewJsonObject.toString())
+//                        val review = Review(reviewJsonObject)
+//                        newReviewList.add(review)
+//                    }
+//                    Log.d(
+//                        "@@@review",
+//                        "total ${newReviewList.size} review fetched:" + newReviewList.toString()
+//                    )
+//                    val updatedCafe = Cafe(thisCafe, newReviewList)
+//                    cafe.postValue(updatedCafe)
+//                }
+//
+//                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                    Log.d("cafe", "failed to fetch cafes: ${t.localizedMessage}")
+//                }
+//
+//            })
     }
 
     
     // 즐겨찾기
     private fun addFavorite(cafe:Cafe, callback: (Boolean) -> Unit) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://43.201.119.249:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(RetrofitService::class.java)
-
-        service
-            .addFavorite(
-                FavoriteDTO(
-                    userId = User.getInstance().id,
-                    cafeId = cafe.cafeId,
-                    cafeName = cafe.cafeName,
-                    address = cafe.roadAddressName ?: "",
-                    phone = cafe.phone ?: "",
-                    latitude = cafe.latitude,
-                    longitude = cafe.longitude
-                    ))
-            .enqueue(object : Callback<ResponseBody> {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    Log.d("favorite", response.body().toString())
-                    if (response.isSuccessful) {
-                        callback(true)
-                        Log.d("favorite", JSONObject(response.body()!!.string()).getString("message"))
-                    } else {
-                        callback(false)
-                        Log.d("favorite", "에러 발생, err:${response}")
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("favorite", "failed to add favorite: ${t.localizedMessage}")
-                    callback(false)
-                }
-            })
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("http://43.201.119.249:8080/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//        val service = retrofit.create(RetrofitService::class.java)
+//
+//        service
+//            .addFavorite(
+//                FavoriteDTO(
+//                    userId = User.getInstance().id,
+//                    cafeId = cafe.cafeId,
+//                    cafeName = cafe.cafeName,
+//                    address = cafe.roadAddressName ?: "",
+//                    phone = cafe.phone ?: "",
+//                    latitude = cafe.latitude,
+//                    longitude = cafe.longitude
+//                    ))
+//            .enqueue(object : Callback<ResponseBody> {
+//                @SuppressLint("NotifyDataSetChanged")
+//                override fun onResponse(
+//                    call: Call<ResponseBody>,
+//                    response: Response<ResponseBody>
+//                ) {
+//                    Log.d("favorite", response.body().toString())
+//                    if (response.isSuccessful) {
+//                        callback(true)
+//                        Log.d("favorite", JSONObject(response.body()!!.string()).getString("message"))
+//                    } else {
+//                        callback(false)
+//                        Log.d("favorite", "에러 발생, err:${response}")
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                    Log.d("favorite", "failed to add favorite: ${t.localizedMessage}")
+//                    callback(false)
+//                }
+//            })
     }
 
     private fun deleteFavorite(cafeId: Long, callback: (Boolean) -> Unit) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://43.201.119.249:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(RetrofitService::class.java)
-
-        service
-            .deleteFavorite(User.getInstance().id, cafeId)
-            .enqueue(object : Callback<ResponseBody> {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    Log.d("favorite", response.body().toString())
-                    if (response.isSuccessful) {
-                        callback(true)
-                        Log.d("favorite", JSONObject(response.body()!!.string()).getString("message"))
-                    } else {
-                        callback(false)
-                        Log.d("favorite", "에러 발생")
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("favorite", "failed to add favorite: ${t.localizedMessage}")
-                    callback(false)
-                }
-            })
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("http://43.201.119.249:8080/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//        val service = retrofit.create(RetrofitService::class.java)
+//
+//        service
+//            .deleteFavorite(User.getInstance().id, cafeId)
+//            .enqueue(object : Callback<ResponseBody> {
+//                @SuppressLint("NotifyDataSetChanged")
+//                override fun onResponse(
+//                    call: Call<ResponseBody>,
+//                    response: Response<ResponseBody>
+//                ) {
+//                    Log.d("favorite", response.body().toString())
+//                    if (response.isSuccessful) {
+//                        callback(true)
+//                        Log.d("favorite", JSONObject(response.body()!!.string()).getString("message"))
+//                    } else {
+//                        callback(false)
+//                        Log.d("favorite", "에러 발생")
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                    Log.d("favorite", "failed to add favorite: ${t.localizedMessage}")
+//                    callback(false)
+//                }
+//            })
     }
 
 }

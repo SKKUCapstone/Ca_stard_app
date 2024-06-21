@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import edu.skku.map.capstone.databinding.ActivityMyReviewsBinding
 import edu.skku.map.capstone.manager.MyReviewManager
-import edu.skku.map.capstone.models.user.User
 
 class MyReviewsActivity : AppCompatActivity() {
     lateinit var binding: ActivityMyReviewsBinding

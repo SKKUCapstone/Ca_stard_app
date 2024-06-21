@@ -36,11 +36,9 @@ import com.kakao.vectormap.label.Transition
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.manager.CafeDetailManager
+import edu.skku.map.capstone.manager.MyLocationManager
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.models.user.DEFAULT_LAT
-import edu.skku.map.capstone.models.user.DEFAULT_LNG
-import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.util.calculateDistance
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -69,8 +67,8 @@ class HomeFragment : Fragment() {
     private lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var lodLabels: Array<LodLabel>
     val pullDownBottemSheet = MutableLiveData(false)
-    private var cameraLat: Double = User.getInstance().latLng.value?.latitude ?: DEFAULT_LAT
-    private var cameraLng: Double = User.getInstance().latLng.value?.longitude?: DEFAULT_LNG
+    private var cameraLat: Double = MyLocationManager.getInstance().latLng.value!!.latitude
+    private var cameraLng: Double = MyLocationManager.getInstance().latLng.value!!.longitude
     private val categoryList = arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet")
     private var myCoroutineJob: Job = Job()
     private val myCoroutineContext: CoroutineContext
@@ -153,10 +151,10 @@ class HomeFragment : Fragment() {
 
     private fun setClickListener() {
         binding.gpsBtn.setOnClickListener {
-            moveCamera(User.getInstance().latLng.value!!.latitude,User.getInstance().latLng.value!!.longitude)
+            moveCamera(MyLocationManager.getInstance().latLng.value!!.latitude,MyLocationManager.getInstance().latLng.value!!.longitude)
             binding.relocateBtn.visibility = View.INVISIBLE
             Log.d("@@@cafefetch", "cameramove out cafe fetch")
-            viewModel.fetchCafes(User.getInstance().latLng.value!!.latitude, User.getInstance().latLng.value!!.longitude, viewModel.radius)
+            viewModel.fetchCafes(MyLocationManager.getInstance().latLng.value!!.latitude, MyLocationManager.getInstance().latLng.value!!.longitude, viewModel.radius)
             updateCafeLabels()
             if(behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
                 behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
@@ -223,7 +221,7 @@ class HomeFragment : Fragment() {
         kakaoMap.setOnCameraMoveEndListener { kakaoMap, position, gestureType ->
             if(gestureType == GestureType.Pan) {
                 val dist =
-                    calculateDistance(position.position, User.getInstance().latLng.value!!)
+                    calculateDistance(position.position, MyLocationManager.getInstance().latLng.value!!)
                 if (dist >= 0.1) {
                     Log.d("camera", position.position.toString())
                     binding.relocateBtn.visibility = View.VISIBLE
@@ -305,9 +303,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeLocation() {
-        User.getInstance().latLng.observe(context as LifecycleOwner) {
-            val lat = User.getInstance().latLng.value!!.latitude
-            val lng = User.getInstance().latLng.value!!.longitude
+        MyLocationManager.getInstance().latLng.observe(context as LifecycleOwner) {
+            val lat = MyLocationManager.getInstance().latLng.value!!.latitude
+            val lng = MyLocationManager.getInstance().latLng.value!!.longitude
             if (currentLabel == null) {
                 currentLabel = createMyLabel(lat, lng)
             } else {

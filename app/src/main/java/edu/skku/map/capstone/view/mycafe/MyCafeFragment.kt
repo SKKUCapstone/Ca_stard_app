@@ -13,8 +13,8 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentMyCafeBinding
+import edu.skku.map.capstone.manager.MyLocationManager
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.models.user.User
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -58,42 +58,42 @@ class MyCafeFragment : Fragment() {
         }
 
     }
-    private fun generateExtremeDummyCafes(): ArrayList<Cafe> {
-        val dummyCafes = ArrayList<Cafe>()
-        val scores = listOf(5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5)
-        for (i in scores.indices) {
-            val score = scores[i]
-            val jsonObject = JSONObject().apply {
-                put("id", i + 1)
-                put("cafe_name", "Dummy Cafe ${i + 1}")
-                put("road_address_name", "Dummy Road Address ${i + 1}")
-                put("phone", "010-1234-567${i + 1}")
-                put("latitude", 37.0 + i)
-                put("longitude", 127.0 + i)
-                put("place_url", "http://dummycafe${i + 1}.com")
-                put("capacity", (3..5).random().toDouble())
-                put("power_socket", (3..5).random().toDouble())
-                put("quiet", (3..5).random().toDouble())
-                put("wifi", (3..5).random().toDouble())
-                put("tables", (3..5).random().toDouble())
-                put("toilet", (3..5).random().toDouble())
-                put("bright", (3..5).random().toDouble())
-                put("clean", (3..5).random().toDouble())
-                put("capacity_cnt", 1)
-                put("power_socket_cnt", 1)
-                put("quiet_cnt", 1)
-                put("wifi_cnt", 1)
-                put("tables_cnt", 1)
-                put("toilet_cnt", 1)
-                put("bright_cnt", 1)
-                put("clean_cnt", 1)
-                put("reviews", JSONArray())
-            }
-            val cafe = Cafe(jsonObject)
-            dummyCafes.add(cafe)
-        }
-        return dummyCafes
-    }
+//    private fun generateExtremeDummyCafes(): ArrayList<Cafe> {
+//        val dummyCafes = ArrayList<Cafe>()
+//        val scores = listOf(5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5)
+//        for (i in scores.indices) {
+//            val score = scores[i]
+//            val jsonObject = JSONObject().apply {
+//                put("id", i + 1)
+//                put("cafe_name", "Dummy Cafe ${i + 1}")
+//                put("road_address_name", "Dummy Road Address ${i + 1}")
+//                put("phone", "010-1234-567${i + 1}")
+//                put("latitude", 37.0 + i)
+//                put("longitude", 127.0 + i)
+//                put("place_url", "http://dummycafe${i + 1}.com")
+//                put("capacity", (3..5).random().toDouble())
+//                put("power_socket", (3..5).random().toDouble())
+//                put("quiet", (3..5).random().toDouble())
+//                put("wifi", (3..5).random().toDouble())
+//                put("tables", (3..5).random().toDouble())
+//                put("toilet", (3..5).random().toDouble())
+//                put("bright", (3..5).random().toDouble())
+//                put("clean", (3..5).random().toDouble())
+//                put("capacity_cnt", 1)
+//                put("power_socket_cnt", 1)
+//                put("quiet_cnt", 1)
+//                put("wifi_cnt", 1)
+//                put("tables_cnt", 1)
+//                put("toilet_cnt", 1)
+//                put("bright_cnt", 1)
+//                put("clean_cnt", 1)
+//                put("reviews", JSONArray())
+//            }
+//            val cafe = Cafe(jsonObject)
+//            dummyCafes.add(cafe)
+//        }
+//        return dummyCafes
+//    }
 
 
     private fun anaylzeFavorites(favoriteCafes: List<Cafe>): Map<String, Int> {
@@ -141,7 +141,8 @@ class MyCafeFragment : Fragment() {
         binding.pieChart.setUsePercentValues(true)
 //        val dummyCafes = generateExtremeDummyCafes()
 //        val counts = anaylzeFavorites(dummyCafes)
-        val counts = anaylzeFavorites(User.getInstance().favorites)
+        val counts = anaylzeFavorites(arrayListOf())
+        //TODO
         val pieEntries = mutableListOf<PieEntry>()
 
         counts.forEach { (key, value) ->
@@ -218,7 +219,7 @@ class MyCafeFragment : Fragment() {
         binding.analyzeText.setText(categoryText)
         binding.analyzeCnt.setText("$count 개")
         binding.anaylzeImage.setImageResource(categoryImageRes)
-        binding.myCafeContent1.setText("통계에 따르면 ${User.getInstance().userName}님이 선호하시는 카페는")
+        binding.myCafeContent1.setText("통계에 따르면 정환님이 선호하시는 카페는")
         // 추천텍스트
         val categoryDescriptions = mapOf(
             "powerSocket" to "충전이 가능하고", // 8

@@ -1,36 +1,9 @@
 package edu.skku.map.capstone.models.review
 import android.annotation.SuppressLint
 import android.util.Log
-import edu.skku.map.capstone.util.RetrofitService
-import edu.skku.map.capstone.util.ReviewDTO
-import okhttp3.ResponseBody
+import com.google.firebase.firestore.DocumentSnapshot
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
-
-data class Cafe_(
-    val cafeId: Long,
-    val cafeName: String
-){
-    constructor(jsonObject: JSONObject): this(
-        cafeId = jsonObject.getLong("id"),
-        cafeName = jsonObject.getString("cafe_name"),
-    )
-}
-
-data class User_(
-    val userId: Long,
-    val userName: String
-){
-    constructor(jsonObject: JSONObject): this(
-        userId = jsonObject.getLong("id"),
-        userName = jsonObject.getString("userName")
-    )
-}
 
 class Review(
     val reviewId:Long,
@@ -53,6 +26,7 @@ class Review(
     constructor(map: Map<String,Any>): this(
         reviewId = map["reviewId"] as Long,
         userId = map["userId"] as Long,
+        userName = map["userName"] as String,
         cafeId = map["cafeId"] as Long,
         cafeName = map["cafeName"] as String,
         powerSocket = map["powerSocket"] as Int,
@@ -65,25 +39,23 @@ class Review(
         clean = map["clean"] as Int,
         comment = map["comment"] as String
     )
-
-    constructor(jsonObject: JSONObject): this(
-        reviewId=jsonObject.getLong("id"),
-        cafeId=Cafe_(jsonObject.getJSONObject("cafe")).cafeId,
-        userId=User_(jsonObject.getJSONObject("user")).userId,
-        userName=User_(jsonObject.getJSONObject("user")).userName,
-        cafeName=Cafe_(jsonObject.getJSONObject("cafe")).cafeName,
-        powerSocket= jsonObject.getInt("power_socket"),
-        capacity=jsonObject.getInt("capacity"),
-        quiet=jsonObject.getInt("quiet"),
-        wifi=jsonObject.getInt("wifi"),
-        tables=jsonObject.getInt("tables"),
-        toilet=jsonObject.getInt("toilet"),
-        bright=jsonObject.getInt("bright"),
-        clean=jsonObject.getInt("clean"),
-//        timeStamp= LocalDateTime(),
-        comment=if(jsonObject.isNull("comment") || !jsonObject.isNull("comment")&&jsonObject.getString("comment").trim() == "" ) null
-                else jsonObject.getString("comment").trim()
-    ){}
+    constructor(doc: DocumentSnapshot): this(
+        reviewId = doc.get("reviewId") as Long,
+        userId = doc.get("userId") as Long,
+        userName = doc.getString("userName") ?: "",
+        cafeId = doc.get("cafeId") as Long,
+        cafeName = doc.getString("cafeName") ?: "",
+        powerSocket = (doc.get("powerSocket") as? Long)?.toInt() ?: 0,
+        capacity = (doc.get("capacity") as? Long)?.toInt() ?: 0,
+        quiet = (doc.get("quiet") as? Long)?.toInt() ?: 0,
+        wifi = (doc.get("wifi") as? Long)?.toInt() ?: 0,
+        tables = (doc.get("tables") as? Long)?.toInt() ?: 0,
+        toilet = (doc.get("toilet") as? Long)?.toInt() ?: 0,
+        bright = (doc.get("bright") as? Long)?.toInt() ?: 0,
+        clean = (doc.get("clean") as? Long)?.toInt() ?: 0,
+//        timeStamp = doc.getTimestamp("timeStamp")?.toDate()?.toInstant()?.atZone(java.time.ZoneId.systemDefault())?.toLocalDateTime() ?: LocalDateTime.now(),
+        comment = doc.getString("comment")
+    )
 
     fun abstractReview():ArrayList<Pair<String,Int>> {
         val review = this

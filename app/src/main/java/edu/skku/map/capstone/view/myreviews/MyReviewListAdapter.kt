@@ -13,7 +13,6 @@ import com.google.android.flexbox.JustifyContent
 import edu.skku.map.capstone.databinding.ItemReviewBinding
 import edu.skku.map.capstone.manager.MyReviewManager
 import edu.skku.map.capstone.models.review.Review
-import edu.skku.map.capstone.models.user.User
 
 class MyReviewListAdapter(val context: Context): RecyclerView.Adapter<MyReviewListViewholder>() {
     private var reviewList = ArrayList<Review>()
@@ -31,7 +30,7 @@ class MyReviewListAdapter(val context: Context): RecyclerView.Adapter<MyReviewLi
         val review = reviewList[position]
         holder.bind(review)
         holder.binding.deleteBtn.setOnClickListener {
-            Log.d("@@@myreview", "delete request on user ${User.getInstance().id} and review ${review.reviewId}")
+            Log.d("@@@myreview", "delete review ${review.reviewId}")
 
             MyReviewManager.getInstance().onDeleteReview(review.reviewId)
         }

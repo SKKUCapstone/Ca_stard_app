@@ -1,11 +1,7 @@
 package edu.skku.map.capstone.models.cafe
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firestore.v1.Document
 import edu.skku.map.capstone.models.review.Review
-import edu.skku.map.capstone.models.user.User
 import kotlin.math.roundToInt
 
 val threshold = 3.5
@@ -39,10 +35,10 @@ class Cafe(
 
     constructor(doc: DocumentSnapshot): this(
         cafeId = doc.get("cafeId") as Long,
-        cafeName = doc.get("cafe_name") as String,
-        roadAddressName = doc.get("road_address_name") as String,
-        phone = doc.get("phone") as String,
-        latitude = doc.get("latitude") as Double,
+        cafeName = doc.getString("cafe_name") as String,
+        roadAddressName = doc.getString("road_address_name") as String,
+        phone = doc.getString("phone") as String,
+        latitude = doc.getDouble("latitude") as Double,
         longitude = doc.get("longitude") as Double,
         placeURL = doc.get("place_url") as String,
         capacity = doc.get("capacity") as Double,
@@ -154,18 +150,6 @@ class Cafe(
         toiletCnt = countToilet
         brightCnt = countBright
         cleanCnt = countClean
-    }
-
-    companion object {
-//        fun parseReview(jsonArray: JSONArray):ArrayList<Review> {
-//            val reviewArray: ArrayList<Review> = arrayListOf()
-//            for (i in 0 until jsonArray.length()) {
-//                val reviewJsonObject = jsonArray.getJSONObject(i)
-//                val review = Review(reviewJsonObject)
-//                reviewArray.add(review)
-//            }
-//            return reviewArray
-//        }
     }
     fun getTotalCnt():Int {
         return capacityCnt + brightCnt + cleanCnt + quietCnt + wifiCnt + tablesCnt + powerSocketCnt + toiletCnt

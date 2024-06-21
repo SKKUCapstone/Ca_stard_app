@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.skku.map.capstone.databinding.FragmentMyPageBinding
-import edu.skku.map.capstone.models.user.User
 import edu.skku.map.capstone.view.myreviews.MyReviewsActivity
 
 class MyPageFragment : Fragment() {
@@ -28,8 +27,8 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setUI(){
-        binding.userName.text = User.getInstance().userName
-        binding.userEmail.text = User.getInstance().email
+//        binding.userName.text = User.getInstance().userName
+//        binding.userEmail.text = User.getInstance().email
     }
     private fun setPolicyClickListeners() {
         binding.personalInfoAgreementCV.setOnClickListener {

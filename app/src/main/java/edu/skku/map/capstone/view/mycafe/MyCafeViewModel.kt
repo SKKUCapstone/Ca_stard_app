@@ -2,8 +2,8 @@ package edu.skku.map.capstone.view.mycafe
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import edu.skku.map.capstone.manager.CafeManager
 import edu.skku.map.capstone.models.cafe.Cafe
-import edu.skku.map.capstone.models.user.User
 //import edu.skku.map.capstone.models.favorite.Favorite
 
 class MyCafeViewModel() {
@@ -11,6 +11,6 @@ class MyCafeViewModel() {
     val favoriteCafeList:LiveData<List<Cafe>> get() = _favoriteCafeList
 
     fun updateFavoriteCafeList() {
-        _favoriteCafeList.value = User.getInstance().favorites
+        _favoriteCafeList.value = CafeManager.getInstance().getFavoriteCafeList()
     }
 }

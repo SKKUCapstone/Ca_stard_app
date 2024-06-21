@@ -32,7 +32,7 @@
             android:value="09e7ce580fee2dc13ec5d24c66cd8238" />
 
         <activity
-            android:name=".view.splash.SplashActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,7 +42,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".view.splash.SplashActivity"
             android:exported="false">
         </activity>
     </application>
