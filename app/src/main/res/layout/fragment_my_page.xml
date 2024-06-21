@@ -107,7 +107,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="회원정보 수정"
-                    android:textColor="@color/darkGreen" />
+                    android:textColor="@color/castardBeige" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -128,7 +128,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="내 리뷰 보기"
-                    android:textColor="@color/darkGreen" />
+                    android:textColor="@color/castardBeige" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -149,7 +149,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="개인정보 처리방침"
-                    android:textColor="@color/darkGreen" />
+                    android:textColor="@color/castardBeige" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -169,7 +169,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="서비스 이용약관"
-                    android:textColor="@color/darkGreen" />
+                    android:textColor="@color/castardBeige" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -190,7 +190,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="20dp"
                     android:text="위치기반서비스 이용약관"
-                    android:textColor="@color/darkGreen" />
+                    android:textColor="@color/castardBeige" />
 
                 <ImageView
                     android:id="@+id/card_arrow4"

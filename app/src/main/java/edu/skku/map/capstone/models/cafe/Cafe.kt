@@ -263,7 +263,8 @@ class Cafe(
             .entries
             .sortedByDescending { it.value }
             .map { it.key }
-        return ratings as ArrayList<String>
+            .take(3)
+        return  ArrayList(ratings)
     }
 
     fun printCafeDetails() {

@@ -62,7 +62,6 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.hide()
         binding.detailCafeNameTV.text = cafe.cafeName
         binding.detailCafeName2TV.text = cafe.cafeName
-        binding.detailAddressTV.text = if(cafe.roadAddressName == "") "주소 정보 없음" else cafe.roadAddressName
         binding.detailUrlTV.text = if(cafe.placeURL == null || cafe.placeURL == "null") "웹사이트 정보 없음" else cafe.placeURL
         binding.detailPhoneTV.text = if(cafe.phone == "") "연락처 정보 없음" else cafe.phone
         binding.detailDistanceTV.text = getCafeDistance(User.getInstance().latLng.value!!, LatLng.from(cafe.latitude, cafe.longitude)) +"m"
@@ -216,11 +215,11 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
-        binding.detailURLBtn.setOnClickListener {
-            // Intent를 사용하여 웹 브라우저 열기
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(cafe.placeURL))
-            startActivity(browserIntent)
-        }
+//        binding.detailURLBtn.setOnClickListener {
+//            // Intent를 사용하여 웹 브라우저 열기
+//            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(cafe.placeURL))
+//            startActivity(browserIntent)
+//        }
     }
 
     private fun ratingBarLength(rating:Double):Int = (rating/5.0*578).toInt()
@@ -366,7 +365,6 @@ class DetailActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         callback(true)
                         Log.d("favorite", JSONObject(response.body()!!.string()).getString("message"))
-                        User.refresh()
                     } else {
                         callback(false)
                         Log.d("favorite", "에러 발생, err:${response}")

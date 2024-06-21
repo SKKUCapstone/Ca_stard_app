@@ -195,9 +195,8 @@
                 android:layout_marginVertical="4dp"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="6dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/icon_location" />
                 <TextView
                     android:layout_width="0dp"
@@ -209,38 +208,26 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginVertical="4dp"
+                android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginVertical="4dp"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="6dp"
-                    android:src="@drawable/icon_link"
-                    android:layout_gravity="start"/>
-                <LinearLayout
-                    android:id="@+id/detailURLBtn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/icon_link"/>
+
+                <TextView
+                    android:id="@+id/detail_urlTV"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginHorizontal="12dp"
-                    >
-                    <TextView
-                        android:id="@+id/detail_urlTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:gravity="center_vertical"
-                        android:text="cafe_url"
-                        />
-                    <TextView
-                        android:id="@+id/detail_addressTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="28dp"
-                        android:gravity="center_vertical"
-                        android:text="경기 성남시 분당구 정자일로 166" />
-                </LinearLayout>
+                    android:layout_height="36dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/green"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
+                    android:text="cafe_url"
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -250,9 +237,8 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="6dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/icon_phone" />
                 <TextView
                     android:id="@+id/detail_phoneTV"
@@ -1032,7 +1018,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="리뷰를 남겨 카스타에 알려주세요"
+                        android:text="리뷰를 남겨 카스타드에 알려주세요"
                         android:textColor="#D5CEC6"
                         android:textSize="14sp" />
                     <Button

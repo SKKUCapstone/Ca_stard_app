@@ -85,7 +85,7 @@
         <Button
             android:id="@+id/btn_emailLogin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_marginTop="45dp"
             android:background="@drawable/darkgreen_r8"
             android:text="로그인"
@@ -140,7 +140,7 @@
         <Button
             android:id="@+id/btnEmailLogin"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="56dp"
             android:background="@drawable/email_login"
             android:text="이메일로 회원가입하기"
             android:textColor="@color/darkGreen" />
@@ -148,7 +148,7 @@
         <Button
             android:id="@+id/btnKakaoLogin"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="56dp"
             android:layout_marginTop="16dp"
 
             android:background="@drawable/kakao_login"
