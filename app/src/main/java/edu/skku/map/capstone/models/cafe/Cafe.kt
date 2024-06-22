@@ -1,10 +1,32 @@
 package edu.skku.map.capstone.models.cafe
 import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.PropertyName
 import edu.skku.map.capstone.models.review.Review
+import org.json.JSONObject
 import kotlin.math.roundToInt
 
 val threshold = 3.5
+
+class KakaoCafe(
+    val cafeId:Long,
+    val cafeName:String,
+    val roadAddressName:String? = null,
+    val phone:String? = null,
+    val latitude:Double,
+    val longitude:Double,
+    val placeURL:String? = null
+){
+    constructor(jsonObject: JSONObject): this(
+        cafeId = jsonObject.getLong("id"),
+        cafeName = jsonObject.getString("place_name"),
+        roadAddressName = jsonObject.getString("road_address_name"),
+        phone = jsonObject.getString("phone"),
+        latitude = jsonObject.getDouble("y"),
+        longitude = jsonObject.getDouble("x"),
+        placeURL = jsonObject.getString("place_url"),
+    )
+}
 class Cafe(
     val cafeId:Long,
     val cafeName:String,
@@ -30,35 +52,35 @@ class Cafe(
     var brightCnt:Int = 0,
     var cleanCnt:Int = 0,
     val reviews:ArrayList<Review> = arrayListOf(),
-    var isFavorite: Boolean = false
-){
+    @PropertyName("favorite") var isFavorite: Boolean = false
+) {
 
     constructor(doc: DocumentSnapshot): this(
         cafeId = doc.get("cafeId") as Long,
-        cafeName = doc.getString("cafe_name") as String,
-        roadAddressName = doc.getString("road_address_name") as String,
+        cafeName = doc.getString("cafeName") as String,
+        roadAddressName = doc.getString("roadAddressName") as String,
         phone = doc.getString("phone") as String,
         latitude = doc.getDouble("latitude") as Double,
         longitude = doc.get("longitude") as Double,
-        placeURL = doc.get("place_url") as String,
+        placeURL = doc.get("placeURL") as String,
         capacity = doc.get("capacity") as Double,
-        powerSocket = doc.get("power_socket") as Double,
+        powerSocket = doc.get("powerSocket") as Double,
         quiet = doc.get("quiet") as Double,
         wifi = doc.get("wifi") as Double,
         tables = doc.get("tables") as Double,
         toilet = doc.get("toilet") as Double,
         bright = doc.get("bright") as Double,
         clean = doc.get("clean") as Double,
-        capacityCnt = doc.get("capacity_cnt") as Int,
-        powerSocketCnt = doc.get("power_socket_cnt") as Int,
-        quietCnt = doc.get("quiet_cnt") as Int,
-        wifiCnt = doc.get("wifi_cnt") as Int,
-        tablesCnt = doc.get("tables_cnt") as Int,
-        toiletCnt = doc.get("toilet_cnt") as Int,
-        brightCnt = doc.get("bright_cnt") as Int,
-        cleanCnt = doc.get("clean_cnt") as Int,
+        capacityCnt = (doc.get("capacityCnt") as Long).toInt(),
+        powerSocketCnt = (doc.get("powerSocketCnt") as Long).toInt(),
+        quietCnt = (doc.get("quietCnt") as Long).toInt(),
+        wifiCnt = (doc.get("wifiCnt") as Long).toInt(),
+        tablesCnt = (doc.get("tablesCnt") as Long).toInt(),
+        toiletCnt = (doc.get("toiletCnt") as Long).toInt(),
+        brightCnt = (doc.get("brightCnt") as Long).toInt(),
+        cleanCnt = (doc.get("cleanCnt") as Long).toInt(),
         reviews = arrayListOf(),  // 리뷰가 없으면 빈 리스트
-        isFavorite = doc.get("isFavorite") as Boolean  // isFavorite가 없으면 false
+        isFavorite = doc.get("favorite") as Boolean  // isFavorite가 없으면 false
     ) {
         val reviewArray = doc.get("reviews") as ArrayList<Map<String, Any>>
         for(reviewMap in reviewArray) {
@@ -151,6 +173,35 @@ class Cafe(
         brightCnt = countBright
         cleanCnt = countClean
     }
+
+    constructor(kakaoCafe: KakaoCafe): this(
+        cafeId = kakaoCafe.cafeId,
+        cafeName = kakaoCafe.cafeName,
+        roadAddressName = kakaoCafe.roadAddressName,
+        phone = kakaoCafe.phone,
+        latitude = kakaoCafe.latitude,
+        longitude = kakaoCafe.longitude,
+        placeURL = kakaoCafe.placeURL,
+        powerSocket = 0.0,
+        capacity = 0.0,
+        quiet = 0.0,
+        wifi = 0.0,
+        tables = 0.0,
+        toilet = 0.0,
+        bright = 0.0,
+        clean = 0.0,
+        powerSocketCnt = 0,
+        capacityCnt = 0,
+        quietCnt = 0,
+        wifiCnt = 0,
+        tablesCnt = 0,
+        toiletCnt = 0,
+        brightCnt = 0,
+        cleanCnt = 0,
+        reviews = arrayListOf(), // Default empty list
+        isFavorite = false // Default value
+    )
+
     fun getTotalCnt():Int {
         return capacityCnt + brightCnt + cleanCnt + quietCnt + wifiCnt + tablesCnt + powerSocketCnt + toiletCnt
     }
@@ -276,9 +327,70 @@ class Cafe(
         Log.d("review", "  - Clean: $clean (Count: $cleanCnt)")
         Log.d("review", "Reviews: ${reviews.size}")
         reviews.forEach { review ->
-            Log.d("review", "  - Review ID: ${review.reviewId}, User ID: ${review.userId}, User Name: ${review.userName} Comment: ${review.comment ?: "No Comment"}")
+            Log.d("review", "  - Review ID: ${review.reviewId}, User Name: ${review.userName} Comment: ${review.comment ?: "No Comment"}")
         }
         Log.d("review", "Is Favorite: ${isFavorite}")
     }
+
+    //update average ratings, counts for each categories and the overall rating with new review
+    fun updateRating(review: Review) {
+
+        if (review.quiet > 0) {
+            val prev = this.quiet
+            val prevc = this.quietCnt
+            this.quiet = (prev * prevc + review.quiet) / (prevc + 1)
+            this.quietCnt++
+        }
+
+        if (review.toilet > 0) {
+            val prev = this.toilet
+            val prevc = this.toiletCnt
+            this.toilet = (prev * prevc + review.toilet) / (prevc + 1)
+            this.toiletCnt++
+        }
+
+        if (review.powerSocket > 0) {
+            val prev = this.powerSocket
+            val prevc = this.powerSocketCnt
+            this.powerSocket = (prev * prevc + review.powerSocket) / (prevc + 1)
+            this.powerSocketCnt++
+        }
+
+        if (review.clean > 0) {
+            val prev = this.clean
+            val prevc = this.cleanCnt
+            this.clean = (prev * prevc + review.clean) / (prevc + 1)
+            this.cleanCnt++
+        }
+
+        if (review.wifi > 0) {
+            val prev = this.wifi
+            val prevc = this.wifiCnt
+            this.wifi = (prev * prevc + review.wifi) / (prevc + 1)
+            this.wifiCnt++
+        }
+
+        if (review.capacity > 0) {
+            val prev = this.capacity
+            val prevc = this.capacityCnt
+            this.capacity = (prev * prevc + review.capacity) / (prevc + 1)
+            this.capacityCnt++
+        }
+
+        if (review.bright > 0) {
+            val prev = this.bright
+            val prevc = this.brightCnt
+            this.bright = (prev * prevc + review.bright) / (prevc + 1)
+            this.brightCnt++
+        }
+
+        if (review.tables > 0) {
+            val prev = this.tables
+            val prevc = this.tablesCnt
+            this.tables = (prev * prevc + review.tables) / (prevc + 1)
+            this.tablesCnt++
+        }
+    }
+
 
 }

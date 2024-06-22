@@ -1,5 +1,11 @@
 package edu.skku.map.capstone.view.home
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -36,10 +42,12 @@ import com.kakao.vectormap.label.Transition
 import edu.skku.map.capstone.R
 import edu.skku.map.capstone.databinding.FragmentHomeBinding
 import edu.skku.map.capstone.manager.CafeDetailManager
+import edu.skku.map.capstone.manager.CafeManager
 import edu.skku.map.capstone.manager.MyLocationManager
 import edu.skku.map.capstone.view.home.cafelist.CafeListFragment
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.util.calculateDistance
+import edu.skku.map.capstone.util.firebaseCRUD
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -56,20 +64,28 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
+private const val DEFAULT_LAT = 37.402005
+private const val DEFAULT_LNG = 127.108621
+private val categoryList = arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet")
+
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     val viewModel = HomeViewModel()
+    //kakaomap
     lateinit var kakaoMap: KakaoMap
     private var currentLabel:Label? = null
     private lateinit var camera: CameraPosition
     private lateinit var labelManager: LabelManager
     private lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var lodLabels: Array<LodLabel>
-    val pullDownBottemSheet = MutableLiveData(false)
     private var cameraLat: Double = MyLocationManager.getInstance().latLng.value!!.latitude
     private var cameraLng: Double = MyLocationManager.getInstance().latLng.value!!.longitude
-    private val categoryList = arrayListOf("capacity","bright","clean","wifi","quiet","tables","powerSocket","toilet")
+    //cafe
+    lateinit var cafeListFragment: CafeListFragment
+    private lateinit var locationManager: LocationManager
+    private lateinit var locationListener: LocationListener
+    val pullDownBottemSheet = MutableLiveData(false)
     private var myCoroutineJob: Job = Job()
     private val myCoroutineContext: CoroutineContext
         get() = Dispatchers.IO + myCoroutineJob
@@ -91,13 +107,13 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        initViewModel()
-        viewModel.listenLocationChange()
+        listenLocationChange()
         initUI()
         listenBottomSheetEvent()
         setClickListener()
+        observeKakaoCafeList()
         initKakaoMap()
-        viewModel.fetchCurrentLocation()
+        fetchCurrentLocation()
         observeViewingCafe()
         observeBottomSheet()
         listenEditText()
@@ -109,19 +125,63 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         restoreHomeView()
-}
-
-    private fun initViewModel() {
-        viewModel.cafeListFragment = CafeListFragment()
-        viewModel.activity = requireActivity()
     }
+    private fun restoreHomeView() {
+        moveCamera(
+            CafeDetailManager.getInstance().currentViewingCafe.value?.latitude,
+            CafeDetailManager.getInstance().currentViewingCafe.value?.longitude
+        )
+        //fetch cafes by same request
+        Log.d("@@@cafefetch", "onResume fetch")
+        CafeManager.getInstance().fetchCafes(null, null)
 
+    }
     private fun initUI() {
+        cafeListFragment = CafeListFragment()
         childFragmentManager.beginTransaction().apply {
-            replace(binding.childFL.id,viewModel.cafeListFragment).commit()
+            replace(binding.childFL.id,cafeListFragment).commit()
         }
     }
+    private fun fetchCurrentLocation() {
+        Log.d("gps", "getCurrentLocation")
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d("gps", "requestLocationUpdates")
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1500L,
+                30f,
+                locationListener
+            )
+        } else {
+            Log.d("gps", "permission needed")
+        }
+    }
+    //Listen to location change and post to MyLocationManager
+    private fun listenLocationChange() {
+        if (::locationManager.isInitialized.not()) {
+            locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationListener = object : LocationListener {
+                override fun onLocationChanged(location: Location) {
+//                    val newLat = location.latitude
+//                    val newLng = location.longitude
+                    val newLat = DEFAULT_LAT
+                    val newLng = DEFAULT_LNG
+                    Log.d("@@@gps", "lat: $newLat, lng: $newLng")
+                    MyLocationManager.getInstance().latLng.postValue(LatLng.from(newLat,newLng))
 
+                }
+                override fun onProviderEnabled(provider: String) {}
+                override fun onProviderDisabled(provider: String) {}
+            }
+        }
+    }
     private fun listenBottomSheetEvent() {
         behavior = BottomSheetBehavior.from(binding.bottomSheet)
         behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -143,18 +203,18 @@ class HomeFragment : Fragment() {
         })
     }
     private fun toggleCategory(category: String) {
-        val prevList = viewModel.filterCategory.value!!
+        val prevList = CafeManager.getInstance().filterCategory.value!!
         if(prevList.contains(category)) prevList.remove(category)
         else prevList.add(category)
-        viewModel.filterCategory.postValue(prevList)
-    }
+        CafeManager.getInstance().filterCategory.postValue(prevList)
 
+    }
     private fun setClickListener() {
         binding.gpsBtn.setOnClickListener {
             moveCamera(MyLocationManager.getInstance().latLng.value!!.latitude,MyLocationManager.getInstance().latLng.value!!.longitude)
             binding.relocateBtn.visibility = View.INVISIBLE
             Log.d("@@@cafefetch", "cameramove out cafe fetch")
-            viewModel.fetchCafes(MyLocationManager.getInstance().latLng.value!!.latitude, MyLocationManager.getInstance().latLng.value!!.longitude, viewModel.radius)
+            CafeManager.getInstance().fetchCafes(MyLocationManager.getInstance().latLng.value!!.latitude, MyLocationManager.getInstance().latLng.value!!.longitude)
             updateCafeLabels()
             if(behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
                 behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
@@ -163,7 +223,7 @@ class HomeFragment : Fragment() {
         binding.relocateBtn.setOnClickListener {
             val newPos = kakaoMap.cameraPosition?.position
             if(newPos != null) {
-                viewModel.fetchCafes(newPos.latitude, newPos.longitude, viewModel.radius)
+                CafeManager.getInstance().fetchCafes(newPos.latitude, newPos.longitude)
                 updateCafeLabels()
                 binding.relocateBtn.visibility = View.INVISIBLE
             }
@@ -204,7 +264,6 @@ class HomeFragment : Fragment() {
             }
         })
     }
-
     private fun moveCamera(lat: Double?, lng: Double?){
         if(::kakaoMap.isInitialized.not()){
             Log.d("@@@camera", "kakaomap is not initialized")
@@ -216,7 +275,6 @@ class HomeFragment : Fragment() {
         val cameraUpdate = CameraUpdateFactory.newCenterPosition(LatLng.from(lat, lng))
         kakaoMap.moveCamera(cameraUpdate, CameraAnimation.from(100, true, true))
     }
-
     private fun listenCamera() {
         kakaoMap.setOnCameraMoveEndListener { kakaoMap, position, gestureType ->
             if(gestureType == GestureType.Pan) {
@@ -234,16 +292,20 @@ class HomeFragment : Fragment() {
             }
             else if(gestureType == GestureType.Zoom) {
                 Log.d("camera", "zoomLevel: "+kakaoMap.zoomLevel)
-                if(kakaoMap.zoomLevel >= 17) viewModel.radius = 50
-                else if(kakaoMap.zoomLevel == 16) viewModel.radius = 200
-                else if(kakaoMap.zoomLevel == 15) viewModel.radius = 500
-                else if(kakaoMap.zoomLevel == 14) viewModel.radius = 800
-                else if(kakaoMap.zoomLevel == 13) viewModel.radius = 1100
-                else if(kakaoMap.zoomLevel == 12) viewModel.radius = 1400
+                if(kakaoMap.zoomLevel >= 17) CafeManager.getInstance().radius = 50
+                else if(kakaoMap.zoomLevel == 16) CafeManager.getInstance().radius = 200
+                else if(kakaoMap.zoomLevel == 15) CafeManager.getInstance().radius = 500
+                else if(kakaoMap.zoomLevel == 14) CafeManager.getInstance().radius = 800
+                else if(kakaoMap.zoomLevel == 13) CafeManager.getInstance().radius = 1100
+                else if(kakaoMap.zoomLevel == 12) CafeManager.getInstance().radius = 1400
             }
         }
     }
-
+    private fun observeKakaoCafeList() {
+        CafeManager.getInstance().kakaoCafes.observe(requireActivity()) {
+            firebaseCRUD.fetchAllCafes()
+        }
+    }
     private fun createMyLabel(lat: Double, lng: Double): Label {
         val pos:LatLng = LatLng.from(lat, lng)
         val labelStyle: LabelStyle = LabelStyle.from(R.drawable.mypin)
@@ -251,7 +313,6 @@ class HomeFragment : Fragment() {
         val labelOptions: LabelOptions = LabelOptions.from(pos).setStyles(labelStyles)
         return labelManager.layer!!.addLabel(labelOptions)
     }
-
     private fun updateCafeLabels() {
         if(!::kakaoMap.isInitialized) {
             Log.d("label", "kakaomap not initialized")
@@ -262,46 +323,43 @@ class HomeFragment : Fragment() {
 
         val clickedCafe = CafeDetailManager.getInstance().currentViewingCafe.value
         Log.d("@@@cafefetch", "currentViewingCafe: ${clickedCafe.toString()}")
-        val options = viewModel.liveCafeList.value!!
+        val options = CafeManager.getInstance().cafes.value!!
             .map { LabelOptions
                 .from(LatLng.from(it.latitude, it.longitude))
                 .setStyles(if(clickedCafe != it) lodLabelStyleIDDefault else lodLabelStyleIDClicked)
                 .setTexts(it.cafeName)
                 .setTag(it.cafeId)
             }
-        if(viewModel.liveCafeList.value!!.isNotEmpty()) lodLabels = layer!!.addLodLabels(options)
+        if(CafeManager.getInstance().cafes.value!!.isNotEmpty()) lodLabels = layer!!.addLodLabels(options)
     }
     private fun setLabelClickListener(){
         kakaoMap.setOnLabelClickListener(
             fun (kakaoMap: KakaoMap, layer:LabelLayer, label:Label){
-                Log.d("cafe", "$label label clicked")
             }
         )
         kakaoMap.setOnLodLabelClickListener(
             fun (kakaoMap: KakaoMap, layer: LodLabelLayer, label: LodLabel){
                 val clickedCafe = getCafeByLabelId(label.labelId)
-
+                Log.d("cafe", "$clickedCafe clicked")
                 CafeDetailManager.getInstance().viewCafe(clickedCafe)
                 if(behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                    behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
                 }
+                updateCafeLabels()
             }
         )
     }
-
     private fun getCafeByLabelId(labelId: String): Cafe {
         val targetLodLabel = lodLabels.find {
             it.labelId == labelId
         }
-        return viewModel.liveCafeList.value?.get(lodLabels.indexOf(targetLodLabel))!!
+        return CafeManager.getInstance().cafes.value?.get(lodLabels.indexOf(targetLodLabel))!!
     }
-
     private fun observeCafeList() {
-        viewModel.liveCafeList.observe(viewLifecycleOwner) {
+        CafeManager.getInstance().cafes.observe(viewLifecycleOwner) {
             if(it != null) updateCafeLabels()
         }
     }
-
     private fun observeLocation() {
         MyLocationManager.getInstance().latLng.observe(context as LifecycleOwner) {
             val lat = MyLocationManager.getInstance().latLng.value!!.latitude
@@ -311,20 +369,19 @@ class HomeFragment : Fragment() {
             } else {
                 currentLabel!!.moveTo(LatLng.from(lat, lng))
             }
-            viewModel.fetchCafes(lat,lng, viewModel.radius)
-            updateCafeLabels()
+            CafeManager.getInstance().fetchCafes(lat,lng)
             moveCamera(lat, lng)
         }
 
     }
-
     private fun observeViewingCafe() {
         CafeDetailManager.getInstance().currentViewingCafe.observe(context as LifecycleOwner) {
-            updateCafeLabels()
-            if (it !== null) moveCamera(it.latitude!!,it.longitude!!)
+            if (it !== null) {
+                updateCafeLabels()
+                moveCamera(it.latitude, it.longitude)
+            }
         }
     }
-
     private fun observeBottomSheet() {
         pullDownBottemSheet.observe(context as LifecycleOwner) {
             if(it && behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
@@ -332,7 +389,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
     private fun EditText.textChangesToFlow(): Flow<CharSequence?> {
         return callbackFlow {
             val listener = object: TextWatcher {
@@ -352,7 +408,6 @@ class HomeFragment : Fragment() {
             emit(text)
         }
     }
-
     @OptIn(DelicateCoroutinesApi::class, FlowPreview::class)
     private fun listenEditText() {
         GlobalScope.launch(context = myCoroutineContext) {
@@ -360,29 +415,23 @@ class HomeFragment : Fragment() {
             editTextFlow
                 .debounce(700)
                 .onEach {
-                    viewModel.searchText.postValue(it.toString().trim())
+                    CafeManager.getInstance().searchText.postValue(it.toString().trim())
                 }
                 .launchIn(this)
         }
     }
-
     private fun observeSearchText() {
-        viewModel.searchText.observe(activity as LifecycleOwner) {
-            if(!viewModel.isSearchTextInitialized){
-                viewModel.isSearchTextInitialized = true
-            } else {
-                Log.d("@@@cafefetch", "searchtext fetch")
-                viewModel.fetchCafes(null, null, viewModel.radius)
-                updateCafeLabels()
-            }
+        CafeManager.getInstance().searchText.observe(activity as LifecycleOwner) {
+            Log.d("@@@cafefetch", "searchtext fetch")
+            CafeManager.getInstance().fetchCafes(null, null)
+            updateCafeLabels()
+
         }
     }
-
     override fun onDestroy() {
         myCoroutineContext.cancel()
         super.onDestroy()
     }
-
     private fun observeFilter() {
         val layoutList = listOf(
             binding.capacityBtn,
@@ -404,7 +453,7 @@ class HomeFragment : Fragment() {
             binding.powerSocketIV,
             binding.toiletIV
         )
-        viewModel.filterCategory.observe(context as LifecycleOwner) { list->
+        CafeManager.getInstance().filterCategory.observe(context as LifecycleOwner) { list->
             categoryList.indices.forEach { idx ->
                 if (list.contains(categoryList[idx])) {
                     layoutList[idx].background = ContextCompat.getDrawable(requireContext(), R.drawable.categorychip)
@@ -414,28 +463,15 @@ class HomeFragment : Fragment() {
                     iconList[idx].alpha = 0.3F
                 }
             }
-            if(!viewModel.isFilterCategoryInitialized){
-                viewModel.isFilterCategoryInitialized = true
-            } else {
-                Log.d("@@@cafefetch", "filter change fetch")
-                viewModel.fetchCafes(cameraLat, cameraLng, viewModel.radius)
-                updateCafeLabels()
-            }
+
+            Log.d("@@@cafefetch", "filter change fetch")
+            CafeManager.getInstance().fetchCafes(cameraLat, cameraLng)
+            updateCafeLabels()
+
         }
     }
+    //restore camera position and fetch cafes based on previous search
 
-    private fun restoreHomeView() {
-        //restore camera
-        moveCamera(
-            CafeDetailManager.getInstance().currentViewingCafe.value?.latitude,
-            CafeDetailManager.getInstance().currentViewingCafe.value?.longitude
-        )
-        //fetch cafes by same request
-        Log.d("@@@cafefetch", "onResume fetch")
-        viewModel.fetchCafes(viewModel.lastSearchedLat,viewModel.lastSearchedLng,viewModel.radius)
-//        updateCafeLabels()
-
-    }
 }
 
 

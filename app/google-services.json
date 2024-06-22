@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:178475774526:android:1a3624b00c0e552acb176f",
+        "mobilesdk_app_id": "1:178475774526:android:e18e9b1b4f2d73b7cb176f",
         "android_client_info": {
-          "package_name": "edu.skku.cs.castard"
+          "package_name": "edu.skku.map.capstone"
         }
       },
       "oauth_client": [],

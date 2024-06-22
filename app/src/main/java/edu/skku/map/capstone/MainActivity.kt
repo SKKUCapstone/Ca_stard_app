@@ -44,13 +44,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         KakaoMapSdk.init(this, "09e7ce580fee2dc13ec5d24c66cd8238")
-        FirebaseApp.initializeApp(this)
-        Log.d("firebase", "firebase initialized")
+        initFirebase()
         setActivityResultLauncher()
         resolvePermission(permissions)
         setNavActions()
         setUI()
 //        observeReviewPhase()
+    }
+
+    private fun initFirebase() {
+        FirebaseApp.initializeApp(this)
     }
     private fun setUI(){
         supportActionBar?.hide()

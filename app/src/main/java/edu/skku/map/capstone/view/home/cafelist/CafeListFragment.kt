@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import edu.skku.map.capstone.databinding.FragmentCafeListBinding
 import edu.skku.map.capstone.manager.CafeDetailManager
+import edu.skku.map.capstone.manager.CafeManager
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.view.home.HomeFragment
 import edu.skku.map.capstone.view.home.HomeViewModel
@@ -41,11 +42,10 @@ class CafeListFragment() : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun initUI() {
         cafeListAdapter = CafeListAdapter(requireParentFragment().requireContext())
-        Log.d("cafe", "default cafe list:" + viewModel.liveCafeList.value.toString())
         binding.cafeListRV.adapter = cafeListAdapter
     }
     private fun observeCafeList() {
-        viewModel.liveCafeList.observe(viewLifecycleOwner) { cafeList ->
+        CafeManager.getInstance().cafes.observe(viewLifecycleOwner) { cafeList ->
             cafeList?.let {
                 cafeListAdapter.updateCafeList(it)
             }
@@ -61,7 +61,7 @@ class CafeListFragment() : Fragment() {
     }
     private fun observeCafeClick() {
         CafeDetailManager.getInstance().currentViewingCafe.observe(viewLifecycleOwner) {
-            val originalCafeList = viewModel.liveCafeList.value!!
+            val originalCafeList = CafeManager.getInstance().cafes.value!!
             cafeListAdapter.updateCafeList(listWhenCafeClicked(originalCafeList))
         }
     }

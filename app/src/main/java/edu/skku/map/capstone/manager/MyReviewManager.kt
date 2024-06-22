@@ -1,7 +1,13 @@
 package edu.skku.map.capstone.manager
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.Timestamp
 import edu.skku.map.capstone.models.cafe.Cafe
 import edu.skku.map.capstone.models.review.Review
+import edu.skku.map.capstone.util.firebaseCRUD
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class MyReviewManager private constructor() {
 
@@ -36,7 +42,29 @@ class MyReviewManager private constructor() {
         toilet: Int?,
         comment: String?
     ) {
+        val timeStamp = LocalDateTime.now()
+        firebaseCRUD.postReview(cafe, Review(
+            reviewId = generateReviewId(timeStamp),
+            userName = "정환",
+            cafeId = cafe.cafeId,
+            cafeName = cafe.cafeName,
+            capacity = capacity?: 0,
+            bright = bright?: 0,
+            clean = clean?: 0,
+            wifi = wifi?: 0,
+            quiet = quiet?: 0,
+            tables = tables?: 0,
+            powerSocket = powerSocket?: 0,
+            toilet = toilet?: 0,
+            comment = comment,
+            timeStamp = timeStamp
+        ))
+    }
 
+    private fun generateReviewId(timestamp: LocalDateTime): Long {
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+        val formattedDateTime = timestamp.format(formatter)
+        return formattedDateTime.toLong()
     }
 
     //get userId and reviewId and delete review (callback: fetchUserReview)

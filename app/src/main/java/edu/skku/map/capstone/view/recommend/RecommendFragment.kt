@@ -38,7 +38,7 @@ class RecommendFragment : Fragment() {
         binding.recommendListRV.adapter = recommendCafeListAdapter
     }
 
-    private fun fetchRecommendation(lat: Double?, lng: Double?, userId: Long) {
+    private fun fetchRecommendation(lat: Double?, lng: Double?) {
         //TODO
     }
 

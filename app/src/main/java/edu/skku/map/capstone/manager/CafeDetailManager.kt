@@ -19,9 +19,8 @@ class CafeDetailManager private constructor() {
     fun viewCafe(cafe: Cafe) {
         currentViewingCafe.postValue(cafe)
     }
-
-    fun unViewCafe() {
-        currentViewingCafe.postValue(null)
-    }
+//    fun unViewCafe() {
+//        currentViewingCafe.postValue(null)
+//    }
 
 }
