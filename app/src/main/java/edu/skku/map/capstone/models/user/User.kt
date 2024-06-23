@@ -35,8 +35,9 @@ class User private constructor() {
             this.instance!!.id = jsonObject.getLong("id")
             this.instance!!.email = jsonObject.getString("email")
             this.instance!!.userName = jsonObject.getString("userName")
-            this.instance!!.favorites = this.instance!!.parseFavorites(jsonObject.getJSONArray("favorites"))
+            instance!!.favorites.postValue(instance!!.parseFavorites(jsonObject.getJSONArray("favorites")))
             Log.d("login", "User initialized")
+            Log.d("login", jsonObject.getJSONArray("favorites").toString())
         }
 
         fun refresh() {
@@ -60,7 +61,7 @@ class User private constructor() {
                             instance!!.id = jsonObject.getLong("id")
                             instance!!.email = jsonObject.getString("email")
                             instance!!.userName = jsonObject.getString("userName")
-                            instance!!.favorites = instance!!.parseFavorites(jsonObject.getJSONArray("favorites"))
+                            instance!!.favorites.postValue(instance!!.parseFavorites(jsonObject.getJSONArray("favorites")))
                         } else {
                             Log.d("user", "error while refreshing, err:${response}")
                         }
@@ -83,7 +84,7 @@ class User private constructor() {
     var id: Long = 0
     var email = "userEmail"
     var userName = "userName"
-    var favorites: ArrayList<Cafe> = arrayListOf()
+    var favorites = MutableLiveData<ArrayList<Cafe>>(arrayListOf())
     var latLng = MutableLiveData(LatLng.from(DEFAULT_LAT, DEFAULT_LNG))
 
     private fun parseFavorites(jsonArray: JSONArray): ArrayList<Cafe> {

@@ -61,7 +61,7 @@ class Cafe(
         cleanCnt = jsonObject.getInt("clean_cnt"),
         reviews = jsonObject.optJSONArray("reviews")?.let { parseReview(it) } ?: arrayListOf(),  // 리뷰가 없으면 빈 리스트
     ) {
-        isFavorite = User.getInstance().favorites.any { it.cafeId == this.cafeId }
+        isFavorite = User.getInstance().favorites.value!!.any { it.cafeId == this.cafeId }
     }
 
     constructor(cafe: Cafe, reviews:ArrayList<Review>) : this(

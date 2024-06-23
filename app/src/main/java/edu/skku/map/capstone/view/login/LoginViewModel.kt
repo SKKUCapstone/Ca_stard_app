@@ -58,7 +58,7 @@ class LoginViewModel {
                                         "login",
                                         "ID: ${User.getInstance().id}, Email: ${User.getInstance().email}, Username: ${User.getInstance().userName}"                                        ,
                                     )
-                                    User.getInstance().favorites.forEach { cafe ->
+                                    User.getInstance().favorites.value!!.forEach { cafe ->
                                         Log.d("login", "Cafe ID: ${cafe.cafeId}, Cafe Name: ${cafe.cafeName}, Address: ${cafe.roadAddressName}, Phone: ${cafe.phone}, Latitude: ${cafe.latitude}, Longitude: ${cafe.longitude}")
                                     }
 

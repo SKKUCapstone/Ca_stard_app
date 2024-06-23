@@ -18,11 +18,10 @@ import edu.skku.map.capstone.models.user.User
 import org.json.JSONArray
 import org.json.JSONObject
 
-
+import android.util.Log
 class MyCafeFragment : Fragment() {
     private var _binding: FragmentMyCafeBinding? = null
     private val binding get() = _binding!!
-    val viewModel = MyCafeViewModel()
 
     // #1. Piechart
     private lateinit var topCategories: List<Map.Entry<String, Int>>
@@ -37,10 +36,15 @@ class MyCafeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyCafeBinding.inflate(inflater, container, false)
-        viewModel.updateFavoriteCafeList()
         initUI()
         observeDataList()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        User.refresh()
+        Log.d("myCafe", "onResume")
     }
 
     private fun initUI() {
@@ -48,13 +52,14 @@ class MyCafeFragment : Fragment() {
         favoriteListAdapter = FavoriteListAdapter(requireContext())
         binding.favoriteCafeListRV.adapter = favoriteListAdapter
         initPieChart()
-        setPieChartContents()
+//        setPieChartContents()
     }
 
     private fun observeDataList() {
         // #2. 즐겨찾기한 카페
-        viewModel.favoriteCafeList.observe(viewLifecycleOwner) { favoriteCafeList ->
-            favoriteListAdapter.updateCafeList(favoriteCafeList)
+        User.getInstance().favorites.observe(viewLifecycleOwner) {
+            favoriteListAdapter.updateCafeList(it)
+            updatePieChart(it)
         }
 
     }
@@ -96,7 +101,7 @@ class MyCafeFragment : Fragment() {
     }
 
 
-    private fun anaylzeFavorites(favoriteCafes: List<Cafe>): Map<String, Int> {
+    private fun analyzeFavorites(favoriteCafes: List<Cafe>): Map<String, Int> {
         val scoreThreshold = 3.5
         val counts = mutableMapOf(
             "powerSocket" to 0,
@@ -138,14 +143,58 @@ class MyCafeFragment : Fragment() {
 
 
     private fun initPieChart(){
+//        binding.pieChart.setUsePercentValues(true)
+//        val counts = anaylzeFavorites(User.getInstance().favorites)
+//        val pieEntries = mutableListOf<PieEntry>()
+//
+//        counts.forEach { (key, value) ->
+//            pieEntries.add(PieEntry(value.toFloat(), siwtchToKor(key)))
+//        }
+//
+//        val pieColors = listOf(
+//            resources.getColor(R.color.yellow, null),
+//            resources.getColor(R.color.orange, null),
+//            resources.getColor(R.color.green, null)
+//        )
+//
+//        val dataSet = PieDataSet(pieEntries, "preferences")
+//        dataSet.colors = pieColors
+//        dataSet.setDrawValues(false) // 값 표시 비활성화
+//
+//        binding.pieChart.apply {
+//            data = PieData(dataSet)
+//            description.isEnabled = false
+//            legend.isEnabled = false
+//            isRotationEnabled = false
+//            holeRadius = 70f
+//            setEntryLabelColor(Color.WHITE) // 안 글씨 색
+////            setDrawRoundedSlices(true) // 모양 둥글게
+//            setTouchEnabled(false)
+//            setDrawEntryLabels(true) // 항목 라벨 숨기기
+//            setDrawCenterText(true)
+//            animateY(1200, Easing.EaseInOutCubic)
+//            animate()
+//        }
         binding.pieChart.setUsePercentValues(true)
-//        val dummyCafes = generateExtremeDummyCafes()
-//        val counts = anaylzeFavorites(dummyCafes)
-        val counts = anaylzeFavorites(User.getInstance().favorites)
+        binding.pieChart.apply {
+            description.isEnabled = false
+            legend.isEnabled = false
+            isRotationEnabled = false
+            holeRadius = 70f
+            setEntryLabelColor(Color.WHITE) // 안 글씨 색
+            setTouchEnabled(false)
+            setDrawEntryLabels(true) // 항목 라벨 숨기기
+            setDrawCenterText(true)
+            animateY(1200, Easing.EaseInOutCubic)
+        }
+    }
+
+    private fun updatePieChart(favoriteCafes: List<Cafe>) {
+        val counts = analyzeFavorites(ArrayList(favoriteCafes))
         val pieEntries = mutableListOf<PieEntry>()
 
         counts.forEach { (key, value) ->
-            pieEntries.add(PieEntry(value.toFloat(), siwtchToKor(key)))
+            pieEntries.add(PieEntry(value.toFloat(), switchToKor(key)))
         }
 
         val pieColors = listOf(
@@ -158,23 +207,13 @@ class MyCafeFragment : Fragment() {
         dataSet.colors = pieColors
         dataSet.setDrawValues(false) // 값 표시 비활성화
 
-        binding.pieChart.apply {
-            data = PieData(dataSet)
-            description.isEnabled = false
-            legend.isEnabled = false
-            isRotationEnabled = false
-            holeRadius = 70f
-            setEntryLabelColor(Color.WHITE) // 안 글씨 색
-//            setDrawRoundedSlices(true) // 모양 둥글게
-            setTouchEnabled(false)
-            setDrawEntryLabels(true) // 항목 라벨 숨기기
-            setDrawCenterText(true)
-            animateY(1200, Easing.EaseInOutCubic)
-            animate()
-        }
+        binding.pieChart.data = PieData(dataSet)
+        binding.pieChart.invalidate() // refresh the pie chart
+
+        setPieChartContents()
     }
 
-    private fun siwtchToKor(category: String): String {
+    private fun switchToKor(category: String): String {
         val categoryText = when (category) {
             "powerSocket" -> "콘센트"
             "capacity" -> "공간"
